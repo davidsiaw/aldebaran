@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 #include <boost/tr1/memory.hpp>
 #include "scene_interface.hpp"
@@ -10,6 +11,7 @@
 #include "inputmachine.hpp"
 
 #include "testscene.hpp"
+#include "visualnovelscene.hpp"
 
 SDL_Window* window = NULL;
 
@@ -46,7 +48,7 @@ void run(std::tr1::shared_ptr<SceneInterface> scene)
 
 void game()
 {
-	std::tr1::shared_ptr<TestScene> ts(new TestScene());
+	std::tr1::shared_ptr<VisualNovelScene> ts(new VisualNovelScene());
 	
 	run(ts);
 }
@@ -54,10 +56,10 @@ void game()
 int main(int argc, char** argv)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);   // Initialize SDL2
-	//TTF_Init();
+	TTF_Init();
 
 	SDL_DisplayMode mode;
-	int WIDTH = 1280, HEIGHT = 720;
+	int WIDTH = 800, HEIGHT = 600;
 
 	//if (SDL_GetCurrentDisplayMode(0, &mode)==0)
 	//{

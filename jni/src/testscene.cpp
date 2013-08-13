@@ -305,7 +305,7 @@ void TestScene::Render(SDL_Renderer *renderer)
 
 		if (ntt->id == player->id)
 		{
-			int a = SDL_RenderCopy(renderer, bomberman.get(), NULL, &r);
+			SDL_RenderCopy(renderer, bomberman.get(), NULL, &r);
 		}
 		else if (ntt->id == computer->id)
 		{

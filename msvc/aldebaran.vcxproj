@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\jni\src\dialogscene.hpp" />
     <ClInclude Include="..\jni\src\inputmachine.hpp" />
     <ClInclude Include="..\jni\src\inputstate.hpp" />
     <ClInclude Include="..\jni\src\testscenemap.hpp" />
@@ -144,9 +145,11 @@
     <ClInclude Include="..\jni\src\scene_interface.hpp" />
     <ClInclude Include="..\jni\src\testscene.hpp" />
     <ClInclude Include="..\jni\src\touchscreenkeyscene.hpp" />
+    <ClInclude Include="..\jni\src\visualnovelscene.hpp" />
     <ClInclude Include="utils.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\jni\src\dialogscene.cpp" />
     <ClCompile Include="..\jni\src\inputmachine.cpp" />
     <ClCompile Include="..\jni\src\inputstate.cpp" />
     <ClCompile Include="..\jni\src\main.cpp" />
@@ -154,6 +157,7 @@
     <ClCompile Include="..\jni\src\printlog.cpp" />
     <ClCompile Include="..\jni\src\testscene.cpp" />
     <ClCompile Include="..\jni\src\touchscreenkeyscene.cpp" />
+    <ClCompile Include="..\jni\src\visualnovelscene.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>

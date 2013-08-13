@@ -19,6 +19,12 @@
     <Filter Include="Source Files\scenes\testscene">
       <UniqueIdentifier>{49396fea-2062-4819-818b-2b6538efde92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\scenes\touchscreenkeyscene">
+      <UniqueIdentifier>{f94b4efc-1ed2-439c-a5ee-1056a2cd1ee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scenes\visualnovelscene">
+      <UniqueIdentifier>{95f3ded6-faea-4ef7-add8-886a4cde60ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\jni\src\printlog.hpp">
@@ -26,9 +32,6 @@
     </ClInclude>
     <ClInclude Include="..\jni\src\inputstate.hpp">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\jni\src\touchscreenkeyscene.hpp">
-      <Filter>Source Files\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\jni\src\scene_interface.hpp">
       <Filter>Source Files\scenes</Filter>
@@ -45,6 +48,15 @@
     <ClInclude Include="..\jni\src\testscenemap.hpp">
       <Filter>Source Files\scenes\testscene</Filter>
     </ClInclude>
+    <ClInclude Include="..\jni\src\touchscreenkeyscene.hpp">
+      <Filter>Source Files\scenes\touchscreenkeyscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\visualnovelscene.hpp">
+      <Filter>Source Files\scenes\visualnovelscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\dialogscene.hpp">
+      <Filter>Source Files\scenes\visualnovelscene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\jni\src\inputstate.cpp">
@@ -55,9 +67,6 @@
     </ClCompile>
     <ClCompile Include="..\jni\src\printlog.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\jni\src\touchscreenkeyscene.cpp">
-      <Filter>Source Files\scenes</Filter>
     </ClCompile>
     <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
@@ -70,6 +79,15 @@
     </ClCompile>
     <ClCompile Include="..\jni\src\testscenemap.cpp">
       <Filter>Source Files\scenes\testscene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\jni\src\touchscreenkeyscene.cpp">
+      <Filter>Source Files\scenes\touchscreenkeyscene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\jni\src\visualnovelscene.cpp">
+      <Filter>Source Files\scenes\visualnovelscene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\jni\src\dialogscene.cpp">
+      <Filter>Source Files\scenes\visualnovelscene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
