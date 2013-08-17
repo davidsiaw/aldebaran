@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 #include <boost/tr1/memory.hpp>
 #include "scene_interface.hpp"
@@ -50,13 +51,31 @@ void game()
 {
 	std::tr1::shared_ptr<VisualNovelScene> ts(new VisualNovelScene());
 	
+	Mix_Music* music = Mix_LoadMUS("01 Connect.flac");
+	if(!music) 
+	{
+		printf("Mix_LoadMUS: %s\n", Mix_GetError());
+		// well, there's no music, but most games don't break without music...
+	}
+	auto res = Mix_PlayMusic(music, 1);
+	if(res==-1) 
+	{
+		printf("Mix_PlayMusic: %s\n", Mix_GetError());
+		// well, there's no music, but most games don't break without music...
+	}
+
 	run(ts);
 }
 
 int main(int argc, char** argv)
 {
-	SDL_Init(SDL_INIT_EVERYTHING);   // Initialize SDL2
+	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
+
+	// Something to note here: We don't initialize mp3 because there are too many
+	// issues with it. Instead, simply make FLAC or OGG files. They are free
+	// FLAC is better too because of its higher quality.
+	Mix_Init(MIX_INIT_FLAC|MIX_INIT_MOD|MIX_INIT_OGG);
 
 	SDL_DisplayMode mode;
 	int WIDTH = 800, HEIGHT = 600;
@@ -68,6 +87,11 @@ int main(int argc, char** argv)
 	//	WIDTH=mode.w;
 	//	HEIGHT=mode.h;
 	//}
+
+	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024)==-1)
+	{
+		printlog("Mix_OpenAudio: %s\n", Mix_GetError());
+	}
 
 	printlog("Window size: %d x %d!\n", WIDTH, HEIGHT);
 
@@ -104,8 +128,13 @@ int main(int argc, char** argv)
 	}
 
 	SDL_DestroyWindow(window);
-
+		
 	// Clean up
+	Mix_CloseAudio();
+	Mix_Quit();
+
+	TTF_Quit();
+
 	SDL_Quit(); 
 	
 	printlog("Success!\n");

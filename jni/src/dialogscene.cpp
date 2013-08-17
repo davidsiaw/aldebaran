@@ -2,8 +2,8 @@
 
 #include <SDL_image.h>
 
-DialogScene::DialogScene(std::tr1::shared_ptr<TTF_Font> font, std::tr1::shared_ptr<SDL_Texture> windowSkin)
-	: font(font), windowSkin(windowSkin)
+DialogScene::DialogScene(std::tr1::shared_ptr<TTF_Font> font, std::tr1::shared_ptr<SDL_Texture> windowSkin, std::vector<std::wstring> text)
+	: font(font), windowSkin(windowSkin), text(text)
 {
 }
 
@@ -17,16 +17,51 @@ void DialogScene::Init(SDL_Window* window, SDL_Renderer* renderer)
 	ty=600-164;
 	tw=792;
 	th=160;
+	updateDelay = 100;
+	lastUpdate = 0;
+	displayedText.clear();
+	displayedText.push_back(std::wstring());
 
-	displayedText.push_back(L"nandesuka");
-	displayedText.push_back(L"Hello World");
-	displayedText.push_back(L"‚¢‚¢–ó‚È‚¢‚Å‚µ‚å");
-
+	showAllText = false;
+	showNextArrow = false;
+	row = 0;
+	complete = false;
 }
 
 void DialogScene::Update(const InputState& inputs, Uint32 timestamp)
 {
-	
+	int timeDiff = timestamp - lastUpdate;
+	if (timeDiff > updateDelay && !complete)
+	{
+		if (this->displayedText[row].size() == this->text[row].size())
+		{
+			row++;
+			displayedText.push_back(std::wstring());
+		}
+		
+		if (this->showAllText)
+		{
+			row = text.size();
+			displayedText = this->text;
+		}
+
+		if (row >= text.size())
+		{
+			this->showNextArrow = true;
+			complete = true;
+			return;
+		}
+
+		do
+		{
+			displayedText[row] += text[row][displayedText[row].size()];
+		}
+		while (
+			this->displayedText[row].size() != this->text[row].size() &&
+			text[row][displayedText[row].size()] == ' ');
+
+		lastUpdate = timestamp;
+	}
 }
 
 void drawImage(std::tr1::shared_ptr<SDL_Texture> src, int srcX, int srcY, int srcW, int srcH, SDL_Renderer* renderer, int dstX, int dstY, int dstW, int dstH)
@@ -70,6 +105,13 @@ void DialogScene::Render(SDL_Renderer *renderer)
 	drawImage(windowSkin, 64, 16, 16, 32, renderer, tx, ty+16, 16, th-32);
 	drawImage(windowSkin, 128-16, 16, 16, 32, renderer, tx+tw-16, ty+16, 16, th-32);
 	
+	if (showNextArrow)
+	{
+		Uint32 arrowAnimInt = (SDL_GetTicks() / 100) % 4;
+
+		drawImage(windowSkin, 96+(arrowAnimInt % 2)*16, 64+(arrowAnimInt >> 1)*16, 16, 16, renderer, tx+tw-32, ty+th-32, 16, 16);
+	}
+
 	SDL_Color c;
 	c.r = 0xff;
 	c.g = 0xff;

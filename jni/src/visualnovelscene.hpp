@@ -13,7 +13,9 @@ class VisualNovelScene : public SceneInterface
 	std::tr1::shared_ptr<TTF_Font> font;
 	std::tr1::shared_ptr<SDL_Texture> windowSkin;
 
-	std::tr1::shared_ptr<DialogScene> dialog;
+	std::tr1::shared_ptr<SDL_Texture> kagamin;
+
+	std::tr1::shared_ptr<DialogScene> currentDialog;
 
 public:
 
