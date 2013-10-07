@@ -17,6 +17,8 @@ class VisualNovelScene : public SceneInterface
 
 	std::tr1::shared_ptr<DialogScene> currentDialog;
 
+	bool running;
+
 public:
 
 	// TODO

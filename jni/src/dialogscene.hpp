@@ -9,6 +9,7 @@
 #include <boost/tr1/memory.hpp>
 #include <boost/tr1/functional.hpp>
 
+// Scene that displays a dialog
 class DialogScene : public SceneInterface
 {
 	std::tr1::shared_ptr<TTF_Font> font;
@@ -25,6 +26,8 @@ class DialogScene : public SceneInterface
 	std::vector<std::wstring> displayedText;
 	Uint32 lastUpdate;
 
+	bool running;
+
 public:
 	DialogScene(std::tr1::shared_ptr<TTF_Font> font, std::tr1::shared_ptr<SDL_Texture> windowSkin, std::vector<std::wstring> text);
 	virtual ~DialogScene();
@@ -32,12 +35,10 @@ public:
 	virtual void Init(SDL_Window* window, SDL_Renderer* renderer);
 	virtual void Update(const InputState& inputs, Uint32 timestamp);
 	virtual void Render(SDL_Renderer *renderer);
-	virtual bool Running();
+	virtual bool Running() const;
 	
 	void SetShowAllText(bool show);
 	bool GetShowAllText() const;
-
-	bool Complete() const;
 
 	// TODO
 	// dialog position/width/height

@@ -1,4 +1,4 @@
-#include "visualnovelscene.hpp"
+﻿#include "visualnovelscene.hpp"
 
 #include <vector>
 #include <string>
@@ -25,17 +25,24 @@ void VisualNovelScene::Init(SDL_Window* window, SDL_Renderer* renderer)
 	font = std::tr1::shared_ptr<TTF_Font>(TTF_OpenFont("HuiFont29.ttf", 32), TTF_CloseFont);
 
 	std::vector<std::wstring> text;
-	text.push_back(L"Hello!");
-	text.push_back(L"This is the world!");
-	text.push_back(L"I am not interested in normal humans");
-	text.push_back(L"�F���l�Ȃǎ��̂Ƃ���֗��Ȃ����I");
+	text.push_back(L"東中出身、涼宮ハルヒ。ただの人間には");
+	text.push_back(L"興味ありません。この中に宇宙人、未来人、");
+	text.push_back(L"異世界人、超能力者がいたら、");
+	text.push_back(L"あたしのところに来なさい。以上。");
 
-	currentDialog = std::tr1::make_shared<DialogScene>(font, windowSkin, text);
+	currentDialog = std::tr1::shared_ptr<DialogScene>(new DialogScene(font, windowSkin, text));
 	currentDialog->Init(window, renderer);
+
+	running = true;
 }
 
 void VisualNovelScene::Update(const InputState& inputs, Uint32 timestamp)
 {
+	if (inputs.GetButtonState(InputState::A))
+	{
+		running = false;
+	}
+
 	if (currentDialog)
 	{
 		currentDialog->Update(inputs, timestamp);
@@ -59,5 +66,5 @@ void VisualNovelScene::Render(SDL_Renderer *renderer)
 
 bool VisualNovelScene::Running()
 {
-	return true;
+	return running;
 }

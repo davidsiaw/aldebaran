@@ -1,69 +1,88 @@
 #ifndef INPUTSTATE_HPP
 #define INPUTSTATE_HPP
 
-struct JoystickState
-{
-    bool up : 1;
-    bool down : 1;
-    bool left : 1;
-    bool right : 1;
-	
-    bool a : 1;
-    bool b : 1;
-    bool x : 1;
-    bool y : 1;
-
-	bool l1 : 1;
-	bool l2 : 1;
-	bool r1 : 1;
-	bool r2 : 1;
-};
-
 class InputState
 {	
-    bool up : 1;
-    bool down : 1;
-    bool left : 1;
-    bool right : 1;
-	
-    bool a : 1;
-    bool b : 1;
-    bool x : 1;
-    bool y : 1;
+	char down[32];
+	char pressed[32];
+	char released[32];
 
 	bool fingered;
 	float fingerx;
 	float fingery;
 
-public:
-	InputState();
-	bool GetUpButtonState() const;
-	bool GetDownButtonState() const;
-	bool GetLeftButtonState() const;
-	bool GetRightButtonState() const;
+	static bool GetBit(const char bitIndex, const char* array)
+	{
+		return (array[bitIndex >> 3] & ( 1 << (bitIndex & 0x7) )) != 0;
+	}
 
-	bool GetAButtonState() const;
-	bool GetBButtonState() const;
-	bool GetXButtonState() const;
-	bool GetYButtonState() const;
+	static void SetBit(char bitIndex, char* array, bool state)
+	{
+		char* block = &array[bitIndex >> 3];
+		char clear = ~( 1 << (bitIndex & 0x7) );
+		char set = ( state << (bitIndex & 0x7) );
+		*block &= clear;
+		*block |= set;
+	}
+
+public:
+
+	enum Key
+	{
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT,
+		A,
+		B,
+		X,
+		Y,
+		L1,
+		L2,
+		R1,
+		R2,
+		START
+	};
+
+	InputState();
+
+	bool GetButtonState(Key key) const
+	{
+		return GetBit(key, down);
+	}
 	
+	bool GetButtonPressed(Key key) const
+	{
+		return GetBit(key, pressed);
+	}
+	
+	bool GetButtonReleased(Key key) const
+	{
+		return GetBit(key, released);
+	}
+	
+	void SetButtonState(Key key, bool state)
+	{
+		SetBit(key, down, state);
+	}
+	
+	void SetButtonPressed(Key key, bool state)
+	{
+		SetBit(key, pressed, state);
+	}
+	
+	void SetButtonReleased(Key key, bool state)
+	{
+		SetBit(key, released, state);
+	}
+
 	bool GetFingered() const;
 	float GetFingerX() const;
 	float GetFingerY() const;
 
-	void SetUpButtonState(bool state);
-	void SetDownButtonState(bool state);
-	void SetLeftButtonState(bool state);
-	void SetRightButtonState(bool state);
-
 	void SetFingered(bool state);
 	void SetFingerX(float fx);
 	void SetFingerY(float fy);
-
-	void SetAButtonState(bool state);
-	void SetBButtonState(bool state);
-	void SetXButtonState(bool state);
-	void SetYButtonState(bool state);
 };
 
 #endif // INPUTSTATE_HPP

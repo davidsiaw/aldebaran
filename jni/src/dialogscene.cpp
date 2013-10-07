@@ -3,7 +3,7 @@
 #include <SDL_image.h>
 
 DialogScene::DialogScene(std::tr1::shared_ptr<TTF_Font> font, std::tr1::shared_ptr<SDL_Texture> windowSkin, std::vector<std::wstring> text)
-	: font(font), windowSkin(windowSkin), text(text)
+	: font(font), windowSkin(windowSkin), text(text), running(true)
 {
 }
 
@@ -30,10 +30,15 @@ void DialogScene::Init(SDL_Window* window, SDL_Renderer* renderer)
 
 void DialogScene::Update(const InputState& inputs, Uint32 timestamp)
 {
+	if (complete && inputs.GetButtonState(InputState::A))
+	{
+		running = false;
+	}
+
 	int timeDiff = timestamp - lastUpdate;
 	if (timeDiff > updateDelay && !complete)
 	{
-		if (this->displayedText[row].size() == this->text[row].size())
+		while (row < text.size() && this->displayedText[row].size() == this->text[row].size())
 		{
 			row++;
 			displayedText.push_back(std::wstring());
@@ -129,7 +134,7 @@ void DialogScene::Render(SDL_Renderer *renderer)
 	// render press arrow
 }
 
-bool DialogScene::Running()
+bool DialogScene::Running() const
 {
-	return true;
+	return running;
 }

@@ -94,8 +94,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)jni\SDL\include;$(SolutionDir)jni\SDL_image;$(SolutionDir)jni\SDL_mixer;$(SolutionDir)jni\SDL_ttf;$(SolutionDir)jni\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;USE_LOCKS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)jni\SDL\include;$(SolutionDir)jni\SDL_image;$(SolutionDir)jni\SDL_mixer;$(SolutionDir)jni\SDL_ttf;$(SolutionDir)jni\boost;$(SolutionDir)jni\luacppinterface\LuaCppInterface;$(SolutionDir)jni\luacppinterface\lua\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,29 +138,37 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\jni\src\dialogscene.hpp" />
+    <ClInclude Include="..\jni\src\fadescene.hpp" />
     <ClInclude Include="..\jni\src\inputmachine.hpp" />
     <ClInclude Include="..\jni\src\inputstate.hpp" />
-    <ClInclude Include="..\jni\src\testscenemap.hpp" />
+    <ClInclude Include="..\jni\src\ndfscene.hpp" />
+    <ClInclude Include="..\jni\src\scriptedscene.hpp" />
     <ClInclude Include="..\jni\src\printlog.hpp" />
     <ClInclude Include="..\jni\src\scene_interface.hpp" />
-    <ClInclude Include="..\jni\src\testscene.hpp" />
     <ClInclude Include="..\jni\src\touchscreenkeyscene.hpp" />
     <ClInclude Include="..\jni\src\visualnovelscene.hpp" />
     <ClInclude Include="utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\jni\src\dialogscene.cpp" />
+    <ClCompile Include="..\jni\src\fadescene.cpp" />
     <ClCompile Include="..\jni\src\inputmachine.cpp" />
     <ClCompile Include="..\jni\src\inputstate.cpp" />
     <ClCompile Include="..\jni\src\main.cpp" />
-    <ClCompile Include="..\jni\src\testscenemap.cpp" />
+    <ClCompile Include="..\jni\src\ndfscene.cpp" />
+    <ClCompile Include="..\jni\src\scriptedscene.cpp" />
     <ClCompile Include="..\jni\src\printlog.cpp" />
-    <ClCompile Include="..\jni\src\testscene.cpp" />
     <ClCompile Include="..\jni\src\touchscreenkeyscene.cpp" />
     <ClCompile Include="..\jni\src\visualnovelscene.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\jni\luacppinterface\LuaCppInterface\LuaCppInterface.vcxproj">
+      <Project>{45975324-0a0e-4989-8e08-b235e4f893ca}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\jni\luacppinterface\lua\lua.vcxproj">
+      <Project>{7cc1250b-0680-4bcc-aac8-92f5cf058816}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\jni\SDL\VisualC\SDLmain\SDLmain_VS2010.vcxproj">
       <Project>{da956fd3-e142-46f2-9dd5-c78bebb56b7a}</Project>
     </ProjectReference>

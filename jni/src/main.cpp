@@ -3,6 +3,7 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 
+
 #include <boost/tr1/memory.hpp>
 #include "scene_interface.hpp"
 #include "inputstate.hpp"
@@ -11,15 +12,17 @@
 
 #include "inputmachine.hpp"
 
-#include "testscene.hpp"
-#include "visualnovelscene.hpp"
+#include "scriptedscene.hpp"
+
 
 SDL_Window* window = NULL;
+static std::map<int, InputState::Key> keyMap;
+
 
 void run(std::tr1::shared_ptr<SceneInterface> scene)
 {
 	InputState inputState;
-	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 	Uint32 time = SDL_GetTicks();
 	scene->Init(window, renderer);
 	
@@ -32,7 +35,7 @@ void run(std::tr1::shared_ptr<SceneInterface> scene)
 			{
 				break;
 			}
-			CaptureInputState(&inputState, &e);
+			CaptureInputState(keyMap, &inputState, &e);
 		}
 		
 		Uint32 now = SDL_GetTicks();
@@ -45,36 +48,55 @@ void run(std::tr1::shared_ptr<SceneInterface> scene)
 			time = SDL_GetTicks();
 		}
 	}
+
+	SDL_DestroyRenderer(renderer);
 }
 
 void game()
 {
-	std::tr1::shared_ptr<VisualNovelScene> ts(new VisualNovelScene());
-	
-	Mix_Music* music = Mix_LoadMUS("01 Connect.flac");
-	if(!music) 
-	{
-		printf("Mix_LoadMUS: %s\n", Mix_GetError());
-		// well, there's no music, but most games don't break without music...
-	}
-	auto res = Mix_PlayMusic(music, 1);
-	if(res==-1) 
-	{
-		printf("Mix_PlayMusic: %s\n", Mix_GetError());
-		// well, there's no music, but most games don't break without music...
-	}
+	//std::tr1::shared_ptr<SceneInterface> ts(new VisualNovelScene());
+	//
+	//Mix_Music* music = Mix_LoadMUS("01 Connect.flac");
+	//if(!music) 
+	//{
+	//	printf("Mix_LoadMUS: %s\n", Mix_GetError());
+	//}
+	//auto res = Mix_PlayMusic(music, 1);
+	//if(res==-1) 
+	//{
+	//	printf("Mix_PlayMusic: %s\n", Mix_GetError());
+	//}
+	//
+	//std::tr1::shared_ptr<FadeScene> fs(new FadeScene(ts));
+	//run(fs);
 
-	run(ts);
+	std::tr1::shared_ptr<ScriptedScene> scene(new ScriptedScene("script/main.lua"));
+	run(scene);
 }
 
 int main(int argc, char** argv)
 {
+	keyMap[SDLK_UP] = InputState::UP;
+	keyMap[SDLK_DOWN] = InputState::DOWN;
+	keyMap[SDLK_LEFT] = InputState::LEFT;
+	keyMap[SDLK_RIGHT] = InputState::RIGHT;
+	keyMap[SDLK_a] = InputState::A;
+	keyMap[SDLK_s] = InputState::B;
+	keyMap[SDLK_z] = InputState::X;
+	keyMap[SDLK_x] = InputState::Y;
+	keyMap[SDLK_1] = InputState::L1;
+	keyMap[SDLK_3] = InputState::L2;
+	keyMap[SDLK_2] = InputState::R1;
+	keyMap[SDLK_4] = InputState::R2;
+	keyMap[SDLK_SPACE] = InputState::START;
+
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
+	IMG_Init(IMG_INIT_JPG|IMG_INIT_PNG);
 
 	// Something to note here: We don't initialize mp3 because there are too many
 	// issues with it. Instead, simply make FLAC or OGG files. They are free
-	// FLAC is better too because of its higher quality.
+	// FLAC is better too because of its higher quality.a
 	Mix_Init(MIX_INIT_FLAC|MIX_INIT_MOD|MIX_INIT_OGG);
 
 	SDL_DisplayMode mode;

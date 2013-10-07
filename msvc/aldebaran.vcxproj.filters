@@ -16,14 +16,14 @@
     <Filter Include="Source Files\scenes">
       <UniqueIdentifier>{41ba411a-941d-4cf2-97ca-fddf8343ba44}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\scenes\testscene">
-      <UniqueIdentifier>{49396fea-2062-4819-818b-2b6538efde92}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\scenes\touchscreenkeyscene">
       <UniqueIdentifier>{f94b4efc-1ed2-439c-a5ee-1056a2cd1ee0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\scenes\visualnovelscene">
       <UniqueIdentifier>{95f3ded6-faea-4ef7-add8-886a4cde60ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scenes\effectscenes">
+      <UniqueIdentifier>{8c136e24-b9c8-4167-85d9-cf3fc3ff5d05}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,12 +42,6 @@
     <ClInclude Include="..\jni\src\inputmachine.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\jni\src\testscene.hpp">
-      <Filter>Source Files\scenes\testscene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\jni\src\testscenemap.hpp">
-      <Filter>Source Files\scenes\testscene</Filter>
-    </ClInclude>
     <ClInclude Include="..\jni\src\touchscreenkeyscene.hpp">
       <Filter>Source Files\scenes\touchscreenkeyscene</Filter>
     </ClInclude>
@@ -56,6 +50,15 @@
     </ClInclude>
     <ClInclude Include="..\jni\src\dialogscene.hpp">
       <Filter>Source Files\scenes\visualnovelscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\fadescene.hpp">
+      <Filter>Source Files\scenes\effectscenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\ndfscene.hpp">
+      <Filter>Source Files\scenes\effectscenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\scriptedscene.hpp">
+      <Filter>Source Files\scenes\effectscenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -74,12 +77,6 @@
     <ClCompile Include="..\jni\src\inputmachine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\jni\src\testscene.cpp">
-      <Filter>Source Files\scenes\testscene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\jni\src\testscenemap.cpp">
-      <Filter>Source Files\scenes\testscene</Filter>
-    </ClCompile>
     <ClCompile Include="..\jni\src\touchscreenkeyscene.cpp">
       <Filter>Source Files\scenes\touchscreenkeyscene</Filter>
     </ClCompile>
@@ -88,6 +85,15 @@
     </ClCompile>
     <ClCompile Include="..\jni\src\dialogscene.cpp">
       <Filter>Source Files\scenes\visualnovelscene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\jni\src\fadescene.cpp">
+      <Filter>Source Files\scenes\effectscenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\jni\src\ndfscene.cpp">
+      <Filter>Source Files\scenes\effectscenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\jni\src\scriptedscene.cpp">
+      <Filter>Source Files\scenes\effectscenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 #include "inputmachine.hpp"
 
-void CaptureInputState(InputState* inputState, SDL_Event* e)
+void CaptureInputState(std::map<int, InputState::Key> keyMap, InputState* inputState, SDL_Event* e)
 {
 	if (e->type == SDL_JOYBUTTONDOWN)
 	{
@@ -22,72 +22,20 @@ void CaptureInputState(InputState* inputState, SDL_Event* e)
 	}
 	else if (e->type == SDL_KEYDOWN)
 	{
-		if (e->key.keysym.sym == SDLK_UP)
+		auto keyIter = keyMap.find(e->key.keysym.sym);
+		if ( keyIter != keyMap.end() )
 		{
-			inputState->SetUpButtonState(true);
-		}
-		else if (e->key.keysym.sym == SDLK_DOWN)
-		{
-			inputState->SetDownButtonState(true);
-		}
-		else if (e->key.keysym.sym == SDLK_LEFT)
-		{
-			inputState->SetLeftButtonState(true);
-		}
-		else if (e->key.keysym.sym == SDLK_RIGHT)
-		{
-			inputState->SetRightButtonState(true);
-		}
-		else if (e->key.keysym.sym == SDLK_a)
-		{
-			inputState->SetAButtonState(true);
-		}
-		else if (e->key.keysym.sym == SDLK_s)
-		{
-			inputState->SetBButtonState(true);
-		}
-		else if (e->key.keysym.sym == SDLK_z)
-		{
-			inputState->SetXButtonState(true);
-		}
-		else if (e->key.keysym.sym == SDLK_x)
-		{
-			inputState->SetYButtonState(true);
+			inputState->SetButtonPressed(keyIter->second, true);
+			inputState->SetButtonState(keyIter->second, true);
 		}
 	}
 	else if (e->type == SDL_KEYUP)
 	{
-		if (e->key.keysym.sym == SDLK_UP)
+		auto keyIter = keyMap.find(e->key.keysym.sym);
+		if ( keyIter != keyMap.end() )
 		{
-			inputState->SetUpButtonState(false);
-		}
-		else if (e->key.keysym.sym == SDLK_DOWN)
-		{
-			inputState->SetDownButtonState(false);
-		}
-		else if (e->key.keysym.sym == SDLK_LEFT)
-		{
-			inputState->SetLeftButtonState(false);
-		}
-		else if (e->key.keysym.sym == SDLK_RIGHT)
-		{
-			inputState->SetRightButtonState(false);
-		}
-		else if (e->key.keysym.sym == SDLK_a)
-		{
-			inputState->SetAButtonState(false);
-		}
-		else if (e->key.keysym.sym == SDLK_s)
-		{
-			inputState->SetBButtonState(false);
-		}
-		else if (e->key.keysym.sym == SDLK_z)
-		{
-			inputState->SetXButtonState(false);
-		}
-		else if (e->key.keysym.sym == SDLK_x)
-		{
-			inputState->SetYButtonState(false);
+			inputState->SetButtonReleased(keyIter->second, true);
+			inputState->SetButtonState(keyIter->second, false);
 		}
 	}
 }

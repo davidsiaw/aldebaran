@@ -1,36 +1,15 @@
 #include "inputstate.hpp"
+#include <cstring>
 
 InputState::InputState()
+:	
+	fingered(false),
+	fingerx(0),
+	fingery(0)
 {
-	up = false;
-	down = false;
-	left = false;
-	right = false;
-
-	fingered = false;
-	fingerx = 0;
-	fingery = 0;
-}
-
-
-bool InputState::GetUpButtonState() const
-{
-	return up;
-}
-
-bool InputState::GetDownButtonState() const
-{
-	return down;
-}
-
-bool InputState::GetLeftButtonState() const
-{
-	return left;
-}
-
-bool InputState::GetRightButtonState() const
-{
-	return right;
+	memset(down, 0, 32);
+	memset(pressed, 0, 32);
+	memset(released, 0, 32);
 }
 
 bool InputState::GetFingered() const
@@ -48,27 +27,6 @@ float InputState::GetFingerY() const
 	return fingery;
 }
 
-
-void InputState::SetUpButtonState(bool state)
-{
-	up = state;
-}
-
-void InputState::SetDownButtonState(bool state)
-{
-	down = state;
-}
-
-void InputState::SetLeftButtonState(bool state)
-{
-	left = state;
-}
-
-void InputState::SetRightButtonState(bool state)
-{
-	right = state;
-}
-
 void InputState::SetFingered(bool state)
 {
 	fingered = state;
@@ -84,42 +42,3 @@ void InputState::SetFingerY(float fy)
 	fingery = fy;
 }
 
-bool InputState::GetAButtonState() const
-{
-	return a;
-}
-
-bool InputState::GetBButtonState() const
-{
-	return b;
-}
-
-bool InputState::GetXButtonState() const
-{
-	return x;
-}
-
-bool InputState::GetYButtonState() const
-{
-	return y;
-}
-
-void InputState::SetAButtonState(bool state)
-{
-	a = state;
-}
-
-void InputState::SetBButtonState(bool state)
-{
-	b = state;
-}
-
-void InputState::SetXButtonState(bool state)
-{
-	x = state;
-}
-
-void InputState::SetYButtonState(bool state)
-{
-	y = state;
-}
