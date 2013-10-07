@@ -35,7 +35,6 @@ void ScriptedScene::Init(SDL_Window* window, SDL_Renderer* renderer)
 	auto scriptWaitFor = lua.CreateYieldingFunction<void(LuaUserdata<SceneInterface>)>(
 	[&](LuaUserdata<SceneInterface> scene)
 	{
-		printlog("%x\n", scene.GetPointer());
 		scriptBlocker = scene.GetPointer();
 	});
 
@@ -51,8 +50,8 @@ void ScriptedScene::Init(SDL_Window* window, SDL_Renderer* renderer)
 
 	});
 
-	auto sceneDialog = lua.CreateFunction< LuaUserdata<SceneInterface>(LuaTable, int) >(
-	[&](LuaTable text, int level) -> LuaUserdata<SceneInterface>
+	auto sceneDialog = lua.CreateFunction<LuaUserdata<SceneInterface>(LuaTable, int) >(
+	[&](LuaTable text , int level) -> LuaUserdata<SceneInterface>
 	{
 		std::vector<std::wstring> textVector;
 		textVector.push_back(text.Get<std::wstring>(1));
@@ -64,8 +63,6 @@ void ScriptedScene::Init(SDL_Window* window, SDL_Renderer* renderer)
 		userdata.GetPointer()->Init(window, renderer);
 		
 		scenes[level] = userdata.GetPointer();
-
-		printlog("userdata = %x\n", scenes[level]);
 
 		return userdata;
 	});
@@ -79,10 +76,6 @@ void ScriptedScene::Init(SDL_Window* window, SDL_Renderer* renderer)
 	auto scriptTable = lua.CreateTable();
 	auto inputTable = lua.CreateTable();
 	auto sceneTable = lua.CreateTable();
-
-	globals.Set("script", scriptTable);
-	globals.Set("input", inputTable);
-	globals.Set("scene", sceneTable);
 
 	inputTable.Set("A", (int)InputState::A);
 	inputTable.Set("B", (int)InputState::B);
@@ -102,10 +95,15 @@ void ScriptedScene::Init(SDL_Window* window, SDL_Renderer* renderer)
 	inputTable.Set("assign", inputAssign);
 	
 	sceneTable.Set("image", sceneImage);
+
 	sceneTable.Set("dialog", sceneDialog);
 	sceneTable.Set("clear", sceneClear);
 	
 	scriptTable.Set("waitfor", scriptWaitFor);
+
+	globals.Set("script", scriptTable);
+	globals.Set("input", inputTable);
+	globals.Set("scene", sceneTable);
 
 	
 	SDL_RWops *rw = SDL_RWFromFile(scriptFile.c_str(), "r");
