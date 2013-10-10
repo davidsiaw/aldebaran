@@ -14,7 +14,7 @@
 // Scene that fades in a child scene and then fades out when the scene ends
 class ScriptedScene : public SceneInterface
 {
-	typedef std::map<int, SceneInterface* > sceneMap;
+	typedef std::map<int, LuaUserdata<SceneInterface> > sceneMap;
 
 	sceneMap scenes;
 	std::map<InputState::Key, int> inputLevelAssignment;

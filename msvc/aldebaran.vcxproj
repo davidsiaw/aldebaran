@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClInclude Include="..\jni\src\dialogscene.hpp" />
     <ClInclude Include="..\jni\src\fadescene.hpp" />
+    <ClInclude Include="..\jni\src\imagescene.hpp" />
     <ClInclude Include="..\jni\src\inputmachine.hpp" />
     <ClInclude Include="..\jni\src\inputstate.hpp" />
     <ClInclude Include="..\jni\src\ndfscene.hpp" />
@@ -152,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="..\jni\src\dialogscene.cpp" />
     <ClCompile Include="..\jni\src\fadescene.cpp" />
+    <ClCompile Include="..\jni\src\imagescene.cpp" />
     <ClCompile Include="..\jni\src\inputmachine.cpp" />
     <ClCompile Include="..\jni\src\inputstate.cpp" />
     <ClCompile Include="..\jni\src\main.cpp" />
