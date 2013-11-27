@@ -1,6 +1,6 @@
 #include "rpgautotile.hpp"
 
-const std::array<RPGAutoTile::TileCorner, 4> AutoTile12Map = 
+const std::tr1::array<RPGAutoTile::TileCorner, 4> AutoTile12Map = 
 {
 	{
 		{{10,  0,  1,  2,  6,  7,  9,  8}},
@@ -10,7 +10,7 @@ const std::array<RPGAutoTile::TileCorner, 4> AutoTile12Map =
 	}
 };
 
-const std::array<RPGAutoTile::TileCorner, 4> AutoTile94Map = 
+const std::tr1::array<RPGAutoTile::TileCorner, 4> AutoTile94Map = 
 {
 	{
 		{{ 0,  0,  1,  2,  6,  7,  9,  8}},
@@ -40,7 +40,7 @@ unsigned char TopLeftCornerMask(unsigned char surrounding)
 	return (((surrounding >> 3) & 1) | ((surrounding >> 2) & 4) | ((surrounding >> 6) & 2));
 }
 
-const std::array<std::function<unsigned char(unsigned char)>, 4> RPGAutoTile::CornerMaskFuncs = 
+const std::tr1::array<std::function<unsigned char(unsigned char)>, 4> RPGAutoTile::CornerMaskFuncs = 
 {
 	TopRightCornerMask,
 	BottomRightCornerMask,

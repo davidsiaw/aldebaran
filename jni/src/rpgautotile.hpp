@@ -19,7 +19,7 @@ public:
 		int sides[8];
 	};
 
-	RPGAutoTile(boost::shared_array<RPGSimpleTile> rawtiles, std::array<TileCorner, 4> posAndMaskToTile, RPGTileType type) : 
+	RPGAutoTile(boost::shared_array<RPGSimpleTile> rawtiles, std::tr1::array<TileCorner, 4> posAndMaskToTile, RPGTileType type) : 
 	rawtiles(rawtiles),
 	posAndMaskToTile(posAndMaskToTile),
 	type(type)
@@ -36,7 +36,7 @@ public:
 		return rawtiles[posAndMaskToTile[corner].sides[mask]].GetBasicTile(corner, mask, tick);
 	}
 
-	static const std::array<std::function<unsigned char(unsigned char)>, 4> CornerMaskFuncs;
+	static const std::tr1::array<std::function<unsigned char(unsigned char)>, 4> CornerMaskFuncs;
 
 private:
 	boost::shared_array<RPGSimpleTile> rawtiles;

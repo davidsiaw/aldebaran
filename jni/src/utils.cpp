@@ -12,7 +12,6 @@ std::string LoadAllText(std::string file)
 	memset(script, 0, size + 1);
 	rw->read(rw, script, sizeof(char), size);
 	rw->close(rw);
-	SDL_FreeRW(rw);
 
 	std::string result = script;
 	delete[] script;

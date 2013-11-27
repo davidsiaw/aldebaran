@@ -1,20 +1,18 @@
+OS := $(firstword $(shell uname -s))
 
-ifeq ($(ANDROID_HOME),)
-NDK ?= $(ANDROID_NDK)
+ASSETS_DIR=assets
+TARGET_NAME=aldebaran
+TARGET=$(ASSETS_DIR)/$(TARGET_NAME)
+
+ifeq ($(OS),Darwin)
+-include Makefile.macosx
 else
-NDK ?= $(lastword $(sort $(wildcard $(dir $(ANDROID_HOME))/android-ndk*)))
+-include Makefile.linux
 endif
 
-ifeq ($(NDK),)
-$(error no ndk found - set ANDROID_HOME or ANDROID_NDK)
-endif
-
-all:
-	$(NDK)/ndk-build V=1
-	ant debug
-
-clean:
-	$(NDK)/ndk-build clean
-	ant clean
+run: all
+	cd $(ASSETS_DIR) && ./$(TARGET_NAME)
 	
-.PHONY: all clean
+android:
+	ndk-build
+	ant debug
