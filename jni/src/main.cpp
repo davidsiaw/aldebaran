@@ -13,16 +13,22 @@
 #include "inputmachine.hpp"
 
 #include "scriptedscene.hpp"
+#include "rpgscene.hpp"
+
+#include "rpgstaticcamera.hpp"
+#include "rpgherocamera.hpp"
+#include "rpgroommap.hpp"
+#include "rpgmanifestbasedresources.hpp"
 
 
 SDL_Window* window = NULL;
+SDL_Renderer *renderer = NULL;
 static std::map<int, InputState::Key> keyMap;
 
 
 void run(std::tr1::shared_ptr<SceneInterface> scene)
 {
 	InputState inputState;
-	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 	Uint32 time = SDL_GetTicks();
 	scene->Init(window, renderer);
 	
@@ -49,7 +55,6 @@ void run(std::tr1::shared_ptr<SceneInterface> scene)
 		}
 	}
 
-	SDL_DestroyRenderer(renderer);
 }
 
 void game()
@@ -70,8 +75,16 @@ void game()
 	//std::tr1::shared_ptr<FadeScene> fs(new FadeScene(ts));
 	//run(fs);
 
-	std::tr1::shared_ptr<ScriptedScene> scene(new ScriptedScene("script/main.lua"));
+	
+	std::tr1::shared_ptr<RPGResourceInterface> resources(new RPGManifestBasedResources("manifest.lua", renderer));
+	std::tr1::shared_ptr<RPGMapInterface> map(new RPGRoomMap(10, 10));
+	std::tr1::shared_ptr<RPGMapCameraInterface> camera(new RPGStaticCamera(30, 30, 0, 0));
+
+	std::tr1::shared_ptr<RPGScene> scene(new RPGScene(camera, map, resources));
 	run(scene);
+
+	//std::tr1::shared_ptr<ScriptedScene> scene(new ScriptedScene("script/main.lua"));
+	//run(scene);
 }
 
 int main(int argc, char** argv)
@@ -138,7 +151,9 @@ int main(int argc, char** argv)
 	printlog("Beginning game with window=%p\n", window);
 	try
 	{
+		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 		game();
+		SDL_DestroyRenderer(renderer);
 	}
 	catch(std::exception e)
 	{

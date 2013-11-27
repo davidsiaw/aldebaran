@@ -28,6 +28,18 @@ class ScriptedScene : public SceneInterface
 	SceneInterface* scriptBlocker;
 	bool running;
 
+	SDL_Window* window;
+	SDL_Renderer* renderer;
+
+	void WaitFor(LuaUserdata<SceneInterface> scene);
+	void Clear();
+	void Display(LuaUserdata<SceneInterface> scene, int level);
+	LuaUserdata<SceneInterface> FadeIn(int level);
+	LuaUserdata<SceneInterface> FadeOut(int level);
+	LuaUserdata<SceneInterface> NewImage(std::string filename);
+	LuaUserdata<SceneInterface> NewDialog(LuaTable table);
+	void Assign(int key, int level);
+
 public:
 	ScriptedScene(std::string scriptFile);
 	virtual ~ScriptedScene();
@@ -36,6 +48,7 @@ public:
 	virtual void Update(const InputState& inputs, Uint32 timestamp);
 	virtual void Render(SDL_Renderer *renderer);
 	virtual bool Running() const;
+
 };
 
 #endif // SCRIPTEDSCENE_HPP

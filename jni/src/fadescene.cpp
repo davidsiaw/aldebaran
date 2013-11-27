@@ -1,7 +1,7 @@
 #include "fadescene.hpp"
 
-FadeScene::FadeScene(std::tr1::shared_ptr<SceneInterface> scene)
-	: scene(scene), speed(10)
+FadeScene::FadeScene(SceneInterface* scene, FadeScene::Mode mode, double speed)
+	: scene(scene), mode(mode), speed(speed)
 {
 }
 
@@ -11,8 +11,6 @@ FadeScene::~FadeScene()
 	
 void FadeScene::Init(SDL_Window* window, SDL_Renderer* renderer)
 {
-	scene->Init(window, renderer);
-
 	SDL_GetWindowSize(window, &w, &h);
 	renderTarget = std::tr1::shared_ptr<SDL_Texture>(
 		SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, w, h),
@@ -21,15 +19,12 @@ void FadeScene::Init(SDL_Window* window, SDL_Renderer* renderer)
 	// make it so that the texture can be transparent
 	SDL_SetTextureBlendMode(renderTarget.get(), SDL_BLENDMODE_BLEND);
 
-	opacity = 0;
+	opacity = mode == FadeIn ? 0 : 255;
 }
 
 void FadeScene::Update(const InputState& inputs, Uint32 timestamp)
 {
-	if (scene->Running())
-	{
-		scene->Update(inputs, timestamp);
-	}
+	scene->Update(inputs, timestamp);
 }
 
 void FadeScene::Render(SDL_Renderer *renderer)
@@ -46,11 +41,11 @@ void FadeScene::Render(SDL_Renderer *renderer)
 	scene->Render(renderer);
 	res = SDL_SetRenderTarget(renderer, target);
 	
-	if (scene->Running() && opacity != 255)
+	if (mode == FadeIn)
 	{
 		opacity = std::min(opacity + speed, 255.0);
 	}
-	else if (!scene->Running() && opacity != 0)
+	else if (mode == FadeOut)
 	{
 		opacity = std::max(opacity - speed, 0.0);
 	}
@@ -60,9 +55,16 @@ void FadeScene::Render(SDL_Renderer *renderer)
 	SDL_RenderCopy(renderer, renderTarget.get(), &rect, &rect);
 }
 
-bool FadeScene::Running()
+bool FadeScene::Running() const
 {
-	return scene->Running() || opacity != 0;
+	if (mode == FadeIn)
+	{
+		return opacity != 255;
+	}
+	else if (mode == FadeOut)
+	{
+		return opacity != 0;
+	}
 }
 
 void FadeScene::SetSpeed(double speed)

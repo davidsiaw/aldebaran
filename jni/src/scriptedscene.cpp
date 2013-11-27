@@ -7,7 +7,8 @@
 #include "imagescene.hpp"
 #include "dialogscene.hpp"
 #include "printlog.hpp"
-
+#include "fadescene.hpp"
+#include "utils.hpp"
 
 ScriptedScene::ScriptedScene(std::string scriptFile) : 
 	  lua(),
@@ -23,108 +24,116 @@ ScriptedScene::~ScriptedScene()
 {
 }
 
+void ScriptedScene::WaitFor(LuaUserdata<SceneInterface> scene)
+{
+	scriptBlocker = scene.GetPointer();
+	printlog("waiting for scene: %x\n", scriptBlocker);
+}
+
+void ScriptedScene::Clear()
+{
+	scenes.clear();
+}
+
+void ScriptedScene::Display(LuaUserdata<SceneInterface> scene, int level)
+{
+	(*((scenes.insert(std::make_pair(level, scene))).first)).second = scene;
+}
+
+LuaUserdata<SceneInterface> ScriptedScene::FadeIn(int level)
+{
+	auto theScene = scenes.find(level)->second;
+		
+	auto userdata = lua.CreateUserdata<SceneInterface>(new FadeScene(theScene.GetPointer(), FadeScene::FadeIn));
+	userdata.GetPointer()->Init(window, renderer);
+	Display(userdata, level);
+
+	return userdata;
+}
+
+LuaUserdata<SceneInterface> ScriptedScene::FadeOut(int level)
+{
+	auto theScene = scenes.find(level)->second;
+		
+	auto userdata = lua.CreateUserdata<SceneInterface>(new FadeScene(theScene.GetPointer(), FadeScene::FadeOut));
+	userdata.GetPointer()->Init(window, renderer);
+	Display(userdata, level);
+
+	return userdata;
+}
+
+LuaUserdata<SceneInterface> ScriptedScene::NewImage(std::string filename)
+{
+	auto userdata = lua.CreateUserdata<SceneInterface>(new ImageScene(filename));
+	userdata.GetPointer()->Init(window, renderer);
+	printlog("created image scene: %x\n", userdata.GetPointer());
+
+	return userdata;
+}
+
+LuaUserdata<SceneInterface> ScriptedScene::NewDialog(LuaTable text)
+{
+	std::vector<std::wstring> textVector;
+	textVector.push_back(text.Get<std::wstring>(1));
+	textVector.push_back(text.Get<std::wstring>(2));
+	textVector.push_back(text.Get<std::wstring>(3));
+	textVector.push_back(text.Get<std::wstring>(4));
+
+	auto userdata = lua.CreateUserdata<SceneInterface>(new DialogScene(currentFont, currentWindowSkin, textVector));
+	userdata.GetPointer()->Init(window, renderer);
+	printlog("created dialog scene: %x\n", userdata.GetPointer());
+	return userdata;
+}
+
+void ScriptedScene::Assign(int key, int level)
+{
+	inputLevelAssignment[(InputState::Key)key] = level;
+}
+
 void ScriptedScene::Init(SDL_Window* window, SDL_Renderer* renderer)
 {
 	currentWindowSkin = std::tr1::shared_ptr<SDL_Texture>(IMG_LoadTexture(renderer, "midJQ.png"), SDL_DestroyTexture);
 	currentFont = std::tr1::shared_ptr<TTF_Font>(TTF_OpenFont("HuiFont29.ttf", 32), TTF_CloseFont);
 
+	this->window = window;
+	this->renderer = renderer;
+
 	// prepare scene objects
 	auto globals = lua.GetGlobalEnvironment();
 	lua.LoadStandardLibraries();
 	
-	auto scriptWaitFor = lua.CreateYieldingFunction<void(LuaUserdata<SceneInterface>)>(
-	[&](LuaUserdata<SceneInterface> scene)
-	{
-		scriptBlocker = scene.GetPointer();
-		printlog("waiting for scene: %x\n", scriptBlocker);
-	});
+	auto gameTable = lua.CreateUserdata<ScriptedScene>(this, [](ScriptedScene*){});
 
-	auto sceneClear = lua.CreateFunction<void()>(
-	[&]()
-	{
-		scenes.clear();
-	});
+	gameTable.Set("A", (int)InputState::A);
+	gameTable.Set("B", (int)InputState::B);
+	gameTable.Set("X", (int)InputState::X);
+	gameTable.Set("Y", (int)InputState::Y);
+
+	gameTable.Set("UP", (int)InputState::UP);
+	gameTable.Set("DOWN", (int)InputState::DOWN);
+	gameTable.Set("LEFT", (int)InputState::LEFT);
+	gameTable.Set("RIGHT", (int)InputState::RIGHT);
 	
-	auto sceneDisplay = lua.CreateFunction<void(LuaUserdata<SceneInterface>, int)>(
-	[&](LuaUserdata<SceneInterface> scene, int level)
-	{
-		(*((scenes.insert(std::make_pair(level,scene))).first)).second = scene;
-	});
+	gameTable.Set("L1", (int)InputState::L1);
+	gameTable.Set("L2", (int)InputState::L2);
+	gameTable.Set("R1", (int)InputState::R1);
+	gameTable.Set("R2", (int)InputState::R2);
 
-	auto gameNewImage = lua.CreateFunction<LuaUserdata<SceneInterface>(std::string)>(
-	[&](std::string filename) -> LuaUserdata<SceneInterface>
-	{
-		auto userdata = lua.CreateUserdata<SceneInterface>(new ImageScene(filename));
-		userdata.GetPointer()->Init(window, renderer);
-		printlog("created image scene: %x\n", userdata.GetPointer());
-		return userdata;
-	});
-
-	auto gameNewDialog = lua.CreateFunction<LuaUserdata<SceneInterface>(LuaTable) >(
-	[&](LuaTable text) -> LuaUserdata<SceneInterface>
-	{
-		std::vector<std::wstring> textVector;
-		textVector.push_back(text.Get<std::wstring>(1));
-		textVector.push_back(text.Get<std::wstring>(2));
-		textVector.push_back(text.Get<std::wstring>(3));
-		textVector.push_back(text.Get<std::wstring>(4));
-
-		auto userdata = lua.CreateUserdata<SceneInterface>(new DialogScene(currentFont, currentWindowSkin, textVector));
-		userdata.GetPointer()->Init(window, renderer);
-		printlog("created dialog scene: %x\n", userdata.GetPointer());
-		return userdata;
-	});
-
-
-	auto inputAssign = lua.CreateFunction<void(int, int)>(
-	[&](int key, int level)
-	{
-		inputLevelAssignment[(InputState::Key)key] = level;
-	});
-
-	auto scriptTable = lua.CreateTable();
-	auto inputTable = lua.CreateTable();
-	auto sceneTable = lua.CreateTable();
-	auto gameTable = lua.CreateTable();
-
-	inputTable.Set("A", (int)InputState::A);
-	inputTable.Set("B", (int)InputState::B);
-	inputTable.Set("X", (int)InputState::X);
-	inputTable.Set("Y", (int)InputState::Y);
-
-	inputTable.Set("UP", (int)InputState::UP);
-	inputTable.Set("DOWN", (int)InputState::DOWN);
-	inputTable.Set("LEFT", (int)InputState::LEFT);
-	inputTable.Set("RIGHT", (int)InputState::RIGHT);
+	gameTable.Bind("assign", &ScriptedScene::Assign);
 	
-	inputTable.Set("L1", (int)InputState::L1);
-	inputTable.Set("L2", (int)InputState::L2);
-	inputTable.Set("R1", (int)InputState::R1);
-	inputTable.Set("R2", (int)InputState::R2);
+	gameTable.Bind("newImage", &ScriptedScene::NewImage);
+	gameTable.Bind("newDialog", &ScriptedScene::NewDialog);
 
-	inputTable.Set("assign", inputAssign);
-	
-	gameTable.Set("newImage", gameNewImage);
-	gameTable.Set("newDialog", gameNewDialog);
+	gameTable.Bind("display", &ScriptedScene::Display);
+	gameTable.Bind("clear", &ScriptedScene::Clear);
+	gameTable.Bind("fadein", &ScriptedScene::FadeIn);
+	gameTable.Bind("fadeout", &ScriptedScene::FadeOut);
 
-	sceneTable.Set("display", sceneDisplay);
-	sceneTable.Set("clear", sceneClear);
-	scriptTable.Set("waitfor", scriptWaitFor);
+	gameTable.BindYield("waitfor", &ScriptedScene::WaitFor);
 
-	globals.Set("script", scriptTable);
-	globals.Set("input", inputTable);
-	globals.Set("scene", sceneTable);
 	globals.Set("game", gameTable);
 
-	
-	SDL_RWops *rw = SDL_RWFromFile(scriptFile.c_str(), "r");
-
-	auto size = rw->size(rw);
-	char* script = new char[size + 1];
-	memset(script, 0, size + 1);
-	rw->read(rw, script, sizeof(char), size);
-	rw->close(rw);
-	SDL_FreeRW(rw);
+	std::string script = LoadAllText(scriptFile);
 
 	auto res = coroutine.RunScript(script);
 	if (res != "No errors")

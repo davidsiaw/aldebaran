@@ -1,0 +1,11 @@
+#ifndef RPGTILETYPE_HPP
+#define RPGTILETYPE_HPP
+
+enum RPGTileType
+{
+	SIMPLE,
+	AUTOTILE12,
+	AUTOTILE94
+};
+
+#endif // RPGTILETYPE_HPP

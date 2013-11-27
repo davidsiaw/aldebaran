@@ -25,6 +25,9 @@
     <Filter Include="Source Files\scenes\effectscenes">
       <UniqueIdentifier>{8c136e24-b9c8-4167-85d9-cf3fc3ff5d05}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\scenes\rpgscene">
+      <UniqueIdentifier>{faa504ef-3231-42c4-8a44-94066582edb4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\jni\src\printlog.hpp">
@@ -36,17 +39,11 @@
     <ClInclude Include="..\jni\src\scene_interface.hpp">
       <Filter>Source Files\scenes</Filter>
     </ClInclude>
-    <ClInclude Include="utils.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\jni\src\inputmachine.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\jni\src\touchscreenkeyscene.hpp">
       <Filter>Source Files\scenes\touchscreenkeyscene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\jni\src\visualnovelscene.hpp">
-      <Filter>Source Files\scenes\visualnovelscene</Filter>
     </ClInclude>
     <ClInclude Include="..\jni\src\dialogscene.hpp">
       <Filter>Source Files\scenes\visualnovelscene</Filter>
@@ -63,6 +60,54 @@
     <ClInclude Include="..\jni\src\imagescene.hpp">
       <Filter>Source Files\scenes\visualnovelscene</Filter>
     </ClInclude>
+    <ClInclude Include="..\jni\src\rpgscene.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\rpgtiletype.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\rpgautotile.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\rpgentity.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\rpgentitytileinterface.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\rpgresourceinterface.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\rpgsimpletile.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\rpgtile.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\rpgtileinterface.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\rpgmapinterface.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\rpgmapcamerainterface.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\rpgherocamera.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\rpgroommap.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\utils.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\rpgmanifestbasedresources.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\jni\src\rpgstaticcamera.hpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\jni\src\inputstate.cpp">
@@ -74,17 +119,11 @@
     <ClCompile Include="..\jni\src\printlog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\jni\src\inputmachine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\jni\src\touchscreenkeyscene.cpp">
       <Filter>Source Files\scenes\touchscreenkeyscene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\jni\src\visualnovelscene.cpp">
-      <Filter>Source Files\scenes\visualnovelscene</Filter>
     </ClCompile>
     <ClCompile Include="..\jni\src\dialogscene.cpp">
       <Filter>Source Files\scenes\visualnovelscene</Filter>
@@ -100,6 +139,21 @@
     </ClCompile>
     <ClCompile Include="..\jni\src\imagescene.cpp">
       <Filter>Source Files\scenes\visualnovelscene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\jni\src\rpgscene.cpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\jni\src\rpgautotile.cpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\jni\src\rpgherocamera.cpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\jni\src\utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\jni\src\rpgstaticcamera.cpp">
+      <Filter>Source Files\scenes\rpgscene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

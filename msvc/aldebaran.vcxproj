@@ -81,7 +81,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)jni\SDL\include;$(SolutionDir)jni\SDL_image;$(SolutionDir)jni\SDL_mixer;$(SolutionDir)jni\SDL_ttf;$(SolutionDir)jni\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)jni\SDL\include;$(SolutionDir)jni\SDL_image;$(SolutionDir)jni\SDL_mixer;$(SolutionDir)jni\SDL_ttf;$(SolutionDir)jni\boost;$(SolutionDir)jni\luacppinterface\LuaCppInterface;$(SolutionDir)jni\luacppinterface\lua\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,12 +143,26 @@
     <ClInclude Include="..\jni\src\inputmachine.hpp" />
     <ClInclude Include="..\jni\src\inputstate.hpp" />
     <ClInclude Include="..\jni\src\ndfscene.hpp" />
+    <ClInclude Include="..\jni\src\rpgautotile.hpp" />
+    <ClInclude Include="..\jni\src\rpgmanifestbasedresources.hpp" />
+    <ClInclude Include="..\jni\src\rpgentity.hpp" />
+    <ClInclude Include="..\jni\src\rpgentitytileinterface.hpp" />
+    <ClInclude Include="..\jni\src\rpgherocamera.hpp" />
+    <ClInclude Include="..\jni\src\rpgmapcamerainterface.hpp" />
+    <ClInclude Include="..\jni\src\rpgmapinterface.hpp" />
+    <ClInclude Include="..\jni\src\rpgresourceinterface.hpp" />
+    <ClInclude Include="..\jni\src\rpgroommap.hpp" />
+    <ClInclude Include="..\jni\src\rpgscene.hpp" />
+    <ClInclude Include="..\jni\src\rpgsimpletile.hpp" />
+    <ClInclude Include="..\jni\src\rpgstaticcamera.hpp" />
+    <ClInclude Include="..\jni\src\rpgtile.hpp" />
+    <ClInclude Include="..\jni\src\rpgtileinterface.hpp" />
+    <ClInclude Include="..\jni\src\rpgtiletype.hpp" />
     <ClInclude Include="..\jni\src\scriptedscene.hpp" />
     <ClInclude Include="..\jni\src\printlog.hpp" />
     <ClInclude Include="..\jni\src\scene_interface.hpp" />
     <ClInclude Include="..\jni\src\touchscreenkeyscene.hpp" />
-    <ClInclude Include="..\jni\src\visualnovelscene.hpp" />
-    <ClInclude Include="utils.hpp" />
+    <ClInclude Include="..\jni\src\utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\jni\src\dialogscene.cpp" />
@@ -158,11 +172,14 @@
     <ClCompile Include="..\jni\src\inputstate.cpp" />
     <ClCompile Include="..\jni\src\main.cpp" />
     <ClCompile Include="..\jni\src\ndfscene.cpp" />
+    <ClCompile Include="..\jni\src\rpgautotile.cpp" />
+    <ClCompile Include="..\jni\src\rpgherocamera.cpp" />
+    <ClCompile Include="..\jni\src\rpgscene.cpp" />
+    <ClCompile Include="..\jni\src\rpgstaticcamera.cpp" />
     <ClCompile Include="..\jni\src\scriptedscene.cpp" />
     <ClCompile Include="..\jni\src\printlog.cpp" />
     <ClCompile Include="..\jni\src\touchscreenkeyscene.cpp" />
-    <ClCompile Include="..\jni\src\visualnovelscene.cpp" />
-    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="..\jni\src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\jni\luacppinterface\LuaCppInterface\LuaCppInterface.vcxproj">
