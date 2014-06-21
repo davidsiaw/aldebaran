@@ -4,7 +4,7 @@
 #include <vector>
 #include <boost/foreach.hpp>
 
-#include "imagescene.hpp"
+#include "imageviewscene.hpp"
 #include "dialogscene.hpp"
 #include "printlog.hpp"
 #include "fadescene.hpp"
@@ -64,7 +64,7 @@ LuaUserdata<SceneInterface> ScriptedScene::FadeOut(int level)
 
 LuaUserdata<SceneInterface> ScriptedScene::NewImage(std::string filename)
 {
-	auto userdata = lua.CreateUserdata<SceneInterface>(new ImageScene(filename));
+	auto userdata = lua.CreateUserdata<SceneInterface>(NULL); //lua.CreateUserdata<SceneInterface>(new ImageScene(filename));
 	userdata.GetPointer()->Init(window, renderer);
 	printlog("created image scene: %x\n", userdata.GetPointer());
 

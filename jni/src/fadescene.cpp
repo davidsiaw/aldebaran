@@ -65,6 +65,7 @@ bool FadeScene::Running() const
 	{
 		return opacity != 0;
 	}
+    return false;
 }
 
 void FadeScene::SetSpeed(double speed)

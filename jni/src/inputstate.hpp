@@ -10,20 +10,10 @@ class InputState
 	bool fingered;
 	float fingerx;
 	float fingery;
-
-	static bool GetBit(const char bitIndex, const char* array)
-	{
-		return (array[bitIndex >> 3] & ( 1 << (bitIndex & 0x7) )) != 0;
-	}
-
-	static void SetBit(char bitIndex, char* array, bool state)
-	{
-		char* block = &array[bitIndex >> 3];
-		char clear = ~( 1 << (bitIndex & 0x7) );
-		char set = ( state << (bitIndex & 0x7) );
-		*block &= clear;
-		*block |= set;
-	}
+    
+    float accelx;
+    float accely;
+    float accelz;
 
 public:
 
@@ -46,35 +36,12 @@ public:
 
 	InputState();
 
-	bool GetButtonState(Key key) const
-	{
-		return GetBit(key, down);
-	}
-	
-	bool GetButtonPressed(Key key) const
-	{
-		return GetBit(key, pressed);
-	}
-	
-	bool GetButtonReleased(Key key) const
-	{
-		return GetBit(key, released);
-	}
-	
-	void SetButtonState(Key key, bool state)
-	{
-		SetBit(key, down, state);
-	}
-	
-	void SetButtonPressed(Key key, bool state)
-	{
-		SetBit(key, pressed, state);
-	}
-	
-	void SetButtonReleased(Key key, bool state)
-	{
-		SetBit(key, released, state);
-	}
+	bool GetButtonState(Key key) const;
+	bool GetButtonPressed(Key key) const;
+	bool GetButtonReleased(Key key) const;
+	void SetButtonState(Key key, bool state);
+	void SetButtonPressed(Key key, bool state);
+	void SetButtonReleased(Key key, bool state);
 
 	bool GetFingered() const;
 	float GetFingerX() const;
@@ -83,6 +50,15 @@ public:
 	void SetFingered(bool state);
 	void SetFingerX(float fx);
 	void SetFingerY(float fy);
+    
+    float GetAccelX() const;
+    float GetAccelY() const;
+    float GetAccelZ() const;
+    
+    void SetAccelX(float amount);
+    void SetAccelY(float amount);
+    void SetAccelZ(float amount);
+
 };
 
 #endif // INPUTSTATE_HPP

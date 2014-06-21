@@ -16,3 +16,6 @@
 [submodule "jni/luacppinterface"]
 	path = jni/luacppinterface
 	url = https://github.com/davidsiaw/luacppinterface
+[submodule "jni/box2d"]
+	path = jni/box2d
+	url = https://github.com/davidsiaw/box2d
