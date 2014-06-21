@@ -1,0 +1,923 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		537F2771185E8B0F00DDC476 /* transformableviewscene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 537F276F185E8B0F00DDC476 /* transformableviewscene.cpp */; };
+		537F2774185EA14500DDC476 /* tweenscene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 537F2772185EA14500DDC476 /* tweenscene.cpp */; };
+		537F2777186053E400DDC476 /* textviewscene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 537F2775186053E400DDC476 /* textviewscene.cpp */; };
+		539775EC18509A9C00A9CACA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 539775EB18509A9C00A9CACA /* Cocoa.framework */; };
+		539775F618509A9C00A9CACA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 539775F418509A9C00A9CACA /* InfoPlist.strings */; };
+		539775FC18509A9C00A9CACA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 539775FA18509A9C00A9CACA /* Credits.rtf */; };
+		5397761118509A9C00A9CACA /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5397761018509A9C00A9CACA /* XCTest.framework */; };
+		5397761218509A9C00A9CACA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 539775EB18509A9C00A9CACA /* Cocoa.framework */; };
+		5397761A18509A9C00A9CACA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5397761818509A9C00A9CACA /* InfoPlist.strings */; };
+		5397761C18509A9C00A9CACA /* aldebaranTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397761B18509A9C00A9CACA /* aldebaranTests.m */; };
+		5397764418509B9B00A9CACA /* compositescene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5397762518509B9B00A9CACA /* compositescene.cpp */; };
+		5397764518509B9B00A9CACA /* debugrectscene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5397762718509B9B00A9CACA /* debugrectscene.cpp */; };
+		5397764618509B9B00A9CACA /* dialogscene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5397762918509B9B00A9CACA /* dialogscene.cpp */; };
+		5397764718509B9B00A9CACA /* fadescene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5397762B18509B9B00A9CACA /* fadescene.cpp */; };
+		5397764818509B9B00A9CACA /* imageviewscene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5397762D18509B9B00A9CACA /* imageviewscene.cpp */; };
+		5397764918509B9B00A9CACA /* inputmachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5397762F18509B9B00A9CACA /* inputmachine.cpp */; };
+		5397764A18509B9B00A9CACA /* inputstate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5397763118509B9B00A9CACA /* inputstate.cpp */; };
+		5397764B18509B9B00A9CACA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5397763318509B9B00A9CACA /* main.cpp */; };
+		5397764C18509B9B00A9CACA /* ndfscene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5397763518509B9B00A9CACA /* ndfscene.cpp */; };
+		5397764D18509B9B00A9CACA /* printlog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5397763718509B9B00A9CACA /* printlog.cpp */; };
+		5397764E18509B9B00A9CACA /* scriptedscene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5397763B18509B9B00A9CACA /* scriptedscene.cpp */; };
+		5397764F18509B9B00A9CACA /* touchscreenkeyscene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5397763D18509B9B00A9CACA /* touchscreenkeyscene.cpp */; };
+		5397765018509B9B00A9CACA /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5397763F18509B9B00A9CACA /* utils.cpp */; };
+		5397765118509B9B00A9CACA /* visualnovelscene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5397764218509B9B00A9CACA /* visualnovelscene.cpp */; };
+		5397766118509BCB00A9CACA /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5397765A18509BB800A9CACA /* SDL2.framework */; };
+		539776D31850A58A00A9CACA /* libSDL2_ttf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5397768F18509D6F00A9CACA /* libSDL2_ttf.a */; };
+		539776D41850A58A00A9CACA /* libSDL2_image.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5397767718509D5600A9CACA /* libSDL2_image.a */; };
+		539776D51850A58A00A9CACA /* libSDL2_mixer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5397768318509D6300A9CACA /* libSDL2_mixer.a */; };
+		539786571851241C00A9CACA /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53978257185123D600A9CACA /* libfreetype.a */; };
+		53978AA11851328D00A9CACA /* libluacppinterface.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53978A73185131DC00A9CACA /* libluacppinterface.a */; };
+		53978B341851332200A9CACA /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53978AB7185132A700A9CACA /* liblua.a */; };
+		53978B36185136D200A9CACA /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53978B35185136D200A9CACA /* AudioToolbox.framework */; };
+		53978B381851370B00A9CACA /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53978B371851370B00A9CACA /* AudioUnit.framework */; };
+		53978C021853003600A9CACA /* spriteviewscene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 53978C001853003600A9CACA /* spriteviewscene.cpp */; };
+		53DDAD6E1878309400137804 /* notifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 53DDAD6C1878309400137804 /* notifier.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5397761318509A9C00A9CACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 539775E018509A9C00A9CACA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 539775E718509A9C00A9CACA;
+			remoteInfo = aldebaran;
+		};
+		5397765918509BB800A9CACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5397765218509BB700A9CACA /* SDL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BECDF66C0761BA81005FE872;
+			remoteInfo = Framework;
+		};
+		5397765B18509BB800A9CACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5397765218509BB700A9CACA /* SDL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BECDF6B30761BA81005FE872;
+			remoteInfo = "Static Library";
+		};
+		5397765D18509BB800A9CACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5397765218509BB700A9CACA /* SDL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DB31407717554B71006C0E22;
+			remoteInfo = "Shared Library";
+		};
+		5397765F18509BB800A9CACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5397765218509BB700A9CACA /* SDL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BECDF6BE0761BA81005FE872;
+			remoteInfo = "Standard DMG";
+		};
+		5397767618509D5600A9CACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5397766E18509D5600A9CACA /* SDL_image.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE1FA74107AF4C45004B6283;
+			remoteInfo = "Static Library";
+		};
+		5397767818509D5600A9CACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5397766E18509D5600A9CACA /* SDL_image.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE1FA74507AF4C45004B6283;
+			remoteInfo = "Create DMG";
+		};
+		5397768218509D6300A9CACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5397767A18509D6300A9CACA /* SDL_mixer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE1FA95407AF96B2004B6283;
+			remoteInfo = "Static Library";
+		};
+		5397768418509D6300A9CACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5397767A18509D6300A9CACA /* SDL_mixer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE1FA95807AF96B3004B6283;
+			remoteInfo = "Create DMG";
+		};
+		5397768E18509D6F00A9CACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5397768618509D6F00A9CACA /* SDL_ttf.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE48FD6E07AFA17000BB41DA;
+			remoteInfo = "Static Library";
+		};
+		5397769018509D6F00A9CACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5397768618509D6F00A9CACA /* SDL_ttf.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE48FD7207AFA17000BB41DA;
+			remoteInfo = "Create DMG";
+		};
+		53978256185123D600A9CACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 53978252185123D500A9CACA /* freetype.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5397824B185123D500A9CACA;
+			remoteInfo = freetype;
+		};
+		53978A72185131DC00A9CACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 53978A6E185131DB00A9CACA /* luacppinterface.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 53978A67185131DB00A9CACA;
+			remoteInfo = luacppinterface;
+		};
+		53978AB6185132A700A9CACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 53978AB2185132A700A9CACA /* lua.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 53978AAB185132A700A9CACA;
+			remoteInfo = lua;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		537F276F185E8B0F00DDC476 /* transformableviewscene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = transformableviewscene.cpp; path = ../../jni/src/transformableviewscene.cpp; sourceTree = "<group>"; };
+		537F2770185E8B0F00DDC476 /* transformableviewscene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = transformableviewscene.hpp; path = ../../jni/src/transformableviewscene.hpp; sourceTree = "<group>"; };
+		537F2772185EA14500DDC476 /* tweenscene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tweenscene.cpp; path = ../../jni/src/tweenscene.cpp; sourceTree = "<group>"; };
+		537F2773185EA14500DDC476 /* tweenscene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = tweenscene.hpp; path = ../../jni/src/tweenscene.hpp; sourceTree = "<group>"; };
+		537F2775186053E400DDC476 /* textviewscene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = textviewscene.cpp; path = ../../jni/src/textviewscene.cpp; sourceTree = "<group>"; };
+		537F2776186053E400DDC476 /* textviewscene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = textviewscene.hpp; path = ../../jni/src/textviewscene.hpp; sourceTree = "<group>"; };
+		537F27781861583800DDC476 /* fontdesc.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = fontdesc.hpp; path = ../../jni/src/fontdesc.hpp; sourceTree = "<group>"; };
+		539775E818509A9C00A9CACA /* aldebaran.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = aldebaran.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		539775EB18509A9C00A9CACA /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		539775EE18509A9C00A9CACA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		539775EF18509A9C00A9CACA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		539775F018509A9C00A9CACA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		539775F318509A9C00A9CACA /* aldebaran-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "aldebaran-Info.plist"; sourceTree = "<group>"; };
+		539775F518509A9C00A9CACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		539775F918509A9C00A9CACA /* aldebaran-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "aldebaran-Prefix.pch"; sourceTree = "<group>"; };
+		539775FB18509A9C00A9CACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		5397760F18509A9C00A9CACA /* aldebaranTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = aldebaranTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5397761018509A9C00A9CACA /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		5397761718509A9C00A9CACA /* aldebaranTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "aldebaranTests-Info.plist"; sourceTree = "<group>"; };
+		5397761918509A9C00A9CACA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5397761B18509A9C00A9CACA /* aldebaranTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = aldebaranTests.m; sourceTree = "<group>"; };
+		5397762518509B9B00A9CACA /* compositescene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = compositescene.cpp; path = ../../jni/src/compositescene.cpp; sourceTree = "<group>"; };
+		5397762618509B9B00A9CACA /* compositescene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = compositescene.hpp; path = ../../jni/src/compositescene.hpp; sourceTree = "<group>"; };
+		5397762718509B9B00A9CACA /* debugrectscene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = debugrectscene.cpp; path = ../../jni/src/debugrectscene.cpp; sourceTree = "<group>"; };
+		5397762818509B9B00A9CACA /* debugrectscene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = debugrectscene.hpp; path = ../../jni/src/debugrectscene.hpp; sourceTree = "<group>"; };
+		5397762918509B9B00A9CACA /* dialogscene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dialogscene.cpp; path = ../../jni/src/dialogscene.cpp; sourceTree = "<group>"; };
+		5397762A18509B9B00A9CACA /* dialogscene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = dialogscene.hpp; path = ../../jni/src/dialogscene.hpp; sourceTree = "<group>"; };
+		5397762B18509B9B00A9CACA /* fadescene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fadescene.cpp; path = ../../jni/src/fadescene.cpp; sourceTree = "<group>"; };
+		5397762C18509B9B00A9CACA /* fadescene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = fadescene.hpp; path = ../../jni/src/fadescene.hpp; sourceTree = "<group>"; };
+		5397762D18509B9B00A9CACA /* imageviewscene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imageviewscene.cpp; path = ../../jni/src/imageviewscene.cpp; sourceTree = "<group>"; };
+		5397762E18509B9B00A9CACA /* imageviewscene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = imageviewscene.hpp; path = ../../jni/src/imageviewscene.hpp; sourceTree = "<group>"; };
+		5397762F18509B9B00A9CACA /* inputmachine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = inputmachine.cpp; path = ../../jni/src/inputmachine.cpp; sourceTree = "<group>"; };
+		5397763018509B9B00A9CACA /* inputmachine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = inputmachine.hpp; path = ../../jni/src/inputmachine.hpp; sourceTree = "<group>"; };
+		5397763118509B9B00A9CACA /* inputstate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = inputstate.cpp; path = ../../jni/src/inputstate.cpp; sourceTree = "<group>"; };
+		5397763218509B9B00A9CACA /* inputstate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = inputstate.hpp; path = ../../jni/src/inputstate.hpp; sourceTree = "<group>"; };
+		5397763318509B9B00A9CACA /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../jni/src/main.cpp; sourceTree = "<group>"; };
+		5397763418509B9B00A9CACA /* manifestbasedresources.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = manifestbasedresources.hpp; path = ../../jni/src/manifestbasedresources.hpp; sourceTree = "<group>"; };
+		5397763518509B9B00A9CACA /* ndfscene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ndfscene.cpp; path = ../../jni/src/ndfscene.cpp; sourceTree = "<group>"; };
+		5397763618509B9B00A9CACA /* ndfscene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ndfscene.hpp; path = ../../jni/src/ndfscene.hpp; sourceTree = "<group>"; };
+		5397763718509B9B00A9CACA /* printlog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = printlog.cpp; path = ../../jni/src/printlog.cpp; sourceTree = "<group>"; };
+		5397763818509B9B00A9CACA /* printlog.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = printlog.hpp; path = ../../jni/src/printlog.hpp; sourceTree = "<group>"; };
+		5397763918509B9B00A9CACA /* resource_interface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = resource_interface.hpp; path = ../../jni/src/resource_interface.hpp; sourceTree = "<group>"; };
+		5397763A18509B9B00A9CACA /* scene_interface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = scene_interface.hpp; path = ../../jni/src/scene_interface.hpp; sourceTree = "<group>"; };
+		5397763B18509B9B00A9CACA /* scriptedscene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scriptedscene.cpp; path = ../../jni/src/scriptedscene.cpp; sourceTree = "<group>"; };
+		5397763C18509B9B00A9CACA /* scriptedscene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = scriptedscene.hpp; path = ../../jni/src/scriptedscene.hpp; sourceTree = "<group>"; };
+		5397763D18509B9B00A9CACA /* touchscreenkeyscene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = touchscreenkeyscene.cpp; path = ../../jni/src/touchscreenkeyscene.cpp; sourceTree = "<group>"; };
+		5397763E18509B9B00A9CACA /* touchscreenkeyscene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = touchscreenkeyscene.hpp; path = ../../jni/src/touchscreenkeyscene.hpp; sourceTree = "<group>"; };
+		5397763F18509B9B00A9CACA /* utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = utils.cpp; path = ../../jni/src/utils.cpp; sourceTree = "<group>"; };
+		5397764018509B9B00A9CACA /* utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = utils.hpp; path = ../../jni/src/utils.hpp; sourceTree = "<group>"; };
+		5397764118509B9B00A9CACA /* containerviewscene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = containerviewscene.hpp; path = ../../jni/src/containerviewscene.hpp; sourceTree = "<group>"; };
+		5397764218509B9B00A9CACA /* visualnovelscene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = visualnovelscene.cpp; path = ../../jni/src/visualnovelscene.cpp; sourceTree = "<group>"; };
+		5397764318509B9B00A9CACA /* visualnovelscene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = visualnovelscene.hpp; path = ../../jni/src/visualnovelscene.hpp; sourceTree = "<group>"; };
+		5397765218509BB700A9CACA /* SDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL.xcodeproj; path = ../jni/SDL/Xcode/SDL/SDL.xcodeproj; sourceTree = "<group>"; };
+		5397766E18509D5600A9CACA /* SDL_image.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_image.xcodeproj; path = ../jni/SDL_image/Xcode/SDL_image.xcodeproj; sourceTree = "<group>"; };
+		5397767A18509D6300A9CACA /* SDL_mixer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_mixer.xcodeproj; path = ../jni/SDL_mixer/Xcode/SDL_mixer.xcodeproj; sourceTree = "<group>"; };
+		5397768618509D6F00A9CACA /* SDL_ttf.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_ttf.xcodeproj; path = ../jni/SDL_ttf/Xcode/SDL_ttf.xcodeproj; sourceTree = "<group>"; };
+		53978252185123D500A9CACA /* freetype.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = freetype.xcodeproj; path = "../jni/SDL_ttf/external/freetype-2.4.12/builds/freetype/freetype.xcodeproj"; sourceTree = "<group>"; };
+		53978A6E185131DB00A9CACA /* luacppinterface.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = luacppinterface.xcodeproj; path = ../jni/luacppinterface/luacppinterface.xcodeproj; sourceTree = "<group>"; };
+		53978AB2185132A700A9CACA /* lua.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = lua.xcodeproj; path = ../jni/luacppinterface/lua/lua.xcodeproj; sourceTree = "<group>"; };
+		53978B35185136D200A9CACA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		53978B371851370B00A9CACA /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		53978BFD1852B91F00A9CACA /* celviewscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = celviewscene.hpp; path = ../../jni/src/celviewscene.hpp; sourceTree = "<group>"; };
+		53978BFE1852E55B00A9CACA /* imagedesc.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = imagedesc.hpp; path = ../../jni/src/imagedesc.hpp; sourceTree = "<group>"; };
+		53978BFF1852E6FA00A9CACA /* spritedesc.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = spritedesc.hpp; path = ../../jni/src/spritedesc.hpp; sourceTree = "<group>"; };
+		53978C001853003600A9CACA /* spriteviewscene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = spriteviewscene.cpp; path = ../../jni/src/spriteviewscene.cpp; sourceTree = "<group>"; };
+		53978C011853003600A9CACA /* spriteviewscene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = spriteviewscene.hpp; path = ../../jni/src/spriteviewscene.hpp; sourceTree = "<group>"; };
+		53978C0318530E7F00A9CACA /* viewscene_interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = viewscene_interface.hpp; path = ../../jni/src/viewscene_interface.hpp; sourceTree = "<group>"; };
+		53DDAD5E1878307900137804 /* ttffontdesc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ttffontdesc.hpp; path = ../../jni/src/ttffontdesc.hpp; sourceTree = "<group>"; };
+		53DDAD6C1878309400137804 /* notifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = notifier.cpp; path = ../../jni/src/notifier.cpp; sourceTree = "<group>"; };
+		53DDAD6D1878309400137804 /* notifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = notifier.hpp; path = ../../jni/src/notifier.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		539775E518509A9C00A9CACA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				53978B381851370B00A9CACA /* AudioUnit.framework in Frameworks */,
+				53978B36185136D200A9CACA /* AudioToolbox.framework in Frameworks */,
+				53978B341851332200A9CACA /* liblua.a in Frameworks */,
+				53978AA11851328D00A9CACA /* libluacppinterface.a in Frameworks */,
+				539786571851241C00A9CACA /* libfreetype.a in Frameworks */,
+				539776D31850A58A00A9CACA /* libSDL2_ttf.a in Frameworks */,
+				539776D41850A58A00A9CACA /* libSDL2_image.a in Frameworks */,
+				539776D51850A58A00A9CACA /* libSDL2_mixer.a in Frameworks */,
+				5397766118509BCB00A9CACA /* SDL2.framework in Frameworks */,
+				539775EC18509A9C00A9CACA /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5397760C18509A9C00A9CACA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5397761218509A9C00A9CACA /* Cocoa.framework in Frameworks */,
+				5397761118509A9C00A9CACA /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		539775DF18509A9C00A9CACA = {
+			isa = PBXGroup;
+			children = (
+				53978AB2185132A700A9CACA /* lua.xcodeproj */,
+				53978A6E185131DB00A9CACA /* luacppinterface.xcodeproj */,
+				53978252185123D500A9CACA /* freetype.xcodeproj */,
+				5397768618509D6F00A9CACA /* SDL_ttf.xcodeproj */,
+				5397767A18509D6300A9CACA /* SDL_mixer.xcodeproj */,
+				5397766E18509D5600A9CACA /* SDL_image.xcodeproj */,
+				5397765218509BB700A9CACA /* SDL.xcodeproj */,
+				539775F118509A9C00A9CACA /* aldebaran */,
+				5397761518509A9C00A9CACA /* aldebaranTests */,
+				539775EA18509A9C00A9CACA /* Frameworks */,
+				539775E918509A9C00A9CACA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		539775E918509A9C00A9CACA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				539775E818509A9C00A9CACA /* aldebaran.app */,
+				5397760F18509A9C00A9CACA /* aldebaranTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		539775EA18509A9C00A9CACA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				53978B371851370B00A9CACA /* AudioUnit.framework */,
+				53978B35185136D200A9CACA /* AudioToolbox.framework */,
+				539775EB18509A9C00A9CACA /* Cocoa.framework */,
+				5397761018509A9C00A9CACA /* XCTest.framework */,
+				539775ED18509A9C00A9CACA /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		539775ED18509A9C00A9CACA /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				539775EE18509A9C00A9CACA /* AppKit.framework */,
+				539775EF18509A9C00A9CACA /* CoreData.framework */,
+				539775F018509A9C00A9CACA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		539775F118509A9C00A9CACA /* aldebaran */ = {
+			isa = PBXGroup;
+			children = (
+				539775F218509A9C00A9CACA /* Supporting Files */,
+				5397762518509B9B00A9CACA /* compositescene.cpp */,
+				5397762618509B9B00A9CACA /* compositescene.hpp */,
+				5397762718509B9B00A9CACA /* debugrectscene.cpp */,
+				5397762818509B9B00A9CACA /* debugrectscene.hpp */,
+				5397762918509B9B00A9CACA /* dialogscene.cpp */,
+				5397762A18509B9B00A9CACA /* dialogscene.hpp */,
+				5397762B18509B9B00A9CACA /* fadescene.cpp */,
+				5397762C18509B9B00A9CACA /* fadescene.hpp */,
+				5397762D18509B9B00A9CACA /* imageviewscene.cpp */,
+				5397762E18509B9B00A9CACA /* imageviewscene.hpp */,
+				53978C001853003600A9CACA /* spriteviewscene.cpp */,
+				53978C011853003600A9CACA /* spriteviewscene.hpp */,
+				5397762F18509B9B00A9CACA /* inputmachine.cpp */,
+				5397763018509B9B00A9CACA /* inputmachine.hpp */,
+				5397763118509B9B00A9CACA /* inputstate.cpp */,
+				5397763218509B9B00A9CACA /* inputstate.hpp */,
+				5397763318509B9B00A9CACA /* main.cpp */,
+				5397763418509B9B00A9CACA /* manifestbasedresources.hpp */,
+				5397763518509B9B00A9CACA /* ndfscene.cpp */,
+				5397763618509B9B00A9CACA /* ndfscene.hpp */,
+				5397763818509B9B00A9CACA /* printlog.hpp */,
+				5397763718509B9B00A9CACA /* printlog.cpp */,
+				5397763918509B9B00A9CACA /* resource_interface.hpp */,
+				53978BFE1852E55B00A9CACA /* imagedesc.hpp */,
+				5397763A18509B9B00A9CACA /* scene_interface.hpp */,
+				5397763B18509B9B00A9CACA /* scriptedscene.cpp */,
+				5397763C18509B9B00A9CACA /* scriptedscene.hpp */,
+				5397763D18509B9B00A9CACA /* touchscreenkeyscene.cpp */,
+				5397763E18509B9B00A9CACA /* touchscreenkeyscene.hpp */,
+				5397763F18509B9B00A9CACA /* utils.cpp */,
+				5397764018509B9B00A9CACA /* utils.hpp */,
+				5397764118509B9B00A9CACA /* containerviewscene.hpp */,
+				53978BFD1852B91F00A9CACA /* celviewscene.hpp */,
+				5397764218509B9B00A9CACA /* visualnovelscene.cpp */,
+				5397764318509B9B00A9CACA /* visualnovelscene.hpp */,
+				53978BFF1852E6FA00A9CACA /* spritedesc.hpp */,
+				53978C0318530E7F00A9CACA /* viewscene_interface.hpp */,
+				537F276F185E8B0F00DDC476 /* transformableviewscene.cpp */,
+				537F2770185E8B0F00DDC476 /* transformableviewscene.hpp */,
+				537F2772185EA14500DDC476 /* tweenscene.cpp */,
+				537F2773185EA14500DDC476 /* tweenscene.hpp */,
+				537F2775186053E400DDC476 /* textviewscene.cpp */,
+				537F2776186053E400DDC476 /* textviewscene.hpp */,
+				537F27781861583800DDC476 /* fontdesc.hpp */,
+				53DDAD5E1878307900137804 /* ttffontdesc.hpp */,
+				53DDAD6C1878309400137804 /* notifier.cpp */,
+				53DDAD6D1878309400137804 /* notifier.hpp */,
+			);
+			path = aldebaran;
+			sourceTree = "<group>";
+		};
+		539775F218509A9C00A9CACA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				539775F318509A9C00A9CACA /* aldebaran-Info.plist */,
+				539775F418509A9C00A9CACA /* InfoPlist.strings */,
+				539775F918509A9C00A9CACA /* aldebaran-Prefix.pch */,
+				539775FA18509A9C00A9CACA /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5397761518509A9C00A9CACA /* aldebaranTests */ = {
+			isa = PBXGroup;
+			children = (
+				5397761B18509A9C00A9CACA /* aldebaranTests.m */,
+				5397761618509A9C00A9CACA /* Supporting Files */,
+			);
+			path = aldebaranTests;
+			sourceTree = "<group>";
+		};
+		5397761618509A9C00A9CACA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5397761718509A9C00A9CACA /* aldebaranTests-Info.plist */,
+				5397761818509A9C00A9CACA /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5397765318509BB700A9CACA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5397765A18509BB800A9CACA /* SDL2.framework */,
+				5397765C18509BB800A9CACA /* libSDL2.a */,
+				5397765E18509BB800A9CACA /* libSDL2.dylib */,
+				5397766018509BB800A9CACA /* Standard DMG */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5397766F18509D5600A9CACA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5397767718509D5600A9CACA /* libSDL2_image.a */,
+				5397767918509D5600A9CACA /* Create DMG */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5397767B18509D6300A9CACA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5397768318509D6300A9CACA /* libSDL2_mixer.a */,
+				5397768518509D6300A9CACA /* Create DMG */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5397768718509D6F00A9CACA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5397768F18509D6F00A9CACA /* libSDL2_ttf.a */,
+				5397769118509D6F00A9CACA /* Create DMG */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		53978253185123D500A9CACA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				53978257185123D600A9CACA /* libfreetype.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		53978A6F185131DB00A9CACA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				53978A73185131DC00A9CACA /* libluacppinterface.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		53978AB3185132A700A9CACA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				53978AB7185132A700A9CACA /* liblua.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		539775E718509A9C00A9CACA /* aldebaran */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5397761F18509A9C00A9CACA /* Build configuration list for PBXNativeTarget "aldebaran" */;
+			buildPhases = (
+				539775E418509A9C00A9CACA /* Sources */,
+				539775E518509A9C00A9CACA /* Frameworks */,
+				539775E618509A9C00A9CACA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = aldebaran;
+			productName = aldebaran;
+			productReference = 539775E818509A9C00A9CACA /* aldebaran.app */;
+			productType = "com.apple.product-type.application";
+		};
+		5397760E18509A9C00A9CACA /* aldebaranTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5397762218509A9C00A9CACA /* Build configuration list for PBXNativeTarget "aldebaranTests" */;
+			buildPhases = (
+				5397760B18509A9C00A9CACA /* Sources */,
+				5397760C18509A9C00A9CACA /* Frameworks */,
+				5397760D18509A9C00A9CACA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5397761418509A9C00A9CACA /* PBXTargetDependency */,
+			);
+			name = aldebaranTests;
+			productName = aldebaranTests;
+			productReference = 5397760F18509A9C00A9CACA /* aldebaranTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		539775E018509A9C00A9CACA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = AD;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = bunnybusiness;
+				TargetAttributes = {
+					5397760E18509A9C00A9CACA = {
+						TestTargetID = 539775E718509A9C00A9CACA;
+					};
+				};
+			};
+			buildConfigurationList = 539775E318509A9C00A9CACA /* Build configuration list for PBXProject "aldebaran" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 539775DF18509A9C00A9CACA;
+			productRefGroup = 539775E918509A9C00A9CACA /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 53978253185123D500A9CACA /* Products */;
+					ProjectRef = 53978252185123D500A9CACA /* freetype.xcodeproj */;
+				},
+				{
+					ProductGroup = 53978AB3185132A700A9CACA /* Products */;
+					ProjectRef = 53978AB2185132A700A9CACA /* lua.xcodeproj */;
+				},
+				{
+					ProductGroup = 53978A6F185131DB00A9CACA /* Products */;
+					ProjectRef = 53978A6E185131DB00A9CACA /* luacppinterface.xcodeproj */;
+				},
+				{
+					ProductGroup = 5397765318509BB700A9CACA /* Products */;
+					ProjectRef = 5397765218509BB700A9CACA /* SDL.xcodeproj */;
+				},
+				{
+					ProductGroup = 5397766F18509D5600A9CACA /* Products */;
+					ProjectRef = 5397766E18509D5600A9CACA /* SDL_image.xcodeproj */;
+				},
+				{
+					ProductGroup = 5397767B18509D6300A9CACA /* Products */;
+					ProjectRef = 5397767A18509D6300A9CACA /* SDL_mixer.xcodeproj */;
+				},
+				{
+					ProductGroup = 5397768718509D6F00A9CACA /* Products */;
+					ProjectRef = 5397768618509D6F00A9CACA /* SDL_ttf.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				539775E718509A9C00A9CACA /* aldebaran */,
+				5397760E18509A9C00A9CACA /* aldebaranTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		5397765A18509BB800A9CACA /* SDL2.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SDL2.framework;
+			remoteRef = 5397765918509BB800A9CACA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5397765C18509BB800A9CACA /* libSDL2.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDL2.a;
+			remoteRef = 5397765B18509BB800A9CACA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5397765E18509BB800A9CACA /* libSDL2.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = libSDL2.dylib;
+			remoteRef = 5397765D18509BB800A9CACA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5397766018509BB800A9CACA /* Standard DMG */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "Standard DMG";
+			remoteRef = 5397765F18509BB800A9CACA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5397767718509D5600A9CACA /* libSDL2_image.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDL2_image.a;
+			remoteRef = 5397767618509D5600A9CACA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5397767918509D5600A9CACA /* Create DMG */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "Create DMG";
+			remoteRef = 5397767818509D5600A9CACA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5397768318509D6300A9CACA /* libSDL2_mixer.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDL2_mixer.a;
+			remoteRef = 5397768218509D6300A9CACA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5397768518509D6300A9CACA /* Create DMG */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "Create DMG";
+			remoteRef = 5397768418509D6300A9CACA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5397768F18509D6F00A9CACA /* libSDL2_ttf.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDL2_ttf.a;
+			remoteRef = 5397768E18509D6F00A9CACA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5397769118509D6F00A9CACA /* Create DMG */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "Create DMG";
+			remoteRef = 5397769018509D6F00A9CACA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		53978257185123D600A9CACA /* libfreetype.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfreetype.a;
+			remoteRef = 53978256185123D600A9CACA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		53978A73185131DC00A9CACA /* libluacppinterface.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libluacppinterface.a;
+			remoteRef = 53978A72185131DC00A9CACA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		53978AB7185132A700A9CACA /* liblua.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = liblua.a;
+			remoteRef = 53978AB6185132A700A9CACA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		539775E618509A9C00A9CACA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				539775F618509A9C00A9CACA /* InfoPlist.strings in Resources */,
+				539775FC18509A9C00A9CACA /* Credits.rtf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5397760D18509A9C00A9CACA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5397761A18509A9C00A9CACA /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		539775E418509A9C00A9CACA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5397764A18509B9B00A9CACA /* inputstate.cpp in Sources */,
+				5397764D18509B9B00A9CACA /* printlog.cpp in Sources */,
+				537F2777186053E400DDC476 /* textviewscene.cpp in Sources */,
+				5397764E18509B9B00A9CACA /* scriptedscene.cpp in Sources */,
+				5397765118509B9B00A9CACA /* visualnovelscene.cpp in Sources */,
+				537F2771185E8B0F00DDC476 /* transformableviewscene.cpp in Sources */,
+				53DDAD6E1878309400137804 /* notifier.cpp in Sources */,
+				5397764518509B9B00A9CACA /* debugrectscene.cpp in Sources */,
+				5397764B18509B9B00A9CACA /* main.cpp in Sources */,
+				5397764418509B9B00A9CACA /* compositescene.cpp in Sources */,
+				5397764618509B9B00A9CACA /* dialogscene.cpp in Sources */,
+				5397764918509B9B00A9CACA /* inputmachine.cpp in Sources */,
+				5397764718509B9B00A9CACA /* fadescene.cpp in Sources */,
+				53978C021853003600A9CACA /* spriteviewscene.cpp in Sources */,
+				5397764C18509B9B00A9CACA /* ndfscene.cpp in Sources */,
+				5397764F18509B9B00A9CACA /* touchscreenkeyscene.cpp in Sources */,
+				5397764818509B9B00A9CACA /* imageviewscene.cpp in Sources */,
+				537F2774185EA14500DDC476 /* tweenscene.cpp in Sources */,
+				5397765018509B9B00A9CACA /* utils.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5397760B18509A9C00A9CACA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5397761C18509A9C00A9CACA /* aldebaranTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5397761418509A9C00A9CACA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 539775E718509A9C00A9CACA /* aldebaran */;
+			targetProxy = 5397761318509A9C00A9CACA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		539775F418509A9C00A9CACA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				539775F518509A9C00A9CACA /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		539775FA18509A9C00A9CACA /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				539775FB18509A9C00A9CACA /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		5397761818509A9C00A9CACA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5397761918509A9C00A9CACA /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5397761D18509A9C00A9CACA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		5397761E18509A9C00A9CACA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		5397762018509A9C00A9CACA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "aldebaran/aldebaran-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/../jni/SDL/include",
+					"$(PROJECT_DIR)/../jni/luacppinterface/lua/src",
+					"$(PROJECT_DIR)/../jni/luacppinterface/LuaCppInterface",
+					"$(PROJECT_DIR)/../jni/boost",
+					"$(PROJECT_DIR)/../jni/SDL_mixer",
+					"$(PROJECT_DIR)/../jni/SDL_ttf",
+					"$(PROJECT_DIR)/../jni/SDL_image",
+				);
+				INFOPLIST_FILE = "aldebaran/aldebaran-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		5397762118509A9C00A9CACA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "aldebaran/aldebaran-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/../jni/SDL/include",
+					"$(PROJECT_DIR)/../jni/luacppinterface/lua/src",
+					"$(PROJECT_DIR)/../jni/luacppinterface/LuaCppInterface",
+					"$(PROJECT_DIR)/../jni/boost",
+					"$(PROJECT_DIR)/../jni/SDL_mixer",
+					"$(PROJECT_DIR)/../jni/SDL_ttf",
+					"$(PROJECT_DIR)/../jni/SDL_image",
+				);
+				INFOPLIST_FILE = "aldebaran/aldebaran-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		5397762318509A9C00A9CACA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/aldebaran.app/Contents/MacOS/aldebaran";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "aldebaran/aldebaran-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "aldebaranTests/aldebaranTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		5397762418509A9C00A9CACA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/aldebaran.app/Contents/MacOS/aldebaran";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "aldebaran/aldebaran-Prefix.pch";
+				INFOPLIST_FILE = "aldebaranTests/aldebaranTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		539775E318509A9C00A9CACA /* Build configuration list for PBXProject "aldebaran" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5397761D18509A9C00A9CACA /* Debug */,
+				5397761E18509A9C00A9CACA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5397761F18509A9C00A9CACA /* Build configuration list for PBXNativeTarget "aldebaran" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5397762018509A9C00A9CACA /* Debug */,
+				5397762118509A9C00A9CACA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5397762218509A9C00A9CACA /* Build configuration list for PBXNativeTarget "aldebaranTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5397762318509A9C00A9CACA /* Debug */,
+				5397762418509A9C00A9CACA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 539775E018509A9C00A9CACA /* Project object */;
+}
