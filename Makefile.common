@@ -14,6 +14,7 @@ SDL2IMAGE=$(SDL2PREFIX)/lib/libSDL2_image.$(EXTENSION)
 SDL2MIXER=$(SDL2PREFIX)/lib/libSDL2_mixer.$(EXTENSION)
 SDL2TTF=$(SDL2PREFIX)/lib/libSDL2_ttf.$(EXTENSION)
 SDL2CONFIG=$(SDL2PREFIX)/bin/sdl2-config
+FREETYPE=$(SDL2PREFIX)/lib/libfreetype.la
 LUAINTERFACESRC=jni/luacppinterface/LuaCppInterface
 LUA=jni/luacppinterface/lua/src/liblua.a
 
@@ -65,32 +66,37 @@ $(OUT)/%.o:%.cpp $(OUT)/%.d
 	$(AT)echo [C++] $<
 	$(AT)$(CXX) $< $(CXXFLAGS) -c -o $@
 
+$(FREETYPE):
+	$(AT)echo [BLD] $@
+	$(AT)chmod +x jni/SDL_ttf/external/freetype/configure
+	$(AT)cd jni/SDL_ttf/external/freetype && ./configure --prefix=$(SDL2PREFIX) && make all install $(REDIR)
+
 $(SDL2MAIN):
 	$(AT)echo [BLD] $@
 	$(AT)chmod +x jni/SDL/autogen.sh
 	$(AT)cd jni/SDL && ./autogen.sh $(REDIR)
-	$(AT)cd jni/SDL && ./configure --prefix $(SDL2PREFIX) $(REDIR)
+	$(AT)cd jni/SDL && ./configure --prefix=$(SDL2PREFIX) $(REDIR)
 	$(AT)make -C jni/SDL all install $(REDIR)
 
 $(SDL2IMAGE): $(SDL2MAIN)
 	$(AT)echo [BLD] $@
 	$(AT)chmod +x jni/SDL_image/autogen.sh
 	$(AT)cd jni/SDL_image && ./autogen.sh $(REDIR)
-	$(AT)cd jni/SDL_image && ./configure --prefix $(SDL2PREFIX) $(REDIR)
+	$(AT)cd jni/SDL_image && ./configure --prefix=$(SDL2PREFIX) $(REDIR)
 	$(AT)make -C jni/SDL_image all install $(REDIR)
 
-$(SDL2MIXER): $(SDL2MAIN)
+$(SDL2MIXER): $(SDL2MAIN) $(FREETYPE)
 	$(AT)echo [BLD] $@
 	$(AT)chmod +x jni/SDL_mixer/autogen.sh $(REDIR)
 	$(AT)cd jni/SDL_mixer && ./autogen.sh $(REDIR)
-	$(AT)cd jni/SDL_mixer && ./configure --prefix $(SDL2PREFIX) $(REDIR)
+	$(AT)cd jni/SDL_mixer && ./configure --prefix=$(SDL2PREFIX) $(REDIR)
 	$(AT)make -C jni/SDL_mixer all install $(REDIR)
 
 $(SDL2TTF): $(SDL2MAIN)
 	$(AT)echo [BLD] $@
 	$(AT)chmod +x jni/SDL_ttf/autogen.sh $(REDIR)
 	$(AT)cd jni/SDL_ttf && ./autogen.sh $(REDIR)
-	$(AT)cd jni/SDL_ttf && ./configure --prefix $(SDL2PREFIX) $(REDIR)
+	$(AT)cd jni/SDL_ttf && ./configure --prefix=$(SDL2PREFIX) --with-freetype-exec-prefix=$(SDL2PREFIX) $(REDIR)
 	$(AT)make -C jni/SDL_ttf all install $(REDIR)
 
 $(LUA):
