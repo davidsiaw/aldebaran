@@ -321,20 +321,7 @@
 		6320F6AE19EA6AD500C701D4 = {
 			isa = PBXGroup;
 			children = (
-				6320FBCA19EA72A100C701D4 /* Carbon.framework */,
-				6320FBC819EA721800C701D4 /* ForceFeedback.framework */,
-				6320FBC619EA71EB00C701D4 /* CoreAudio.framework */,
-				6320FBC419EA71C700C701D4 /* QuartzCore.framework */,
-				6320FBC219EA71AD00C701D4 /* GLKit.framework */,
-				6320FBC019EA719C00C701D4 /* CoreGraphics.framework */,
-				6320FBBE19EA718500C701D4 /* CoreFoundation.framework */,
-				6320FBBC19EA715000C701D4 /* IOKit.framework */,
-				6320FBBA19EA714600C701D4 /* CoreData.framework */,
-				6320FBB819EA712200C701D4 /* AudioUnit.framework */,
-				6320FBB619EA70EC00C701D4 /* Foundation.framework */,
-				6320FBB419EA70E000C701D4 /* AppKit.framework */,
-				6320FBB219EA70D700C701D4 /* Cocoa.framework */,
-				6320F71C19EA6BE900C701D4 /* AudioToolbox.framework */,
+				6320FFF619EEA87500C701D4 /* Frameworks */,
 				6320F6B919EA6AD500C701D4 /* aldebaran */,
 				6320F6B819EA6AD500C701D4 /* Products */,
 				6320F70519EA6B9D00C701D4 /* Box2D.xcodeproj */,
@@ -503,6 +490,27 @@
 				6320F71319EA6B9D00C701D4 /* Testbed */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		6320FFF619EEA87500C701D4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6320FBCA19EA72A100C701D4 /* Carbon.framework */,
+				6320FBC819EA721800C701D4 /* ForceFeedback.framework */,
+				6320FBC619EA71EB00C701D4 /* CoreAudio.framework */,
+				6320FBC419EA71C700C701D4 /* QuartzCore.framework */,
+				6320FBC219EA71AD00C701D4 /* GLKit.framework */,
+				6320FBC019EA719C00C701D4 /* CoreGraphics.framework */,
+				6320FBBE19EA718500C701D4 /* CoreFoundation.framework */,
+				6320FBBC19EA715000C701D4 /* IOKit.framework */,
+				6320FBBA19EA714600C701D4 /* CoreData.framework */,
+				6320FBB819EA712200C701D4 /* AudioUnit.framework */,
+				6320FBB619EA70EC00C701D4 /* Foundation.framework */,
+				6320FBB419EA70E000C701D4 /* AppKit.framework */,
+				6320FBB219EA70D700C701D4 /* Cocoa.framework */,
+				6320F71C19EA6BE900C701D4 /* AudioToolbox.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

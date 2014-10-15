@@ -27,4 +27,3 @@ public:
 };
 
 #endif // IMAGEDESC_HPP
-

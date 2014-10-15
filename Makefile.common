@@ -69,7 +69,8 @@ $(OUT)/%.o:%.cpp $(OUT)/%.d
 $(FREETYPE):
 	$(AT)echo [BLD] $@
 	$(AT)chmod +x jni/SDL_ttf/external/freetype/configure
-	$(AT)cd jni/SDL_ttf/external/freetype && ./configure --prefix=$(SDL2PREFIX) && make all install $(REDIR)
+	$(AT)cd jni/SDL_ttf/external/freetype && ./configure --prefix=$(SDL2PREFIX) $(REDIR)
+	$(AT)cd jni/SDL_ttf/external/freetype && make all install $(REDIR)
 
 $(SDL2MAIN):
 	$(AT)echo [BLD] $@
