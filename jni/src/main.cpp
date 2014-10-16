@@ -15,20 +15,7 @@
 
 #include "inputmachine.hpp"
 
-#include "scriptedscene.hpp"
-
 #include "manifestbasedresources.hpp"
-
-#include "compositescene.hpp"
-#include "debugrectscene.hpp"
-#include "containerviewscene.hpp"
-#include "imageviewscene.hpp"
-#include "spriteviewscene.hpp"
-#include "celviewscene.hpp"
-
-#include "transformableviewscene.hpp"
-#include "tweenscene.hpp"
-#include "textviewscene.hpp"
 
 #include "notifier.hpp"
 
@@ -68,50 +55,6 @@ void run(std::tr1::shared_ptr<SceneInterface> scene)
 
 void game()
 {
-	
-	std::tr1::shared_ptr<ResourceInterface> resources(new ManifestBasedResources("manifest.lua", renderer));
-    
-	std::tr1::shared_ptr<ImageViewScene> debugRect(new ImageViewScene(resources->GetImage(7)));
-    
-    std::tr1::shared_ptr<ImageViewScene> staticImage(new ImageViewScene(resources->GetImage(3)));
-    staticImage->SetOrigin(200, 0);
-    
-    std::tr1::shared_ptr<SpriteViewScene> dynamicImage(new SpriteViewScene(resources->GetSprite(10001)));
-    dynamicImage->SetOrigin(250, 0);
-    
-	std::tr1::shared_ptr<CompositeScene> topLevel(new CompositeScene());
-    
-	std::tr1::shared_ptr<CompositeScene> shiftedScene(new CompositeScene());
-	std::tr1::shared_ptr<ContainerViewScene> shiftedStuff(new ContainerViewScene(shiftedScene));
-    shiftedStuff->SetOrigin(200, 200);
-    
-    shiftedScene->AddScene(debugRect);
-    shiftedScene->AddScene(staticImage);
-    shiftedScene->AddScene(dynamicImage);
-    
-    std::tr1::shared_ptr<ImageViewScene> img(new ImageViewScene(resources->GetImage(3)));
-	std::tr1::shared_ptr<TransformableViewScene> ball(new TransformableViewScene(img, 48, 48));
-    std::tr1::shared_ptr<TweenScene> tw(new TweenScene(ball));
-    tw->PushTargetState(0, 0, 400, 400, 360, 1, 1000, TweenScene::EASE_OUT);
-    tw->PushTargetState(0, 0, 200, 200, 360, 1, 1000, TweenScene::EASE_IN);
-    
-    std::tr1::shared_ptr<TextViewScene> text(new TextViewScene(resources->GetFont(20002), "Helvetica Light", 100));
-
-    tw->SetLoops(3);
-    //topLevel->AddScene(text);
-    topLevel->AddScene(tw);
-    
-    std::tr1::shared_ptr<TextViewScene> xyz(new TextViewScene(resources->GetFont(20002), "meow"));
-    
-	std::tr1::shared_ptr<TransformableViewScene> textbox(new TransformableViewScene(xyz,750, 80));
-    textbox->SetOrigin(500, 500);
-    
-    topLevel->AddScene(textbox);
-    
-	run(topLevel);
-    
-	//std::tr1::shared_ptr<ScriptedScene> scene(new ScriptedScene("script/main.lua"));
-	//run(scene);
 }
 
 int main(int argc, char** argv)
