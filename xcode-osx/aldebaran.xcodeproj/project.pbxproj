@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		630F9B8F19F1011400DBF8C1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630F9B8E19F1011400DBF8C1 /* OpenGL.framework */; };
 		6320000D19EF422C00C701D4 /* notifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6320000B19EF422C00C701D4 /* notifier.cpp */; };
 		6320F71419EA6BD100C701D4 /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6320F70D19EA6B9D00C701D4 /* libBox2D.a */; };
 		6320F71619EA6BD700C701D4 /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6320F70419EA6B8D00C701D4 /* liblua.a */; };
@@ -181,11 +182,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		630F9B8E19F1011400DBF8C1 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		630F9C4E19F10B3C00DBF8C1 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		6320000A19EF41CF00C701D4 /* scene_interface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = scene_interface.hpp; path = ../../jni/src/scene_interface.hpp; sourceTree = "<group>"; };
 		6320000B19EF422C00C701D4 /* notifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = notifier.cpp; path = ../../jni/src/notifier.cpp; sourceTree = "<group>"; };
 		6320000C19EF422C00C701D4 /* notifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = notifier.hpp; path = ../../jni/src/notifier.hpp; sourceTree = "<group>"; };
 		6320000E19EF425600C701D4 /* listener_interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = listener_interface.hpp; path = ../../jni/src/listener_interface.hpp; sourceTree = "<group>"; };
 		6320000F19EF428B00C701D4 /* spritedesc.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = spritedesc.hpp; path = ../../jni/src/spritedesc.hpp; sourceTree = "<group>"; };
+		6320001119EF42FF00C701D4 /* emptyscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = emptyscene.hpp; path = ../../jni/src/emptyscene.hpp; sourceTree = "<group>"; };
 		6320F6B719EA6AD500C701D4 /* aldebaran */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = aldebaran; sourceTree = BUILT_PRODUCTS_DIR; };
 		6320F6C119EA6B0B00C701D4 /* SDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL.xcodeproj; path = ../jni/SDL/Xcode/SDL/SDL.xcodeproj; sourceTree = "<group>"; };
 		6320F6D019EA6B1B00C701D4 /* SDL_image.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL_image.xcodeproj; path = ../jni/SDL_image/Xcode/SDL_image.xcodeproj; sourceTree = "<group>"; };
@@ -230,6 +234,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				630F9B8F19F1011400DBF8C1 /* OpenGL.framework in Frameworks */,
 				6320FBCB19EA72A100C701D4 /* Carbon.framework in Frameworks */,
 				6320FBC919EA721900C701D4 /* ForceFeedback.framework in Frameworks */,
 				6320FBC719EA71EC00C701D4 /* CoreAudio.framework in Frameworks */,
@@ -253,6 +258,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6320001019EF42D000C701D4 /* scenes */ = {
+			isa = PBXGroup;
+			children = (
+				6320001119EF42FF00C701D4 /* emptyscene.hpp */,
+			);
+			name = scenes;
+			sourceTree = "<group>";
+		};
 		6320F6AE19EA6AD500C701D4 = {
 			isa = PBXGroup;
 			children = (
@@ -281,6 +294,7 @@
 		6320F6B919EA6AD500C701D4 /* aldebaran */ = {
 			isa = PBXGroup;
 			children = (
+				6320001019EF42D000C701D4 /* scenes */,
 				6320000F19EF428B00C701D4 /* spritedesc.hpp */,
 				6320000E19EF425600C701D4 /* listener_interface.hpp */,
 				6320000B19EF422C00C701D4 /* notifier.cpp */,
@@ -382,6 +396,8 @@
 		6320FFF619EEA87500C701D4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				630F9C4E19F10B3C00DBF8C1 /* ApplicationServices.framework */,
+				630F9B8E19F1011400DBF8C1 /* OpenGL.framework */,
 				6320FBCA19EA72A100C701D4 /* Carbon.framework */,
 				6320FBC819EA721800C701D4 /* ForceFeedback.framework */,
 				6320FBC619EA71EB00C701D4 /* CoreAudio.framework */,
@@ -718,8 +734,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(PROJECT_DIR)/../jni/SDL/include\n$(PROJECT_DIR)/../jni/boost/\n$(PROJECT_DIR)/../jni/SDL_image\n$(PROJECT_DIR)/../jni/SDL_mixer\n$(PROJECT_DIR)/../jni/SDL_ttf\n$(PROJECT_DIR)/../jni/luacppinterface/LuaCppInterface\n$(PROJECT_DIR)/../jni/luacppinterface/lua/src\n$(PROJECT_DIR)/../jni/box2d\n$(PROJECT_DIR)/../jni/SDL/include\n$(PROJECT_DIR)/../jni/boost/\n$(PROJECT_DIR)/../jni/SDL_image\n$(PROJECT_DIR)/../jni/SDL_mixer\n$(PROJECT_DIR)/../jni/SDL_ttf\n$(PROJECT_DIR)/../jni/luacppinterface/LuaCppInterface\n$(PROJECT_DIR)/../jni/luacppinterface/lua/src\n$(PROJECT_DIR)/../jni/box2d\n$(PROJECT_DIR)/../jni/SDL/include",
-					"$(PROJECT_DIR)/../jni/boost",
+					"$(PROJECT_DIR)/../jni/SDL/include",
+					"$(PROJECT_DIR)/../jni/boost/",
 					"$(PROJECT_DIR)/../jni/SDL_image",
 					"$(PROJECT_DIR)/../jni/SDL_mixer",
 					"$(PROJECT_DIR)/../jni/SDL_ttf",
@@ -737,8 +753,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(PROJECT_DIR)/../jni/SDL/include\n$(PROJECT_DIR)/../jni/boost/\n$(PROJECT_DIR)/../jni/SDL_image\n$(PROJECT_DIR)/../jni/SDL_mixer\n$(PROJECT_DIR)/../jni/SDL_ttf\n$(PROJECT_DIR)/../jni/luacppinterface/LuaCppInterface\n$(PROJECT_DIR)/../jni/luacppinterface/lua/src\n$(PROJECT_DIR)/../jni/box2d\n$(PROJECT_DIR)/../jni/SDL/include\n$(PROJECT_DIR)/../jni/boost/\n$(PROJECT_DIR)/../jni/SDL_image\n$(PROJECT_DIR)/../jni/SDL_mixer\n$(PROJECT_DIR)/../jni/SDL_ttf\n$(PROJECT_DIR)/../jni/luacppinterface/LuaCppInterface\n$(PROJECT_DIR)/../jni/luacppinterface/lua/src\n$(PROJECT_DIR)/../jni/box2d\n$(PROJECT_DIR)/../jni/SDL/include",
-					"$(PROJECT_DIR)/../jni/boost",
+					"$(PROJECT_DIR)/../jni/SDL/include",
+					"$(PROJECT_DIR)/../jni/boost/",
 					"$(PROJECT_DIR)/../jni/SDL_image",
 					"$(PROJECT_DIR)/../jni/SDL_mixer",
 					"$(PROJECT_DIR)/../jni/SDL_ttf",

@@ -3,6 +3,16 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 
+#if defined(__IPHONEOS__) || defined(__ANDROID__)
+#define HAVE_OPENGLES
+#endif
+
+#ifdef HAVE_OPENGLES
+#include "SDL_opengles.h"
+#else
+#include "SDL_opengl.h"
+#endif
+
 #include <boost/tr1/memory.hpp>
 #include <boost/tr1/functional.hpp>
 
@@ -19,15 +29,16 @@
 
 #include "notifier.hpp"
 
+#include "emptyscene.hpp"
+
 SDL_Window* window = NULL;
-SDL_Renderer *renderer = NULL;
 static std::map<int, InputState::Key> keyMap;
 
 void run(std::tr1::shared_ptr<SceneInterface> scene)
 {
 	InputState inputState;
 	Uint32 time = SDL_GetTicks();
-	scene->Init(window, renderer);
+	scene->Init(window);
 	
 	while (scene->Running())
 	{
@@ -45,9 +56,10 @@ void run(std::tr1::shared_ptr<SceneInterface> scene)
 		scene->Update(inputState, now);
 		if (now - time > 15)
 		{
-			SDL_RenderClear(renderer);
-			scene->Render(renderer);
-			SDL_RenderPresent(renderer);
+            scene->Render();
+            glClearColor ( 1.0, 1.0, 1.0, 1.0 );
+            glClear ( GL_COLOR_BUFFER_BIT );
+            SDL_GL_SwapWindow(window);
 			time = SDL_GetTicks();
 		}
 	}
@@ -55,6 +67,11 @@ void run(std::tr1::shared_ptr<SceneInterface> scene)
 
 void game()
 {
+    std::tr1::shared_ptr<SceneInterface> scene(new EmptyScene());
+    
+    
+    
+    run(scene);
 }
 
 int main(int argc, char** argv)
@@ -121,9 +138,23 @@ int main(int argc, char** argv)
 	printlog("Beginning game with window=%p\n", window);
 	try
 	{
-		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+        /* Request opengl 3.2 context.
+         * SDL doesn't have the ability to choose which profile at this time of writing,
+         * but it should default to the core profile */
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+        
+        /* Turn on double buffering with a 24bit Z buffer.
+         * You may need to change this to 16 or 32 for your system */
+        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+        SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+        
+        SDL_GLContext context = SDL_GL_CreateContext(window);
+        
+        printlog("Could not create window: %s\n", SDL_GetError());
+        
 		game();
-		SDL_DestroyRenderer(renderer);
+		SDL_GL_DeleteContext(context);
 	}
 	catch(std::exception e)
 	{

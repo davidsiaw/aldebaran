@@ -3,7 +3,7 @@
 
 #include <deque>
 #include <list>
-#include <boost/tr1/memory.hpp>
+#include <memory>
 
 #include "listener_interface.hpp"
 
@@ -12,8 +12,8 @@
 template<typename T>
 class Notifier
 {
-    std::tr1::shared_ptr< std::deque<T> > nextNotificationBatch;
-    std::list< std::tr1::weak_ptr< ListenerInterface<T> > > listeners;
+    std::shared_ptr< std::deque<T> > nextNotificationBatch;
+    std::list< std::weak_ptr< ListenerInterface<T> > > listeners;
     
 public:
     Notifier() : nextNotificationBatch(new std::deque<T>())
@@ -24,7 +24,7 @@ public:
         nextNotificationBatch->push_back(notification);
     }
     
-    void AddListener(std::tr1::weak_ptr< ListenerInterface<T> > listener)
+    void AddListener(std::weak_ptr< ListenerInterface<T> > listener)
     {
         listeners.push_back(listener);
     }
@@ -32,9 +32,9 @@ public:
     void ProcessNotifications()
     {
         auto nots = nextNotificationBatch;
-        nextNotificationBatch = std::tr1::shared_ptr< std::deque<T> >(new std::deque<T>);
+        nextNotificationBatch = std::shared_ptr< std::deque<T> >(new std::deque<T>);
         
-        listeners.remove_if([](std::tr1::weak_ptr< ListenerInterface<T> > ptr) -> bool
+        listeners.remove_if([](std::weak_ptr< ListenerInterface<T> > ptr) -> bool
         {
             if (ptr.lock())
             {

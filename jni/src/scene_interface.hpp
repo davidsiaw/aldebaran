@@ -10,9 +10,9 @@ public:
 	SceneInterface() {}
 	virtual ~SceneInterface() {}
 	
-	virtual void Init(SDL_Window* window, SDL_Renderer* renderer) = 0;
+	virtual void Init(SDL_Window* window) = 0;
 	virtual void Update(const InputState& inputs, Uint32 timestamp) = 0;
-	virtual void Render(SDL_Renderer *renderer) = 0;
+	virtual void Render() = 0;
 	virtual bool Running() const = 0;
 };
 
