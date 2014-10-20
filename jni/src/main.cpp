@@ -105,7 +105,7 @@ int main(int argc, char** argv)
 	// FLAC is better too because of its higher quality.
 	Mix_Init(MIX_INIT_FLAC|MIX_INIT_MOD|MIX_INIT_OGG);
     
-	int WIDTH = 800, HEIGHT = 600;
+	int WIDTH = 960, HEIGHT = 640;
     
     if (argc == 2)
     {
@@ -163,6 +163,8 @@ int main(int argc, char** argv)
         SDL_GLContext context = SDL_GL_CreateContext(window);
         
         printlog("OpenGL context created\n");
+        
+        glViewport(0, 0, WIDTH, HEIGHT);
         
 		game();
         

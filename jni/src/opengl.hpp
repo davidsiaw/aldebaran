@@ -5,6 +5,8 @@
 #define HAVE_OPENGLES
 #endif
 
+#define GL_GLEXT_PROTOTYPES
+
 #ifdef HAVE_OPENGLES
 #include <SDL_opengles2.h>
 #else
