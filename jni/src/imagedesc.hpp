@@ -1,16 +1,16 @@
 #ifndef IMAGEDESC_HPP
 #define IMAGEDESC_HPP
 
-#include <boost/tr1/memory.hpp>
+#include <memory>
 #include <SDL.h>
 
 class ImageDesc
 {
-    std::tr1::shared_ptr<SDL_Texture> texture;
+    std::shared_ptr<SDL_Texture> texture;
     SDL_Rect rect;
     
 public:
-    ImageDesc(std::tr1::shared_ptr<SDL_Texture> texture, SDL_Rect rect) :
+    ImageDesc(std::shared_ptr<SDL_Texture> texture, SDL_Rect rect) :
     texture(texture), rect(rect)
     { }
     

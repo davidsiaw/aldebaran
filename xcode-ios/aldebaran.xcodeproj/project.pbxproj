@@ -127,6 +127,15 @@
 		630F9C5019F10B8E00DBF8C1 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		630F9C5219F10BD300DBF8C1 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		630F9C5419F10BEA00DBF8C1 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		630F9C6419F4B68B00DBF8C1 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		630F9C6619F4B8C800DBF8C1 /* opengl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = opengl.hpp; path = ../../jni/src/opengl.hpp; sourceTree = "<group>"; };
+		630F9C6719F4B8C800DBF8C1 /* vboscene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = vboscene.hpp; path = ../../jni/src/vboscene.hpp; sourceTree = "<group>"; };
+		630F9C6819F4B8C800DBF8C1 /* onetrianglevbo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = onetrianglevbo.hpp; path = ../../jni/src/onetrianglevbo.hpp; sourceTree = "<group>"; };
+		630F9C6919F4B8C800DBF8C1 /* defaultshader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = defaultshader.hpp; path = ../../jni/src/defaultshader.hpp; sourceTree = "<group>"; };
+		630F9C6A19F4B8C800DBF8C1 /* shader_interface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = shader_interface.hpp; path = ../../jni/src/shader_interface.hpp; sourceTree = "<group>"; };
+		630F9C6B19F4B8C800DBF8C1 /* vbo_interface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = vbo_interface.hpp; path = ../../jni/src/vbo_interface.hpp; sourceTree = "<group>"; };
+		630F9C6C19F4B8C800DBF8C1 /* guiscene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = guiscene.hpp; path = ../../jni/src/guiscene.hpp; sourceTree = "<group>"; };
+		630F9C6D19F4B8C800DBF8C1 /* primitives.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = primitives.hpp; path = ../../jni/src/primitives.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +193,14 @@
 		630F9B9B19F1028200DBF8C1 /* aldebaran */ = {
 			isa = PBXGroup;
 			children = (
+				630F9C6619F4B8C800DBF8C1 /* opengl.hpp */,
+				630F9C6719F4B8C800DBF8C1 /* vboscene.hpp */,
+				630F9C6819F4B8C800DBF8C1 /* onetrianglevbo.hpp */,
+				630F9C6919F4B8C800DBF8C1 /* defaultshader.hpp */,
+				630F9C6A19F4B8C800DBF8C1 /* shader_interface.hpp */,
+				630F9C6B19F4B8C800DBF8C1 /* vbo_interface.hpp */,
+				630F9C6C19F4B8C800DBF8C1 /* guiscene.hpp */,
+				630F9C6D19F4B8C800DBF8C1 /* primitives.hpp */,
 				630F9BF919F103D300DBF8C1 /* emptyscene.hpp */,
 				630F9BFA19F103D300DBF8C1 /* fontdesc.hpp */,
 				630F9BFB19F103D300DBF8C1 /* imagedesc.hpp */,
@@ -276,6 +293,7 @@
 		630F9C5619F10CA400DBF8C1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				630F9C6419F4B68B00DBF8C1 /* GLKit.framework */,
 				630F9C5419F10BEA00DBF8C1 /* MobileCoreServices.framework */,
 				630F9C5219F10BD300DBF8C1 /* MessageUI.framework */,
 				630F9C5019F10B8E00DBF8C1 /* ImageIO.framework */,

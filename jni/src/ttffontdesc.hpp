@@ -7,11 +7,11 @@
 
 class TTFFontDesc : public FontDesc
 {
-    std::tr1::shared_ptr<TTF_Font> ttfFont;
+    std::shared_ptr<TTF_Font> ttfFont;
     SDL_Color color;
     
 public:
-    TTFFontDesc(std::tr1::shared_ptr<TTF_Font> ttfFont, SDL_Color color) :
+    TTFFontDesc(std::shared_ptr<TTF_Font> ttfFont, SDL_Color color) :
     color(color), ttfFont(ttfFont)
     {
         
@@ -37,7 +37,7 @@ public:
         return p;
     }
     
-    virtual std::tr1::shared_ptr<SDL_Texture> DrawString(SDL_Renderer* renderer, std::string text, int width) const
+    virtual std::shared_ptr<SDL_Texture> DrawString(SDL_Renderer* renderer, std::string text, int width) const
     {
         SDL_Surface* surf;
         if (width < 0)
@@ -49,7 +49,7 @@ public:
             surf = TTF_RenderUTF8_Blended_Wrapped(ttfFont.get(), text.c_str(), color, width);
         }
         
-        auto tex = std::tr1::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(renderer, surf), SDL_DestroyTexture);
+        auto tex = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(renderer, surf), SDL_DestroyTexture);
         
         SDL_FreeSurface(surf);
         

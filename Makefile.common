@@ -24,8 +24,8 @@ CXXFLAGS=$(EXTRA_CFLAGS) -DSMALL_SCREEN \
 	-I$(PWD)/jni/luacppinterface/lua/src \
 	-I$(PWD)/jni/boost \
 	-I$(PWD)/jni/box2d
-	
-LDFLAGS=$(shell $(SDL2CONFIG) --libs) -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lstdc++
+
+LDFLAGS=$(shell $(SDL2CONFIG) --libs) -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lstdc++ $(OPENGL_LDFLAGS)
 
 SRCDIR=jni/src
 SRC=$(shell find $(LUAINTERFACESRC) -name "*.cpp") $(shell find $(SRCDIR) -name "*.cpp") 

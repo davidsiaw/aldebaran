@@ -15,9 +15,9 @@ typedef unsigned int ResourceID;
 class ResourceInterface
 {
 public:
-    virtual std::tr1::shared_ptr<ImageDesc> GetImage(ResourceID num) const = 0;
-    virtual std::tr1::shared_ptr<SpriteDesc> GetSprite(ResourceID num) const = 0;
-    virtual std::tr1::shared_ptr<FontDesc> GetFont(ResourceID num) const = 0;
+    virtual std::shared_ptr<ImageDesc> GetImage(ResourceID num) const = 0;
+    virtual std::shared_ptr<SpriteDesc> GetSprite(ResourceID num) const = 0;
+    virtual std::shared_ptr<FontDesc> GetFont(ResourceID num) const = 0;
 };
 
 #endif // RESOURCE_INTERFACE_HPP

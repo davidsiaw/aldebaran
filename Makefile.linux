@@ -1,3 +1,4 @@
 CXX=gcc
 EXTRA_CFLAGS=-std=c++0x
+OPENGL_LDFLAGS=-lGL
 -include Makefile.common

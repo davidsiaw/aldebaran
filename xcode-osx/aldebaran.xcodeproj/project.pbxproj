@@ -184,6 +184,14 @@
 /* Begin PBXFileReference section */
 		630F9B8E19F1011400DBF8C1 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		630F9C4E19F10B3C00DBF8C1 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		630F9C5719F11DEE00DBF8C1 /* guiscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = guiscene.hpp; path = ../../jni/src/guiscene.hpp; sourceTree = "<group>"; };
+		630F9C5B19F3BC1D00DBF8C1 /* opengl.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = opengl.hpp; path = ../../jni/src/opengl.hpp; sourceTree = "<group>"; };
+		630F9C5C19F3BC2B00DBF8C1 /* shader_interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = shader_interface.hpp; path = ../../jni/src/shader_interface.hpp; sourceTree = "<group>"; };
+		630F9C5D19F3BFDD00DBF8C1 /* onetrianglevbo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = onetrianglevbo.hpp; path = ../../jni/src/onetrianglevbo.hpp; sourceTree = "<group>"; };
+		630F9C5E19F3C24E00DBF8C1 /* primitives.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = primitives.hpp; path = ../../jni/src/primitives.hpp; sourceTree = "<group>"; };
+		630F9C6019F3E73A00DBF8C1 /* vbo_interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = vbo_interface.hpp; path = ../../jni/src/vbo_interface.hpp; sourceTree = "<group>"; };
+		630F9C6119F3FBF000DBF8C1 /* vboscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = vboscene.hpp; path = ../../jni/src/vboscene.hpp; sourceTree = "<group>"; };
+		630F9C6219F4A08200DBF8C1 /* defaultshader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = defaultshader.hpp; path = ../../jni/src/defaultshader.hpp; sourceTree = "<group>"; };
 		6320000A19EF41CF00C701D4 /* scene_interface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = scene_interface.hpp; path = ../../jni/src/scene_interface.hpp; sourceTree = "<group>"; };
 		6320000B19EF422C00C701D4 /* notifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = notifier.cpp; path = ../../jni/src/notifier.cpp; sourceTree = "<group>"; };
 		6320000C19EF422C00C701D4 /* notifier.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = notifier.hpp; path = ../../jni/src/notifier.hpp; sourceTree = "<group>"; };
@@ -258,10 +266,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		630F9C5819F3BB2000DBF8C1 /* opengl */ = {
+			isa = PBXGroup;
+			children = (
+				630F9C5C19F3BC2B00DBF8C1 /* shader_interface.hpp */,
+				630F9C5B19F3BC1D00DBF8C1 /* opengl.hpp */,
+				630F9C5D19F3BFDD00DBF8C1 /* onetrianglevbo.hpp */,
+				630F9C5E19F3C24E00DBF8C1 /* primitives.hpp */,
+				630F9C6019F3E73A00DBF8C1 /* vbo_interface.hpp */,
+				630F9C6219F4A08200DBF8C1 /* defaultshader.hpp */,
+			);
+			name = opengl;
+			sourceTree = "<group>";
+		};
 		6320001019EF42D000C701D4 /* scenes */ = {
 			isa = PBXGroup;
 			children = (
 				6320001119EF42FF00C701D4 /* emptyscene.hpp */,
+				630F9C5719F11DEE00DBF8C1 /* guiscene.hpp */,
+				630F9C6119F3FBF000DBF8C1 /* vboscene.hpp */,
 			);
 			name = scenes;
 			sourceTree = "<group>";
@@ -294,6 +317,7 @@
 		6320F6B919EA6AD500C701D4 /* aldebaran */ = {
 			isa = PBXGroup;
 			children = (
+				630F9C5819F3BB2000DBF8C1 /* opengl */,
 				6320001019EF42D000C701D4 /* scenes */,
 				6320000F19EF428B00C701D4 /* spritedesc.hpp */,
 				6320000E19EF425600C701D4 /* listener_interface.hpp */,

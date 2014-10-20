@@ -1,4 +1,5 @@
 CXX=clang
 PLATFORM=MACOSX
 EXTRA_CFLAGS=-std=c++11
+OPENGL_LDFLAGS=-framework OpenGL
 -include Makefile.common

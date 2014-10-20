@@ -6,16 +6,16 @@
 
 class SpriteDesc
 {
-    std::vector< std::tr1::shared_ptr<ImageDesc> > images;
+    std::vector< std::shared_ptr<ImageDesc> > images;
     SDL_Rect rect;
     unsigned int delay;
     
 public:
-    SpriteDesc(std::vector< std::tr1::shared_ptr<ImageDesc> > images, SDL_Rect rect, unsigned int delay) :
+    SpriteDesc(std::vector< std::shared_ptr<ImageDesc> > images, SDL_Rect rect, unsigned int delay) :
     images(images), rect(rect), delay(delay)
     { }
     
-    std::tr1::shared_ptr<ImageDesc> GetImageForTick(unsigned int tick)
+    std::shared_ptr<ImageDesc> GetImageForTick(unsigned int tick)
     {
         return images[tick % images.size()];
     }

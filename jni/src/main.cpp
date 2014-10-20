@@ -3,20 +3,12 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 
-#if defined(__IPHONEOS__) || defined(__ANDROID__)
-#define HAVE_OPENGLES
-#endif
-
-#ifdef HAVE_OPENGLES
-#include "SDL_opengles.h"
-#else
-#include "SDL_opengl.h"
-#endif
-
-#include <boost/tr1/memory.hpp>
-#include <boost/tr1/functional.hpp>
+#include <memory>
+#include <functional>
 
 #include <Box2D/Box2D.h>
+
+#include "opengl.hpp"
 
 #include "scene_interface.hpp"
 #include "inputstate.hpp"
@@ -30,11 +22,18 @@
 #include "notifier.hpp"
 
 #include "emptyscene.hpp"
+#include "guiscene.hpp"
+#include "vboscene.hpp"
+
+#include "utils.hpp"
+
+#include "defaultshader.hpp"
+#include "onetrianglevbo.hpp"
 
 SDL_Window* window = NULL;
 static std::map<int, InputState::Key> keyMap;
 
-void run(std::tr1::shared_ptr<SceneInterface> scene)
+void run(std::shared_ptr<SceneInterface> scene)
 {
 	InputState inputState;
 	Uint32 time = SDL_GetTicks();
@@ -55,10 +54,10 @@ void run(std::tr1::shared_ptr<SceneInterface> scene)
 		Uint32 now = SDL_GetTicks();
 		scene->Update(inputState, now);
 		if (now - time > 15)
-		{
-            scene->Render();
+        {
             glClearColor ( 1.0, 1.0, 1.0, 1.0 );
-            glClear ( GL_COLOR_BUFFER_BIT );
+            glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+            scene->Render();
             SDL_GL_SwapWindow(window);
 			time = SDL_GetTicks();
 		}
@@ -67,11 +66,18 @@ void run(std::tr1::shared_ptr<SceneInterface> scene)
 
 void game()
 {
-    std::tr1::shared_ptr<SceneInterface> scene(new EmptyScene());
+    std::shared_ptr<ShaderInterface> shader(new DefaultShader());
+    std::shared_ptr<VboInterface> vbo(new OneTriangleVbo());
     
+    std::shared_ptr<SceneInterface> scene(new VboScene(shader, vbo, nullptr));
     
     
     run(scene);
+}
+
+void initOpenGl()
+{
+    
 }
 
 int main(int argc, char** argv)
@@ -99,8 +105,13 @@ int main(int argc, char** argv)
 	// FLAC is better too because of its higher quality.
 	Mix_Init(MIX_INIT_FLAC|MIX_INIT_MOD|MIX_INIT_OGG);
     
-	SDL_DisplayMode mode;
 	int WIDTH = 800, HEIGHT = 600;
+    
+    if (argc == 2)
+    {
+        printlog("Configuration file provided: %s\n", argv[1]);
+        LuaTable config = LoadLuaConfiguration(argv[1]);
+    }
     
 	//if (SDL_GetCurrentDisplayMode(0, &mode)==0)
 	//{
@@ -151,18 +162,21 @@ int main(int argc, char** argv)
         
         SDL_GLContext context = SDL_GL_CreateContext(window);
         
-        printlog("Could not create window: %s\n", SDL_GetError());
+        printlog("OpenGL context created\n");
         
 		game();
+        
 		SDL_GL_DeleteContext(context);
 	}
 	catch(std::exception e)
 	{
 		printlog("Caught a std::exception! %s\n", e.what());
+        return EXIT_FAILURE;
 	}
 	catch(...)
 	{
 		printlog("Caught an unknown exception!\n");
+        return EXIT_FAILURE;
 	}
     
 	SDL_DestroyWindow(window);
@@ -175,7 +189,7 @@ int main(int argc, char** argv)
     
 	SDL_Quit(); 
 	
-	printlog("Success!\n");
+	printlog("Program Successfully Terminated!\n");
 	
-	return 0;
+	return EXIT_SUCCESS;
 }
