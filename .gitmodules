@@ -19,3 +19,6 @@
 [submodule "jni/box2d"]
 	path = jni/box2d
 	url = https://github.com/davidsiaw/box2d
+[submodule "jni/glm"]
+	path = jni/glm
+	url = https://github.com/davidsiaw/glm.git

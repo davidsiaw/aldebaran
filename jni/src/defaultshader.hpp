@@ -7,6 +7,7 @@
 #include "printlog.hpp"
 #include "shader_interface.hpp"
 
+
 class DefaultShader : public ShaderInterface
 {
     GLuint shader;
@@ -21,6 +22,7 @@ class DefaultShader : public ShaderInterface
     GLint uTexture;
     GLint uTransparency;
     GLint uActiveTile;
+    GLint uMatrix;
     
     static void printShaderInfoLog(GLuint obj)
     {
@@ -52,11 +54,12 @@ class DefaultShader : public ShaderInterface
             varying vec4 vColor;
             
             uniform float uActiveTile;
+            uniform mat4 uMatrix;
             
             void main()
             {
                 // Transforming The Vertex
-                gl_Position = vec4(aPosition, 1.0);
+                gl_Position = uMatrix * vec4(aPosition, 1.0);
             
                 // Pass the rest to fragment shader
                 vTexCoord = aTexCoord;
@@ -130,6 +133,7 @@ public:
         uHasTexture = glGetUniformLocation(shader, "uHasTexture");
         uTexture = glGetUniformLocation(shader, "uTexture");
         uTransparency = glGetUniformLocation(shader, "uTransparency");
+        uMatrix = glGetUniformLocation(shader, "uMatrix");
     }
     
     ~DefaultShader()
@@ -186,6 +190,11 @@ public:
     virtual void SetTextureUniform(GLuint tex)
     {
         glUniform1i(uTexture, tex);
+    }
+    
+    virtual void SetMatrix(glm::mat4 matrix)
+    {
+        glUniformMatrix4fv(uMatrix, 1, GL_FALSE, glm::value_ptr(matrix));
     }
     
     virtual bool HasColorAttribute()

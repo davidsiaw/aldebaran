@@ -18,6 +18,7 @@ public:
     virtual void SetActiveTileUniform(GLfloat activetile)=0;
     virtual void SetTexturePresentUniform(bool hastexture)=0;
     virtual void SetTextureUniform(GLuint tex)=0;
+    virtual void SetMatrix(glm::mat4 matrix)=0;
     
     virtual bool HasColorAttribute()=0;
     virtual bool HasTileAttribute()=0;

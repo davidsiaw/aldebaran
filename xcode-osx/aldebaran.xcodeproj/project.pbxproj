@@ -235,6 +235,7 @@
 		6320FBC619EA71EB00C701D4 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		6320FBC819EA721800C701D4 /* ForceFeedback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ForceFeedback.framework; path = System/Library/Frameworks/ForceFeedback.framework; sourceTree = SDKROOT; };
 		6320FBCA19EA72A100C701D4 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		63BC197519FBD02A00AEB697 /* rectanglesvbo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = rectanglesvbo.hpp; path = ../../jni/src/rectanglesvbo.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,6 +276,7 @@
 				630F9C5E19F3C24E00DBF8C1 /* primitives.hpp */,
 				630F9C6019F3E73A00DBF8C1 /* vbo_interface.hpp */,
 				630F9C6219F4A08200DBF8C1 /* defaultshader.hpp */,
+				63BC197519FBD02A00AEB697 /* rectanglesvbo.hpp */,
 			);
 			name = opengl;
 			sourceTree = "<group>";
@@ -766,6 +768,7 @@
 					"$(PROJECT_DIR)/../jni/luacppinterface/LuaCppInterface",
 					"$(PROJECT_DIR)/../jni/luacppinterface/lua/src",
 					"$(PROJECT_DIR)/../jni/box2d",
+					"$(PROJECT_DIR)/../jni/glm",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -785,6 +788,7 @@
 					"$(PROJECT_DIR)/../jni/luacppinterface/LuaCppInterface",
 					"$(PROJECT_DIR)/../jni/luacppinterface/lua/src",
 					"$(PROJECT_DIR)/../jni/box2d",
+					"$(PROJECT_DIR)/../jni/glm",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

@@ -1,16 +1,16 @@
-#ifndef ONETRIANGLEVBO_HPP
-#define ONETRIANGLEVBO_HPP
+#ifndef RECTANGLESVBO_HPP
+#define RECTANGLESVBO_HPP
 
 #include <vector>
-#include "primitives.hpp"
+
 #include "vbo_interface.hpp"
 
-class OneTriangleVbo : public VboInterface
+class RectanglesVbo : public VboInterface
 {
-    Triangle triangle;
+    std::vector<Element> elements;
     
 public:
-    OneTriangleVbo()
+    RectanglesVbo()
     {
         triangle = {{
             {{-1, -1, 0}, {255,255,  0,255}, {0.0f,1.0f}, 0.0f, 1.0f},
@@ -21,17 +21,17 @@ public:
     
     virtual Element* GetElements() const
     {
-        return (Element*)triangle.e;
+        return &elements[0];
     }
     
     virtual int GetElementCount() const
     {
-        return 3;
+        return elements.size();
     }
     
     virtual GLenum GetBufferType() const
     {
-        return GL_TRIANGLES;
+        return GL_TRIANGLE_STRIP;
     }
     
     virtual bool Changed() const
@@ -45,4 +45,4 @@ public:
 
 };
 
-#endif // DISCRETETRIANGLEVBO_HPP
+#endif // RECTANGLESVBO_HPP

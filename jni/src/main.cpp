@@ -67,17 +67,13 @@ void run(std::shared_ptr<SceneInterface> scene)
 void game()
 {
     std::shared_ptr<ShaderInterface> shader(new DefaultShader());
+    
     std::shared_ptr<VboInterface> vbo(new OneTriangleVbo());
     
     std::shared_ptr<SceneInterface> scene(new VboScene(shader, vbo, nullptr));
     
     
     run(scene);
-}
-
-void initOpenGl()
-{
-    
 }
 
 int main(int argc, char** argv)

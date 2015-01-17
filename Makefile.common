@@ -23,7 +23,8 @@ CXXFLAGS=$(EXTRA_CFLAGS) -DSMALL_SCREEN \
 	-I$(PWD)/jni/luacppinterface/LuaCppInterface \
 	-I$(PWD)/jni/luacppinterface/lua/src \
 	-I$(PWD)/jni/boost \
-	-I$(PWD)/jni/box2d
+	-I$(PWD)/jni/box2d \
+	-I$(PWD)/jni/glm
 
 LDFLAGS=$(shell $(SDL2CONFIG) --libs) -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lstdc++ $(OPENGL_LDFLAGS)
 

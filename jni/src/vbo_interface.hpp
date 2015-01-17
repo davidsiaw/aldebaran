@@ -14,6 +14,7 @@ public:
     virtual int GetElementCount() const=0;
     virtual GLenum GetBufferType() const=0;
     virtual bool Changed() const=0;
+    virtual void ChangeCommitted()=0;
 };
 
 #endif // VBO_INTERFACE_HPPs
