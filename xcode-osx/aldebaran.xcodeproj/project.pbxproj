@@ -31,6 +31,7 @@
 		6320FBC719EA71EC00C701D4 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6320FBC619EA71EB00C701D4 /* CoreAudio.framework */; };
 		6320FBC919EA721900C701D4 /* ForceFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6320FBC819EA721800C701D4 /* ForceFeedback.framework */; };
 		6320FBCB19EA72A100C701D4 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6320FBCA19EA72A100C701D4 /* Carbon.framework */; };
+		6322C73D1A6B8C700002F962 /* primitives.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6322C73C1A6B8C700002F962 /* primitives.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,13 +76,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = BE1FA74507AF4C45004B6283;
 			remoteInfo = "Create DMG";
-		};
-		6320F6DF19EA6B2700C701D4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6320F6D919EA6B2700C701D4 /* SDL_mixer.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BE1FA90607AF96B2004B6283;
-			remoteInfo = Framework;
 		};
 		6320F6E119EA6B2700C701D4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -187,7 +181,6 @@
 		630F9C5719F11DEE00DBF8C1 /* guiscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = guiscene.hpp; path = ../../jni/src/guiscene.hpp; sourceTree = "<group>"; };
 		630F9C5B19F3BC1D00DBF8C1 /* opengl.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = opengl.hpp; path = ../../jni/src/opengl.hpp; sourceTree = "<group>"; };
 		630F9C5C19F3BC2B00DBF8C1 /* shader_interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = shader_interface.hpp; path = ../../jni/src/shader_interface.hpp; sourceTree = "<group>"; };
-		630F9C5D19F3BFDD00DBF8C1 /* onetrianglevbo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = onetrianglevbo.hpp; path = ../../jni/src/onetrianglevbo.hpp; sourceTree = "<group>"; };
 		630F9C5E19F3C24E00DBF8C1 /* primitives.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = primitives.hpp; path = ../../jni/src/primitives.hpp; sourceTree = "<group>"; };
 		630F9C6019F3E73A00DBF8C1 /* vbo_interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = vbo_interface.hpp; path = ../../jni/src/vbo_interface.hpp; sourceTree = "<group>"; };
 		630F9C6119F3FBF000DBF8C1 /* vboscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = vboscene.hpp; path = ../../jni/src/vboscene.hpp; sourceTree = "<group>"; };
@@ -235,6 +228,10 @@
 		6320FBC619EA71EB00C701D4 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		6320FBC819EA721800C701D4 /* ForceFeedback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ForceFeedback.framework; path = System/Library/Frameworks/ForceFeedback.framework; sourceTree = SDKROOT; };
 		6320FBCA19EA72A100C701D4 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		6322C7391A6B5BC10002F962 /* quadvbo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = quadvbo.hpp; path = ../../jni/src/quadvbo.hpp; sourceTree = "<group>"; };
+		6322C73A1A6B5BC10002F962 /* trianglevbo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = trianglevbo.hpp; path = ../../jni/src/trianglevbo.hpp; sourceTree = "<group>"; };
+		6322C73B1A6B8B010002F962 /* quadcollectionvbo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = quadcollectionvbo.hpp; path = ../../jni/src/quadcollectionvbo.hpp; sourceTree = "<group>"; };
+		6322C73C1A6B8C700002F962 /* primitives.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = primitives.cpp; path = ../../jni/src/primitives.cpp; sourceTree = "<group>"; };
 		63BC197519FBD02A00AEB697 /* rectanglesvbo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = rectanglesvbo.hpp; path = ../../jni/src/rectanglesvbo.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -270,13 +267,16 @@
 		630F9C5819F3BB2000DBF8C1 /* opengl */ = {
 			isa = PBXGroup;
 			children = (
+				6322C7391A6B5BC10002F962 /* quadvbo.hpp */,
+				6322C73A1A6B5BC10002F962 /* trianglevbo.hpp */,
 				630F9C5C19F3BC2B00DBF8C1 /* shader_interface.hpp */,
 				630F9C5B19F3BC1D00DBF8C1 /* opengl.hpp */,
-				630F9C5D19F3BFDD00DBF8C1 /* onetrianglevbo.hpp */,
 				630F9C5E19F3C24E00DBF8C1 /* primitives.hpp */,
 				630F9C6019F3E73A00DBF8C1 /* vbo_interface.hpp */,
 				630F9C6219F4A08200DBF8C1 /* defaultshader.hpp */,
 				63BC197519FBD02A00AEB697 /* rectanglesvbo.hpp */,
+				6322C73B1A6B8B010002F962 /* quadcollectionvbo.hpp */,
+				6322C73C1A6B8C700002F962 /* primitives.cpp */,
 			);
 			name = opengl;
 			sourceTree = "<group>";
@@ -367,7 +367,6 @@
 		6320F6DA19EA6B2700C701D4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6320F6E019EA6B2700C701D4 /* SDL2_mixer.framework */,
 				6320F6E219EA6B2700C701D4 /* libSDL2_mixer.a */,
 				6320F6E419EA6B2700C701D4 /* Create DMG */,
 			);
@@ -570,13 +569,6 @@
 			remoteRef = 6320F6D719EA6B1B00C701D4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6320F6E019EA6B2700C701D4 /* SDL2_mixer.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SDL2_mixer.framework;
-			remoteRef = 6320F6DF19EA6B2700C701D4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		6320F6E219EA6B2700C701D4 /* libSDL2_mixer.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -673,6 +665,7 @@
 				6320F77F19EA6ED800C701D4 /* inputstate.cpp in Sources */,
 				6320F77E19EA6ED800C701D4 /* inputmachine.cpp in Sources */,
 				6320F78019EA6ED800C701D4 /* main.cpp in Sources */,
+				6322C73D1A6B8C700002F962 /* primitives.cpp in Sources */,
 				6320F78E19EA6ED800C701D4 /* utils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -28,10 +28,60 @@
 #include "utils.hpp"
 
 #include "defaultshader.hpp"
-#include "onetrianglevbo.hpp"
+#include "trianglevbo.hpp"
+#include "quadvbo.hpp"
+#include "quadcollectionvbo.hpp"
 
 SDL_Window* window = NULL;
 static std::map<int, InputState::Key> keyMap;
+
+SDL_Surface* flipVert(SDL_Surface* sfc)
+{
+    SDL_Surface* result = SDL_CreateRGBSurface(sfc->flags, sfc->w, sfc->h,
+                                               sfc->format->BytesPerPixel * 8, sfc->format->Rmask, sfc->format->Gmask,
+                                               sfc->format->Bmask, sfc->format->Amask);
+    if (result == NULL) return NULL;
+    
+    Uint8* pixels = (Uint8*) sfc->pixels;
+    Uint8* rpixels = (Uint8*) result->pixels;
+    
+    Uint32 pitch = sfc->pitch;
+    Uint32 pxlength = pitch*sfc->h;
+    
+    for(int line = 0; line < sfc->h; ++line) {
+        Uint32 pos = line * pitch;
+        memcpy(&rpixels[pos], &pixels[(pxlength-pos)-pitch], pitch);
+    }
+    
+    return result;
+}
+
+void takeScreenShot(std::string filename)
+{
+    int windowWidth, windowHeight;
+    SDL_GetWindowSize(window, &windowWidth, &windowHeight);
+	SDL_Surface* surf = SDL_CreateRGBSurface(
+		SDL_SWSURFACE, 
+		windowWidth,
+		windowHeight,
+		24, 
+		0x000000FF, 
+		0x0000FF00, 
+		0x00FF0000, 
+		0);
+    
+	if (surf == NULL) return;
+
+	glReadPixels(0, 0, windowWidth, windowHeight, GL_RGB, GL_UNSIGNED_BYTE, surf->pixels);
+
+    SDL_Surface * flip = flipVert(surf);
+    if (flip == NULL) return;
+    SDL_FreeSurface(surf);
+    
+    SDL_SaveBMP(flip, filename.c_str());
+    
+    SDL_FreeSurface(flip);
+}
 
 void run(std::shared_ptr<SceneInterface> scene)
 {
@@ -66,12 +116,24 @@ void run(std::shared_ptr<SceneInterface> scene)
 
 void game()
 {
+    
     std::shared_ptr<ShaderInterface> shader(new DefaultShader());
+
+    //std::shared_ptr<VboInterface> vbo(new QuadVbo(100,100,200,300));
+    std::shared_ptr<QuadCollectionVbo> vbo(new QuadCollectionVbo());
+    vbo->Add(QuadVbo(100,100,100,100,0,32/1124.0f,32/256.0f,32/1124.0f));
+    vbo->Add(QuadVbo(210,100,100,100,0,64/1124.0f,32/256.0f,32/1124.0f));
+    vbo->Add(QuadVbo(320,100,100,100,0,96/1124.0f,32/256.0f,32/1124.0f));
+    vbo->Add(QuadVbo(430,100,100,100));
     
-    std::shared_ptr<VboInterface> vbo(new OneTriangleVbo());
+    std::shared_ptr<SDL_Surface> tex(IMG_Load("tiles/pokemontiles.png"), SDL_FreeSurface);
+
+    std::shared_ptr<VboScene> scene(new VboScene(shader, vbo, tex));
+    scene->SetMatrixTo2DView(960, 640);
     
-    std::shared_ptr<SceneInterface> scene(new VboScene(shader, vbo, nullptr));
+    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     
+    glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
     
     run(scene);
 }

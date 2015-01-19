@@ -1,16 +1,16 @@
-#ifndef ONETRIANGLEVBO_HPP
-#define ONETRIANGLEVBO_HPP
+#ifndef TRIANGLEVBO_HPP
+#define TRIANGLEVBO_HPP
 
 #include <vector>
 #include "primitives.hpp"
 #include "vbo_interface.hpp"
 
-class OneTriangleVbo : public VboInterface
+class TriangleVbo : public VboInterface
 {
     Triangle triangle;
     
 public:
-    OneTriangleVbo()
+    TriangleVbo()
     {
         triangle = {{
             {{-1, -1, 0}, {255,255,  0,255}, {0.0f,1.0f}, 0.0f, 1.0f},
@@ -45,4 +45,4 @@ public:
 
 };
 
-#endif // DISCRETETRIANGLEVBO_HPP
+#endif // TRIANGLEVBO_HPP

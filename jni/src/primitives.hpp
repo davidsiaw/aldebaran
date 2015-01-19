@@ -9,6 +9,8 @@
 #ifndef PRIMITIVES_HPP
 #define PRIMITIVES_HPP
 
+#include "opengl.hpp"
+
 #pragma pack(push,1)
 struct Vertex
 {
@@ -37,6 +39,11 @@ struct Element
 struct Triangle
 {
     Element e[3];
+};
+
+struct Quad
+{
+    Element e[4];
 };
 
 #pragma pack(pop)

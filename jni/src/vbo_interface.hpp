@@ -13,8 +13,8 @@ public:
     virtual Element* GetElements() const=0;
     virtual int GetElementCount() const=0;
     virtual GLenum GetBufferType() const=0;
-    virtual bool Changed() const=0;
-    virtual void ChangeCommitted()=0;
+    virtual bool Changed() const=0;             // tell the scene elements have changed
+    virtual void ChangeCommitted()=0;           // scene acknowledges that elements have changed
 };
 
 #endif // VBO_INTERFACE_HPPs

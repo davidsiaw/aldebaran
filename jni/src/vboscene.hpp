@@ -10,16 +10,20 @@
 #define VBOSCENE_HPP
 
 #include "vbo_interface.hpp"
+#include "printlog.hpp"
 
 class VboScene : public SceneInterface
 {
     std::shared_ptr<VboInterface> vbo;
     std::shared_ptr<ShaderInterface> shader;
-    std::shared_ptr<SDL_Texture> texture;
+    std::shared_ptr<SDL_Surface> texSurface;
+    std::shared_ptr<GLuint> texture;
     bool texturePresent;
     GLuint buffer;
     int tile;
     float transparency;
+
+    glm::mat4 matrix;
     
     void Upload()
     {
@@ -51,8 +55,12 @@ class VboScene : public SceneInterface
     }
     
 public:
-    VboScene(std::shared_ptr<ShaderInterface> shader, std::shared_ptr<VboInterface> vbo, std::shared_ptr<SDL_Texture> texture)
-    : vbo(vbo), shader(shader), texture(texture), texturePresent(texture.get() != nullptr), tile(0), transparency(1.0f)
+    VboScene(
+        std::shared_ptr<ShaderInterface> shader, 
+        std::shared_ptr<VboInterface> vbo, 
+        std::shared_ptr<SDL_Surface> texSurface
+        )
+    : vbo(vbo), shader(shader), texSurface(texSurface), texturePresent(texSurface.get() != nullptr), tile(0), transparency(1.0f)
     {
         int bufferSize = vbo->GetElementCount() * sizeof(Element);
         
@@ -71,10 +79,49 @@ public:
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glDeleteBuffers(1, &buffer);
     }
+
+    void SetMatrixToIdentity()
+    {
+        matrix = glm::mat4();
+    }
+
+    void SetMatrixTo2DView(int width, int height)
+    {
+        matrix = glm::ortho(0.0f, (float)width, (float)height, 0.0f);
+    }
+    
+    void SetMatrixTo2DRectangle(int x, int y, int width, int height)
+    {
+        matrix = glm::ortho(x, width + x, height + y, y);
+    }
     
     virtual void Init(SDL_Window* window)
     {
-        
+        if (texSurface && !texture)
+        {
+            GLuint textureIndex;
+            /* Create The Texture */
+            glGenTextures( 1, &textureIndex );
+            
+            /* Typical Texture Generation Using Data From The Bitmap */
+            glBindTexture( GL_TEXTURE_2D, textureIndex );
+            
+            /* Generate The Texture */
+            glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, texSurface->w,
+                         texSurface->h, 0, GL_RGBA,
+                         GL_UNSIGNED_BYTE, texSurface->pixels );
+            glGetError();
+            
+            /* Linear Filtering */
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+            
+            texture = std::shared_ptr<GLuint>(new GLuint(textureIndex));
+            if (texture)
+            {
+                texturePresent = true;
+            }
+        }
     }
     
     virtual void Update(const InputState& inputs, Uint32 timestamp)
@@ -92,13 +139,16 @@ public:
         
         if (shader->HasTexCoordAttribute())
         {
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glEnable(GL_BLEND);
             glActiveTexture(GL_TEXTURE0);
-            SDL_GL_BindTexture(texture.get(), nullptr, nullptr);
+            glBindTexture(GL_TEXTURE_2D, *texture);
         }
         
         glBindBuffer(GL_ARRAY_BUFFER, buffer);
         
-        shader->SetMatrix(glm::mat4());
+        shader->SetMatrix(matrix);
+        //shader->SetMatrix(glm::mat4());
         
         glEnableVertexAttribArray(shader->GetPositionAttribute());
         if (shader->HasTexCoordAttribute()) glEnableVertexAttribArray(shader->GetTexCoordAttribute());
@@ -128,6 +178,7 @@ public:
         if (shader->HasTexCoordAttribute())
         {
             glBindTexture(GL_TEXTURE_2D, 0);
+            glDisable(GL_BLEND);
         }
         
         int a = glGetError();
