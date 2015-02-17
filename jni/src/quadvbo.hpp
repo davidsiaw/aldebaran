@@ -10,13 +10,18 @@ class QuadVbo : public VboInterface
     Quad quad;
     
 public:
-    QuadVbo(float x, float y, float w, float h, float texX = 0.0f, float texY = 0.0f, float texW = 1.0f, float texH = 1.0f)
+    QuadVbo(float x, float y,
+            float w, float h,
+            float texX = 0.0f, float texY = 0.0f,
+            float texW = 1.0f, float texH = 1.0f,
+            float wholeTexW = 1.0f, float wholeTexH = 1.0f,
+            float offsetW = 0.0f, float offsetH = 0.0f, float numtiles = 1.0f)
     {
         quad = {{
-            {{x  , y  , 0}, {255,255,  0,255}, {texX     , texY     }, 0.0f, 1.0f},
-            {{x+w, y  , 0}, {  0,255,255,255}, {texX+texW, texY     }, 0.0f, 1.0f},
-            {{x  , y+h, 0}, {255,  0,255,255}, {texX     , texY+texH}, 0.0f, 1.0f},
-            {{x+w, y+h, 0}, {255,  0,  0,255}, {texX+texW, texY+texH}, 0.0f, 1.0f}
+            {{x  , y  , 0}, {255,255,  0,255}, {(texX     )/wholeTexW, (texY     )/wholeTexH}, offsetW/wholeTexW, offsetH/wholeTexH, numtiles},
+            {{x+w, y  , 0}, {  0,255,255,255}, {(texX+texW)/wholeTexW, (texY     )/wholeTexH}, offsetW/wholeTexW, offsetH/wholeTexH, numtiles},
+            {{x  , y+h, 0}, {255,  0,255,255}, {(texX     )/wholeTexW, (texY+texH)/wholeTexH}, offsetW/wholeTexW, offsetH/wholeTexH, numtiles},
+            {{x+w, y+h, 0}, {255,  0,  0,255}, {(texX+texW)/wholeTexW, (texY+texH)/wholeTexH}, offsetW/wholeTexW, offsetH/wholeTexH, numtiles}
         }};
     }
     

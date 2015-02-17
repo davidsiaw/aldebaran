@@ -15,7 +15,8 @@ class DefaultShader : public ShaderInterface
     GLint aPosition;
     GLint aTexCoord;
     GLint aColor;
-    GLint aTile;
+    GLint aTileOffsetW;
+    GLint aTileOffsetH;
     GLint aTileNum;
     
     GLint uHasTexture;
@@ -47,7 +48,8 @@ class DefaultShader : public ShaderInterface
             attribute vec3 aPosition;
             attribute vec2 aTexCoord;
             attribute vec4 aColor;
-            attribute float aTile;
+            attribute float aTileOffsetW;
+            attribute float aTileOffsetH;
             attribute float aTileNum;
             
             varying vec2 vTexCoord;
@@ -64,7 +66,8 @@ class DefaultShader : public ShaderInterface
                 // Pass the rest to fragment shader
                 vTexCoord = aTexCoord;
                 vColor = aColor;
-                vTexCoord.x += mod(uActiveTile, aTileNum) * aTile;
+                vTexCoord.x += mod(uActiveTile, aTileNum) * aTileOffsetW;
+                vTexCoord.y += mod(uActiveTile, aTileNum) * aTileOffsetH;
             }
         );
         
@@ -126,7 +129,8 @@ public:
         aPosition = glGetAttribLocation(shader, "aPosition");
         aTexCoord = glGetAttribLocation(shader, "aTexCoord");
         aColor = glGetAttribLocation(shader, "aColor");
-        aTile = glGetAttribLocation(shader, "aTile");
+        aTileOffsetW = glGetAttribLocation(shader, "aTileOffsetW");
+        aTileOffsetH = glGetAttribLocation(shader, "aTileOffsetH");
         aTileNum = glGetAttribLocation(shader, "aTileNum");
         
         uActiveTile = glGetUniformLocation(shader, "uActiveTile");
@@ -156,9 +160,14 @@ public:
         return aColor;
     }
     
-    virtual GLuint GetTileAttribute()
+    virtual GLuint GetTileOffsetWAttribute()
     {
-        return aTile;
+        return aTileOffsetW;
+    }
+
+    virtual GLuint GetTileOffsetHAttribute()
+    {
+        return aTileOffsetH;
     }
     
     virtual GLuint GetTilenumAttribute()
@@ -217,7 +226,6 @@ public:
         return true;
     }
 
-    
     virtual bool HasTransparencyUniform()
     {
         return true;

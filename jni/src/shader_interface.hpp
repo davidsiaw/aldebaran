@@ -10,7 +10,8 @@ public:
     
     virtual GLuint GetPositionAttribute()=0;
     virtual GLuint GetColorAttribute()=0;
-    virtual GLuint GetTileAttribute()=0;
+    virtual GLuint GetTileOffsetWAttribute()=0;
+    virtual GLuint GetTileOffsetHAttribute()=0;
     virtual GLuint GetTilenumAttribute()=0;
     virtual GLuint GetTexCoordAttribute()=0;
     

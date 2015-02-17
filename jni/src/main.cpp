@@ -149,9 +149,9 @@ void game()
 
     //std::shared_ptr<VboInterface> vbo(new QuadVbo(100,100,200,300));
     std::shared_ptr<QuadCollectionVbo> vbo(new QuadCollectionVbo());
-    vbo->Add(QuadVbo(0,0,64,64,0,32/1124.0f,32/256.0f,32/1124.0f));
-    vbo->Add(QuadVbo(210,100,100,100,0,64/1124.0f,32/256.0f,32/1124.0f));
-    vbo->Add(QuadVbo(320,100,100,100,0,96/1124.0f,32/256.0f,32/1124.0f));
+    vbo->Add(QuadVbo(  0,  0, 64, 64,  0, 32, 32, 32, 256, 1124, 4, 4, 32));
+    vbo->Add(QuadVbo(210,100,100,100,  0, 64, 32, 32, 256, 1124, 32, 32, 6));
+    vbo->Add(QuadVbo(320,100,100,100,  0, 96, 32, 32, 256, 1124));
     vbo->Add(QuadVbo(430,100,100,100));
     
     std::shared_ptr<SDL_Surface> tex(IMG_Load("tiles/pokemontiles.png"), SDL_FreeSurface);

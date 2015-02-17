@@ -32,7 +32,8 @@ struct Element
     Vertex v;
     Color c;
     TexCoord t;
-    float tileOffset;	// The width of each tile
+    float tileOffsetW;	// The x animation offset of each tile
+    float tileOffsetH;	// The y animation offset of each tile
     float numtiles;		// Number of tiles in texture
 };
 

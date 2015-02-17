@@ -21,6 +21,8 @@ class VboScene : public SceneInterface
     bool texturePresent;
     GLuint buffer;
     int tile;
+    Uint32 animationDelay;
+    Uint32 lastUpdate;
     float transparency;
 
     glm::mat4 matrix;
@@ -43,7 +45,8 @@ class VboScene : public SceneInterface
         
         if (shader->HasTileAttribute())
         {
-            glVertexAttribPointer(shader->GetTileAttribute(), 1, GL_FLOAT, GL_FALSE, sizeof(Element), OFFSET_OF(Element, tileOffset));
+            glVertexAttribPointer(shader->GetTileOffsetWAttribute(), 1, GL_FLOAT, GL_FALSE, sizeof(Element), OFFSET_OF(Element, tileOffsetW));
+            glVertexAttribPointer(shader->GetTileOffsetHAttribute(), 1, GL_FLOAT, GL_FALSE, sizeof(Element), OFFSET_OF(Element, tileOffsetH));
         }
         
         if (shader->HasTileNumAttribute())
@@ -58,9 +61,16 @@ public:
     VboScene(
         std::shared_ptr<ShaderInterface> shader, 
         std::shared_ptr<VboInterface> vbo, 
-        std::shared_ptr<SDL_Surface> texSurface
-        )
-    : vbo(vbo), shader(shader), texSurface(texSurface), texturePresent(texSurface.get() != nullptr), tile(0), transparency(1.0f)
+        std::shared_ptr<SDL_Surface> texSurface,
+        Uint32 animationDelay = 200)
+            : vbo(vbo),
+            shader(shader),
+            texSurface(texSurface),
+            texturePresent(texSurface.get() != nullptr),
+            tile(0),
+            animationDelay(animationDelay),
+            lastUpdate(0),
+            transparency(1.0f)
     {
         int bufferSize = vbo->GetElementCount() * sizeof(Element);
         
@@ -126,6 +136,12 @@ public:
     
     virtual void Update(const InputState& inputs, Uint32 timestamp)
     {
+        if (timestamp > lastUpdate + animationDelay)
+        {
+            lastUpdate = timestamp;
+            tile++;
+        }
+        
         if (vbo->Changed())
         {
             Upload();
@@ -148,12 +164,16 @@ public:
         glBindBuffer(GL_ARRAY_BUFFER, buffer);
         
         shader->SetMatrix(matrix);
-        //shader->SetMatrix(glm::mat4());
+        shader->SetActiveTileUniform(tile);
         
         glEnableVertexAttribArray(shader->GetPositionAttribute());
         if (shader->HasTexCoordAttribute()) glEnableVertexAttribArray(shader->GetTexCoordAttribute());
         if (shader->HasColorAttribute()) glEnableVertexAttribArray(shader->GetColorAttribute());
-        if (shader->HasTileAttribute()) glEnableVertexAttribArray(shader->GetTileAttribute());
+        if (shader->HasTileAttribute())
+        {
+            glEnableVertexAttribArray(shader->GetTileOffsetWAttribute());
+            glEnableVertexAttribArray(shader->GetTileOffsetHAttribute());
+        }
         if (shader->HasTileNumAttribute()) glEnableVertexAttribArray(shader->GetTilenumAttribute());
         
         if (shader->HasTransparencyUniform()) shader->SetTransparencyUniform(transparency);
@@ -170,7 +190,11 @@ public:
         glDisableVertexAttribArray(shader->GetPositionAttribute());
         if (shader->HasTexCoordAttribute()) glDisableVertexAttribArray(shader->GetTexCoordAttribute());
         if (shader->HasColorAttribute()) glDisableVertexAttribArray(shader->GetColorAttribute());
-        if (shader->HasTileAttribute()) glDisableVertexAttribArray(shader->GetTileAttribute());
+        if (shader->HasTileAttribute())
+        {
+            glDisableVertexAttribArray(shader->GetTileOffsetWAttribute());
+            glDisableVertexAttribArray(shader->GetTileOffsetHAttribute());
+        }
         if (shader->HasTileNumAttribute()) glDisableVertexAttribArray(shader->GetTilenumAttribute());
         
         glBindBuffer(GL_ARRAY_BUFFER, 0);
