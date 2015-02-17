@@ -83,6 +83,17 @@ void takeScreenShot(std::string filename)
     SDL_FreeSurface(flip);
 }
 
+int exists(const char *fname)
+{
+    FILE *file;
+    if ((file = fopen(fname, "r")))
+    {
+        fclose(file);
+        return 1;
+    }
+    return 0;
+}
+
 void run(std::shared_ptr<SceneInterface> scene)
 {
 	InputState inputState;
@@ -98,6 +109,23 @@ void run(std::shared_ptr<SceneInterface> scene)
 			{
 				break;
 			}
+            if (e.type == SDL_KEYDOWN)
+            {
+                if (e.key.keysym.sym == SDLK_1 && (e.key.keysym.mod & (KMOD_CTRL | KMOD_SHIFT)) != 0)
+                {
+                    int count = 0;
+                    std::string fname = "screenshot";
+                    do
+                    {
+                        std::stringstream ss;
+                        ss << "screenshot" << count << ".bmp";
+                        fname = ss.str();
+                        count++;
+                    }
+                    while (exists(fname.c_str()));
+                    takeScreenShot(fname);
+                }
+            }
 			CaptureInputState(keyMap, &inputState, &e);
 		}
 		
@@ -121,7 +149,7 @@ void game()
 
     //std::shared_ptr<VboInterface> vbo(new QuadVbo(100,100,200,300));
     std::shared_ptr<QuadCollectionVbo> vbo(new QuadCollectionVbo());
-    vbo->Add(QuadVbo(100,100,100,100,0,32/1124.0f,32/256.0f,32/1124.0f));
+    vbo->Add(QuadVbo(0,0,64,64,0,32/1124.0f,32/256.0f,32/1124.0f));
     vbo->Add(QuadVbo(210,100,100,100,0,64/1124.0f,32/256.0f,32/1124.0f));
     vbo->Add(QuadVbo(320,100,100,100,0,96/1124.0f,32/256.0f,32/1124.0f));
     vbo->Add(QuadVbo(430,100,100,100));
@@ -129,6 +157,7 @@ void game()
     std::shared_ptr<SDL_Surface> tex(IMG_Load("tiles/pokemontiles.png"), SDL_FreeSurface);
 
     std::shared_ptr<VboScene> scene(new VboScene(shader, vbo, tex));
+    
     scene->SetMatrixTo2DView(960, 640);
     
     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
