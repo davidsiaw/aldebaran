@@ -102,7 +102,7 @@ public:
     
     void SetMatrixTo2DRectangle(int x, int y, int width, int height)
     {
-        matrix = glm::ortho(x, width + x, height + y, y);
+        matrix = glm::ortho((float)x, (float)width + (float)x, (float)height + (float)y, (float)y);
     }
     
     virtual void Init(SDL_Window* window)

@@ -25,9 +25,9 @@ public:
     {
     }
     
-    virtual int Add(QuadVbo quad)
+    virtual size_t Add(QuadVbo quad)
     {
-        int quadId = elements.size();
+        size_t quadId = elements.size();
         
         if (elements.size() != 0)
         {
