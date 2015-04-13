@@ -24,10 +24,12 @@
 #include "emptyscene.hpp"
 #include "guiscene.hpp"
 #include "vboscene.hpp"
+#include "fpsscene.hpp"
 
 #include "utils.hpp"
 
 #include "defaultshader.hpp"
+#include "colorshader.hpp"
 #include "trianglevbo.hpp"
 #include "quadvbo.hpp"
 #include "quadcollectionvbo.hpp"
@@ -142,30 +144,253 @@ void run(std::shared_ptr<SceneInterface> scene)
 	}
 }
 
+struct TextureItem
+{
+    int x,y,w,h;
+    int animOffX, animOffY;
+    int animFrameCount;
+};
+
+class SuperTexture
+{
+    std::vector<TextureItem> items;
+    std::shared_ptr<SDL_Surface> texture;
+public:
+    SuperTexture()
+    {
+        
+    }
+};
+
+class CompositeScene : public ComposableSceneInterface
+{
+    class SceneEntry
+    {
+    public:
+        std::shared_ptr<ComposableSceneInterface> scene;
+        Uint16 x,y;
+        
+        SceneEntry(std::shared_ptr<ComposableSceneInterface> scene, Uint16 x, Uint16 y)
+        : scene(scene), x(x), y(y)
+        {}
+    };
+    
+    Uint16 x,y;
+    std::vector<SceneEntry> sceneEntries;
+    
+public:
+    
+    CompositeScene() : x(0), y(0)
+    {
+        
+    }
+    
+    virtual void AddScene(std::shared_ptr<ComposableSceneInterface> scene, Uint16 x, Uint16 y)
+    {
+        sceneEntries.push_back(SceneEntry(scene, x, y));
+    }
+    
+    virtual void Init(SDL_Window* window)
+    {
+        for (auto sceneEntry : sceneEntries)
+        {
+            sceneEntry.scene->Init(window);
+        }
+    }
+    
+    virtual void Update(const InputState& inputs, Uint32 timestamp)
+    {
+        for (auto sceneEntry : sceneEntries)
+        {
+            sceneEntry.scene->Update(inputs, timestamp);
+        }
+    }
+
+    virtual void Render()
+    {
+        for (auto sceneEntry : sceneEntries)
+        {
+            sceneEntry.scene->SetOrigin(x + sceneEntry.x, y + sceneEntry.y);
+            sceneEntry.scene->Render();
+        }
+    }
+
+    virtual bool Running() const
+    {
+        return true;
+    }
+    
+    virtual void SetOrigin(Uint16 x, Uint16 y)
+    {
+        this->x = x;
+        this->y = y;
+    }
+    
+    virtual Uint16 GetOriginX() const
+    {
+        return x;
+    }
+
+    virtual Uint16 GetOriginY() const
+    {
+        return y;
+    }
+
+};
+
+
+class ViewScene : public ComposableSceneInterface
+{
+    GLuint frameBuffer;
+    GLuint renderedTexture;
+    
+    std::shared_ptr<VboInterface> quad;
+    std::shared_ptr<ShaderInterface> shader;
+    std::shared_ptr<SDL_Surface> dummy;
+
+    std::shared_ptr<VboScene> vboScene;
+    
+    std::shared_ptr<ComposableSceneInterface> scene;
+    
+    Uint16 x,y,w,h;
+    
+public:
+    ViewScene(std::shared_ptr<ComposableSceneInterface> scene, Uint16 x, Uint16 y, Uint16 w, Uint16 h)
+    : scene(scene),
+    quad(new QuadVbo(x, y, w, h, 0, 0, w, -h, w, h, 0, 0, 1)),
+    shader(new ColorShader()),
+    dummy(MakeSurface(w,h)),
+    vboScene(new VboScene(shader, quad, dummy)),
+    x(x), y(y), w(w), h(h)
+    {
+        glGenFramebuffers(1, &frameBuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+        
+        glGenTextures(1, &renderedTexture);
+        glBindTexture(GL_TEXTURE_2D, renderedTexture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+        
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
+        
+        
+        GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+        if(status != GL_FRAMEBUFFER_COMPLETE)
+        {
+            printlog("problem");
+            exit(1);
+        }
+        
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        
+    }
+    
+    virtual ~ViewScene()
+    {
+        glDeleteFramebuffers(1, &frameBuffer);
+        glDeleteTextures(1, &renderedTexture);
+    }
+    
+    virtual void Init(SDL_Window* window)
+    {
+        scene->Init(window);
+    }
+    
+    virtual void Update(const InputState& inputs, Uint32 timestamp)
+    {
+        vboScene->SetMatrixTo2DRectangle(-x, -y, 960, 640);
+        scene->Update(inputs, timestamp);
+        vboScene->Update(inputs, timestamp);
+    }
+    
+    virtual void Render()
+    {
+        scene->SetOrigin(0, 0);
+        vboScene->_SetGLTexture(renderedTexture);
+        
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+        glViewport(0, 0, w, h);
+        scene->Render();
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glViewport(0, 0, 960, 640);
+        
+        //vboScene->UpdateTexture();
+        vboScene->Render();
+    }
+    
+    virtual bool Running() const
+    {
+        return true;
+    }
+    
+    virtual void SetOrigin(Uint16 x, Uint16 y)
+    {
+        this->x = x;
+        this->y = y;
+    }
+    
+    virtual Uint16 GetOriginX() const
+    {
+        return x;
+    }
+    
+    virtual Uint16 GetOriginY() const
+    {
+        return y;
+    }
+
+};
+
+
 void game()
 {
-    
     std::shared_ptr<ShaderInterface> shader(new DefaultShader());
 
     //std::shared_ptr<VboInterface> vbo(new QuadVbo(100,100,200,300));
+    
     std::shared_ptr<QuadCollectionVbo> vbo(new QuadCollectionVbo());
+    
     vbo->Add(QuadVbo(  0,  0, 64, 64,  0, 32, 32, 32, 256, 1124, 4, 4, 32));
-    vbo->Add(QuadVbo(200,100,100,100,  0, 64, 32, 32, 256, 1124, 32, 32, 6));
-    vbo->Add(QuadVbo(300,100,100,100,  0, 96, 32, 32, 256, 1124));
-    vbo->Add(QuadVbo(400,100,100,100));
+    for (int y=0;y<10;y++)
+    for (int x=0;x<10;x++)
+    {
+        vbo->Add(QuadVbo(x*48,y*48,48,48,  32*x, 32*y, 32, 32, 256, 1124, 0, 32, 6));
+    }
+    vbo->Add(QuadVbo(330, 100, 128, 128, 0, 96, 32, 32, 256, 1124));
+    //vbo->Add(QuadVbo(460, 100, 128, 128));
+    
     
     std::shared_ptr<SDL_Surface> tex(IMG_Load("tiles/pokemontiles.png"), SDL_FreeSurface);
 
     std::shared_ptr<VboScene> scene(new VboScene(shader, vbo, tex));
     
-    scene->SetMatrixTo2DView(960, 640);
-    scene->SetMatrixTo2DRectangle(50, 50, 960, 640);
+    //scene->SetMatrixTo2DView(960, 640);
+    scene->SetMatrixTo2DRectangle(0, 0, 960, 640);
     
     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
     
-    run(scene);
+    std::shared_ptr<CompositeScene> comp = std::make_shared<CompositeScene>();
+    
+    std::shared_ptr<FPSScene> txtscene(new FPSScene());
+    
+    
+    std::shared_ptr<ViewScene> view(new ViewScene(scene, 0, 0, 256, 256));
+    
+    comp->AddScene(scene, 300, 300);
+    //comp->AddScene(scene, 0, 0);
+    comp->AddScene(txtscene, 0, 0);
+    comp->AddScene(view, 25, 25);
+    
+    //run(view);
+    
+    run(comp);
+    
 }
 
 int main(int argc, char** argv)

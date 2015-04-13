@@ -45,6 +45,27 @@ public:
         return quadId;
     }
     
+    virtual void Modify(size_t index, QuadVbo quad)
+    {
+        if (index >= elements.size())
+        {
+            return;
+        }
+        
+        int elemIdx = 1;
+        if (index != 0)
+        {
+            elements[elemIdx++] = quad.GetElements()[0];
+        }
+        
+        for (int i=0; i<4; i++)
+        {
+            elements[elemIdx++] = quad.GetElements()[i];
+        }
+
+        changed = true;
+    }
+    
     virtual int Count() const
     {
         return (int)elements.size();

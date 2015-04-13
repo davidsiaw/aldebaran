@@ -80,3 +80,28 @@ void InitOpenGL()
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
 }
+
+std::shared_ptr<SDL_Surface> MakeSurface(Uint16 width, Uint16 height)
+{
+    
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    Uint32 rmask = 0xff000000;
+    Uint32 gmask = 0x00ff0000;
+    Uint32 bmask = 0x0000ff00;
+    Uint32 amask = 0x000000ff;
+#else
+    Uint32 rmask = 0x000000ff;
+    Uint32 gmask = 0x0000ff00;
+    Uint32 bmask = 0x00ff0000;
+    Uint32 amask = 0xff000000;
+#endif
+    
+    std::shared_ptr<SDL_Surface> surface(SDL_CreateRGBSurface(0, width, height, 32, rmask, gmask, bmask, amask), SDL_FreeSurface);
+    
+    return surface;
+}
+
+std::shared_ptr<TTF_Font> MakeFont(const char *file, int ptsize)
+{
+    return std::shared_ptr<TTF_Font> (TTF_OpenFont(file, ptsize), TTF_CloseFont);
+}

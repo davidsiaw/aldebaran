@@ -19,7 +19,7 @@ struct Vertex
 
 struct Color
 {
-    uint8_t r,g,b,a;
+    uint8_t a,r,g,b;
 };
 
 struct TexCoord

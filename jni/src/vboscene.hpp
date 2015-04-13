@@ -9,10 +9,11 @@
 #ifndef VBOSCENE_HPP
 #define VBOSCENE_HPP
 
+#include "composablescene_interface.hpp"
 #include "vbo_interface.hpp"
 #include "printlog.hpp"
 
-class VboScene : public SceneInterface
+class VboScene : public ComposableSceneInterface
 {
     std::shared_ptr<VboInterface> vbo;
     std::shared_ptr<ShaderInterface> shader;
@@ -27,10 +28,11 @@ class VboScene : public SceneInterface
 
     glm::mat4 matrix;
     
-    void Upload()
+    glm::mat4 translation;
+    Uint16 x, y;
+    
+    void EstablishElements()
     {
-        glBindBuffer(GL_ARRAY_BUFFER, buffer);
-        
         glVertexAttribPointer(shader->GetPositionAttribute(), 3, GL_FLOAT, GL_FALSE, sizeof(Element), OFFSET_OF(Element, v));
         
         if (shader->HasColorAttribute())
@@ -53,8 +55,27 @@ class VboScene : public SceneInterface
         {
             glVertexAttribPointer(shader->GetTilenumAttribute(), 1, GL_FLOAT, GL_FALSE, sizeof(Element), OFFSET_OF(Element, numtiles));
         }
+
+    }
+    
+    void Upload()
+    {
+        int bufferSize = vbo->GetElementCount() * sizeof(Element);
+        glBindBuffer(GL_ARRAY_BUFFER, buffer);
+        
+        glBufferData(GL_ARRAY_BUFFER, bufferSize, vbo->GetElements(), GL_STATIC_DRAW);
         
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
+    
+    virtual void DeleteTexture()
+    {
+        if (texture)
+        {
+            GLuint textureIndex = *texture;
+            glDeleteTextures(1, &textureIndex);
+            texture = NULL;
+        }
     }
     
 public:
@@ -70,20 +91,18 @@ public:
             tile(0),
             animationDelay(animationDelay),
             lastUpdate(0),
-            transparency(1.0f)
+            transparency(1.0f),
+            x(0),
+            y(0)
     {
-        int bufferSize = vbo->GetElementCount() * sizeof(Element);
-        
         glGenBuffers(1, &buffer);
-        glBindBuffer(GL_ARRAY_BUFFER, buffer);
-        glBufferData(GL_ARRAY_BUFFER, bufferSize, NULL, GL_STATIC_DRAW);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, bufferSize, vbo->GetElements());
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
         Upload();
+
     }
     
     virtual ~VboScene()
     {
+        DeleteTexture();
         glBindBuffer(GL_ARRAY_BUFFER, buffer);
         glBufferData(GL_ARRAY_BUFFER, 0, NULL, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -107,26 +126,52 @@ public:
     
     virtual void Init(SDL_Window* window)
     {
-        if (texSurface && !texture)
+        
+        UpdateTexture();
+    }
+    
+    virtual void _SetGLTexture(GLuint glTexture)
+    {
+        this->texture = std::shared_ptr<GLuint>(new GLuint(glTexture));
+    }
+
+    
+    virtual void SetTexture(std::shared_ptr<SDL_Surface> texSurface)
+    {
+        this->texSurface = texSurface;
+    }
+    
+    virtual void UpdateTexture()
+    {
+        if (texSurface)
         {
             GLuint textureIndex;
-            /* Create The Texture */
-            glGenTextures( 1, &textureIndex );
+            if (!texture)
+            {
+                /* Create The Texture */
+                glGenTextures( 1, &textureIndex );
+            }
+            else
+            {
+                textureIndex = *texture;
+            }
             
             /* Typical Texture Generation Using Data From The Bitmap */
             glBindTexture( GL_TEXTURE_2D, textureIndex );
             
             /* Generate The Texture */
-            glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, texSurface->w,
-                         texSurface->h, 0, GL_RGBA,
-                         GL_UNSIGNED_BYTE, texSurface->pixels );
+            glTexImage2D( GL_TEXTURE_2D, 0, 4, texSurface->w, texSurface->h, 0, GL_BGRA, GL_UNSIGNED_BYTE, texSurface->pixels );
             glGetError();
             
             /* Linear Filtering */
             glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
             glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
             
-            texture = std::shared_ptr<GLuint>(new GLuint(textureIndex));
+            if (!texture)
+            {
+                texture = std::shared_ptr<GLuint>(new GLuint(textureIndex));
+            }
+            
             if (texture)
             {
                 texturePresent = true;
@@ -162,8 +207,9 @@ public:
         }
         
         glBindBuffer(GL_ARRAY_BUFFER, buffer);
+        EstablishElements();
         
-        shader->SetMatrix(matrix);
+        shader->SetMatrix(matrix * translation);
         shader->SetActiveTileUniform(tile);
         
         glEnableVertexAttribArray(shader->GetPositionAttribute());
@@ -205,6 +251,7 @@ public:
             glDisable(GL_BLEND);
         }
         
+        
         int a = glGetError();
         if (a != GL_NO_ERROR)
         {
@@ -218,6 +265,22 @@ public:
         return true;
     }
     
+    virtual void SetOrigin(Uint16 x, Uint16 y)
+    {
+        translation = glm::translate(glm::mat4(), glm::vec3((float)x, (float)y, 0.f));
+        this->x = x;
+        this->y = y;
+    }
+    
+    virtual Uint16 GetOriginX() const
+    {
+        return x;
+    }
+    
+    virtual Uint16 GetOriginY() const
+    {
+        return y;
+    }
 };
 
 

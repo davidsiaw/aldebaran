@@ -6,14 +6,24 @@
 
 class SceneInterface
 {
+    bool initialized;
+    
 public:
-	SceneInterface() {}
-	virtual ~SceneInterface() {}
+    SceneInterface() : initialized(false) {}
+    virtual ~SceneInterface() {}
 	
 	virtual void Init(SDL_Window* window) = 0;
 	virtual void Update(const InputState& inputs, Uint32 timestamp) = 0;
 	virtual void Render() = 0;
 	virtual bool Running() const = 0;
+    
+    void FirstInitialize(SDL_Window* window)
+    {
+        if (!initialized)
+        {
+            Init(window);
+        }
+    }
 };
 
 #endif // SCENE_INTERFACE_HPP

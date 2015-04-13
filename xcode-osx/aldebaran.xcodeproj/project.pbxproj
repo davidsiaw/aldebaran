@@ -232,6 +232,11 @@
 		6322C73A1A6B5BC10002F962 /* trianglevbo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = trianglevbo.hpp; path = ../../jni/src/trianglevbo.hpp; sourceTree = "<group>"; };
 		6322C73B1A6B8B010002F962 /* quadcollectionvbo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = quadcollectionvbo.hpp; path = ../../jni/src/quadcollectionvbo.hpp; sourceTree = "<group>"; };
 		6322C73C1A6B8C700002F962 /* primitives.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = primitives.cpp; path = ../../jni/src/primitives.cpp; sourceTree = "<group>"; };
+		632D21871ADA53D600259188 /* blurshader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = blurshader.hpp; path = ../../jni/src/blurshader.hpp; sourceTree = "<group>"; };
+		63A687271A9DC8750066A782 /* fpsscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = fpsscene.hpp; path = ../../jni/src/fpsscene.hpp; sourceTree = "<group>"; };
+		63A6873A1A9EBC760066A782 /* composablescene_interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = composablescene_interface.hpp; path = ../../jni/src/composablescene_interface.hpp; sourceTree = "<group>"; };
+		63A6873B1A9F0D370066A782 /* viewscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = viewscene.hpp; path = ../../jni/src/viewscene.hpp; sourceTree = "<group>"; };
+		63A6873C1AA946550066A782 /* colorshader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = colorshader.hpp; path = ../../jni/src/colorshader.hpp; sourceTree = "<group>"; };
 		63BC197519FBD02A00AEB697 /* rectanglesvbo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = rectanglesvbo.hpp; path = ../../jni/src/rectanglesvbo.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -271,12 +276,14 @@
 				6322C73A1A6B5BC10002F962 /* trianglevbo.hpp */,
 				630F9C5C19F3BC2B00DBF8C1 /* shader_interface.hpp */,
 				630F9C5B19F3BC1D00DBF8C1 /* opengl.hpp */,
+				632D21871ADA53D600259188 /* blurshader.hpp */,
 				630F9C5E19F3C24E00DBF8C1 /* primitives.hpp */,
 				630F9C6019F3E73A00DBF8C1 /* vbo_interface.hpp */,
 				630F9C6219F4A08200DBF8C1 /* defaultshader.hpp */,
 				63BC197519FBD02A00AEB697 /* rectanglesvbo.hpp */,
 				6322C73B1A6B8B010002F962 /* quadcollectionvbo.hpp */,
 				6322C73C1A6B8C700002F962 /* primitives.cpp */,
+				63A6873C1AA946550066A782 /* colorshader.hpp */,
 			);
 			name = opengl;
 			sourceTree = "<group>";
@@ -287,6 +294,9 @@
 				6320001119EF42FF00C701D4 /* emptyscene.hpp */,
 				630F9C5719F11DEE00DBF8C1 /* guiscene.hpp */,
 				630F9C6119F3FBF000DBF8C1 /* vboscene.hpp */,
+				63A687271A9DC8750066A782 /* fpsscene.hpp */,
+				63A6873A1A9EBC760066A782 /* composablescene_interface.hpp */,
+				63A6873B1A9F0D370066A782 /* viewscene.hpp */,
 			);
 			name = scenes;
 			sourceTree = "<group>";
