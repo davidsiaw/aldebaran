@@ -379,7 +379,6 @@ void game()
     
     std::shared_ptr<FPSScene> txtscene(new FPSScene());
     
-    
     std::shared_ptr<ViewScene> view(new ViewScene(scene, 0, 0, 256, 256));
     
     comp->AddScene(scene, 300, 300);
