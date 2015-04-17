@@ -180,7 +180,6 @@ void game(std::shared_ptr<GameContext> context)
     vbo->Add(QuadVbo(330, 100, 128, 128, 0, 96, 32, 32, 256, 1124));
     //vbo->Add(QuadVbo(460, 100, 128, 128));
     
-    
     std::shared_ptr<SDL_Surface> tex(IMG_Load("tiles/pokemontiles.png"), SDL_FreeSurface);
 
     std::shared_ptr<VboScene> scene(new VboScene(shader, vbo, tex));
@@ -196,9 +195,12 @@ void game(std::shared_ptr<GameContext> context)
     
     std::shared_ptr<FPSScene> txtscene(new FPSScene());
     
+    //std::shared_ptr<VboScene> scene2(new VboScene(shader, vbo, tex));
+    //scene2->SetMatrixTo2DRectangle(0, 0, 256, 256);
+    
     std::shared_ptr<ViewScene> view(new ViewScene(scene, 0, 0, 256, 256));
     
-    view->SetBackgroundColor(1.0, 0.0, 0.0, 1.0);
+    view->SetBackgroundColor(1.0, 1.0, 0.0, 1.0);
     
     comp->AddScene(scene, 300, 300);
     //comp->AddScene(scene, 0, 0);

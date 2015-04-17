@@ -126,6 +126,9 @@ public:
         scene->SetOrigin(0, 0);
         vboScene->_SetGLTexture(renderedTexture);
         
+        int viewport[4];
+        glGetIntegerv(GL_VIEWPORT, viewport);
+        
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
         
         glClearColor ( background.R(), background.B(), background.G(), background.A() );
@@ -135,7 +138,7 @@ public:
         scene->Render(renderContext);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         
-        glViewport(0, 0, renderContext->GetScreenWidth(), renderContext->GetScreenHeight());
+        glViewport(viewport[0], viewport[1], viewport[2], viewport[3]);
         
         //vboScene->UpdateTexture();
         vboScene->Render(renderContext);
