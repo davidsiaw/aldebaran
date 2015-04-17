@@ -7,7 +7,7 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>65A94AA6-92F0-4075-9192-90E2D714FEBC</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>aldebaran</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>06F3BCE3CCF197D74B18860258950293556B4674</key>
@@ -30,7 +30,7 @@
 		<string>github.com:davidsiaw/freetype</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>xcode-osx/aldebaran.xcodeproj/project.xcworkspace</string>
+	<string>xcode-osx/aldebaran.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>06F3BCE3CCF197D74B18860258950293556B4674</key>
