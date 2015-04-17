@@ -33,9 +33,9 @@
 #include "trianglevbo.hpp"
 #include "quadvbo.hpp"
 #include "quadcollectionvbo.hpp"
-
-SDL_Window* window = NULL;
-static std::map<int, InputState::Key> keyMap;
+#include "viewscene.hpp"
+#include "compositescene.hpp"
+#include "gamecontext.hpp"
 
 SDL_Surface* flipVert(SDL_Surface* sfc)
 {
@@ -58,7 +58,7 @@ SDL_Surface* flipVert(SDL_Surface* sfc)
     return result;
 }
 
-void takeScreenShot(std::string filename)
+void takeScreenShot(std::string filename, SDL_Window* window)
 {
     int windowWidth, windowHeight;
     SDL_GetWindowSize(window, &windowWidth, &windowHeight);
@@ -96,11 +96,11 @@ int exists(const char *fname)
     return 0;
 }
 
-void run(std::shared_ptr<SceneInterface> scene)
+void run(std::shared_ptr<SceneInterface> scene, std::shared_ptr<GameContext> context)
 {
 	InputState inputState;
 	Uint32 time = SDL_GetTicks();
-	scene->Init(window);
+	scene->Init(context->GetWindow());
 	
 	while (scene->Running())
 	{
@@ -125,10 +125,10 @@ void run(std::shared_ptr<SceneInterface> scene)
                         count++;
                     }
                     while (exists(fname.c_str()));
-                    takeScreenShot(fname);
+                    takeScreenShot(fname, context->GetWindow());
                 }
             }
-			CaptureInputState(keyMap, &inputState, &e);
+			CaptureInputState(context->GetKeyMap(), &inputState, &e);
 		}
 		
 		Uint32 now = SDL_GetTicks();
@@ -137,8 +137,8 @@ void run(std::shared_ptr<SceneInterface> scene)
         {
             glClearColor ( 1.0, 1.0, 1.0, 1.0 );
             glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-            scene->Render();
-            SDL_GL_SwapWindow(window);
+            scene->Render(context);
+            SDL_GL_SwapWindow(context->GetWindow());
 			time = SDL_GetTicks();
 		}
 	}
@@ -162,191 +162,11 @@ public:
     }
 };
 
-class CompositeScene : public ComposableSceneInterface
-{
-    class SceneEntry
-    {
-    public:
-        std::shared_ptr<ComposableSceneInterface> scene;
-        Uint16 x,y;
-        
-        SceneEntry(std::shared_ptr<ComposableSceneInterface> scene, Uint16 x, Uint16 y)
-        : scene(scene), x(x), y(y)
-        {}
-    };
-    
-    Uint16 x,y;
-    std::vector<SceneEntry> sceneEntries;
-    
-public:
-    
-    CompositeScene() : x(0), y(0)
-    {
-        
-    }
-    
-    virtual void AddScene(std::shared_ptr<ComposableSceneInterface> scene, Uint16 x, Uint16 y)
-    {
-        sceneEntries.push_back(SceneEntry(scene, x, y));
-    }
-    
-    virtual void Init(SDL_Window* window)
-    {
-        for (auto sceneEntry : sceneEntries)
-        {
-            sceneEntry.scene->Init(window);
-        }
-    }
-    
-    virtual void Update(const InputState& inputs, Uint32 timestamp)
-    {
-        for (auto sceneEntry : sceneEntries)
-        {
-            sceneEntry.scene->Update(inputs, timestamp);
-        }
-    }
-
-    virtual void Render()
-    {
-        for (auto sceneEntry : sceneEntries)
-        {
-            sceneEntry.scene->SetOrigin(x + sceneEntry.x, y + sceneEntry.y);
-            sceneEntry.scene->Render();
-        }
-    }
-
-    virtual bool Running() const
-    {
-        return true;
-    }
-    
-    virtual void SetOrigin(Uint16 x, Uint16 y)
-    {
-        this->x = x;
-        this->y = y;
-    }
-    
-    virtual Uint16 GetOriginX() const
-    {
-        return x;
-    }
-
-    virtual Uint16 GetOriginY() const
-    {
-        return y;
-    }
-
-};
 
 
-class ViewScene : public ComposableSceneInterface
-{
-    GLuint frameBuffer;
-    GLuint renderedTexture;
-    
-    std::shared_ptr<VboInterface> quad;
-    std::shared_ptr<ShaderInterface> shader;
-    std::shared_ptr<SDL_Surface> dummy;
-
-    std::shared_ptr<VboScene> vboScene;
-    
-    std::shared_ptr<ComposableSceneInterface> scene;
-    
-    Uint16 x,y,w,h;
-    
-public:
-    ViewScene(std::shared_ptr<ComposableSceneInterface> scene, Uint16 x, Uint16 y, Uint16 w, Uint16 h)
-    : scene(scene),
-    quad(new QuadVbo(x, y, w, h, 0, 0, w, -h, w, h, 0, 0, 1)),
-    shader(new ColorShader()),
-    dummy(MakeSurface(w,h)),
-    vboScene(new VboScene(shader, quad, dummy)),
-    x(x), y(y), w(w), h(h)
-    {
-        glGenFramebuffers(1, &frameBuffer);
-        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-        
-        glGenTextures(1, &renderedTexture);
-        glBindTexture(GL_TEXTURE_2D, renderedTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-        
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
-        
-        
-        GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-        if(status != GL_FRAMEBUFFER_COMPLETE)
-        {
-            printlog("problem");
-            exit(1);
-        }
-        
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glBindRenderbuffer(GL_RENDERBUFFER, 0);
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        
-    }
-    
-    virtual ~ViewScene()
-    {
-        glDeleteFramebuffers(1, &frameBuffer);
-        glDeleteTextures(1, &renderedTexture);
-    }
-    
-    virtual void Init(SDL_Window* window)
-    {
-        scene->Init(window);
-    }
-    
-    virtual void Update(const InputState& inputs, Uint32 timestamp)
-    {
-        vboScene->SetMatrixTo2DRectangle(-x, -y, 960, 640);
-        scene->Update(inputs, timestamp);
-        vboScene->Update(inputs, timestamp);
-    }
-    
-    virtual void Render()
-    {
-        scene->SetOrigin(0, 0);
-        vboScene->_SetGLTexture(renderedTexture);
-        
-        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-        glViewport(0, 0, w, h);
-        scene->Render();
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glViewport(0, 0, 960, 640);
-        
-        //vboScene->UpdateTexture();
-        vboScene->Render();
-    }
-    
-    virtual bool Running() const
-    {
-        return true;
-    }
-    
-    virtual void SetOrigin(Uint16 x, Uint16 y)
-    {
-        this->x = x;
-        this->y = y;
-    }
-    
-    virtual Uint16 GetOriginX() const
-    {
-        return x;
-    }
-    
-    virtual Uint16 GetOriginY() const
-    {
-        return y;
-    }
-
-};
 
 
-void game()
+void game(std::shared_ptr<GameContext> context)
 {
     std::shared_ptr<ShaderInterface> shader(new DefaultShader());
 
@@ -369,7 +189,7 @@ void game()
     std::shared_ptr<VboScene> scene(new VboScene(shader, vbo, tex));
     
     //scene->SetMatrixTo2DView(960, 640);
-    scene->SetMatrixTo2DRectangle(0, 0, 960, 640);
+    scene->SetMatrixTo2DRectangle(0, 0, context->GetScreenWidth(), context->GetScreenHeight());
     
     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     
@@ -388,12 +208,14 @@ void game()
     
     //run(view);
     
-    run(comp);
+    run(comp, context);
     
 }
 
 int main(int argc, char** argv)
 {
+    std::map<int, InputState::Key> keyMap;
+
 	keyMap[SDLK_UP] = InputState::UP;
 	keyMap[SDLK_DOWN] = InputState::DOWN;
 	keyMap[SDLK_LEFT] = InputState::LEFT;
@@ -417,6 +239,7 @@ int main(int argc, char** argv)
 	// FLAC is better too because of its higher quality.
 	Mix_Init(MIX_INIT_FLAC|MIX_INIT_MOD|MIX_INIT_OGG);
     
+
 	int WIDTH = 960, HEIGHT = 640;
     
     if (argc == 2)
@@ -441,7 +264,7 @@ int main(int argc, char** argv)
 	printlog("Window size: %d x %d!\n", WIDTH, HEIGHT);
     
 	// Create an application window with the following settings:
-	window = SDL_CreateWindow(
+	SDL_Window* window = SDL_CreateWindow(
                               "Aldebaran",
                               SDL_WINDOWPOS_UNDEFINED,
                               SDL_WINDOWPOS_UNDEFINED,
@@ -478,7 +301,9 @@ int main(int argc, char** argv)
         
         glViewport(0, 0, WIDTH, HEIGHT);
         
-		game();
+        std::shared_ptr<GameContext> gameContext = std::make_shared<GameContext>(window, keyMap, WIDTH, HEIGHT);
+        
+		game(gameContext);
         
 		SDL_GL_DeleteContext(context);
 	}

@@ -31,7 +31,6 @@ public:
     
     virtual void Init(SDL_Window* window)
     {
-        scene->SetMatrixTo2DView(960, 640);
         vbo->Add(QuadVbo(  0,  0, 256, 256,  0, 0, 256, 256, 256, 256, 0, 0, 1));
         scene->Init(window);
     }
@@ -42,8 +41,9 @@ public:
         scene->Update(inputs, timestamp);
     }
     
-    virtual void Render()
+    virtual void Render(std::shared_ptr<RenderContextInterface> renderContext)
     {
+        scene->SetMatrixTo2DView(renderContext->GetScreenWidth(), renderContext->GetScreenHeight());
         SDL_Color clear;
         clear.a = 0x00;
         clear.r = 0x00;
@@ -71,7 +71,7 @@ public:
         
         scene->UpdateTexture();
         
-        scene->Render();
+        scene->Render(renderContext);
     }
     
     virtual bool Running() const

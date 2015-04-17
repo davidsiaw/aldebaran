@@ -194,7 +194,7 @@ public:
         }
     }
     
-    virtual void Render()
+    virtual void Render(std::shared_ptr<RenderContextInterface> renderContext)
     {
         glUseProgram(shader->GetProgram());
         
