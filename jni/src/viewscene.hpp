@@ -12,6 +12,34 @@
 #include "scene_interface.hpp"
 #include "composablescene_interface.hpp"
 
+class FloatColor
+{
+    float r,g,b,a;
+
+public:
+    FloatColor(float r, float b, float g, float a) : r(r), b(b), g(g), a(a) {}
+    
+    float R() const
+    {
+        return r;
+    }
+    
+    float B() const
+    {
+        return b;
+    }
+    
+    float G() const
+    {
+        return g;
+    }
+    
+    float A() const
+    {
+        return a;
+    }
+};
+
 class ViewScene : public ComposableSceneInterface
 {
     GLuint frameBuffer;
@@ -27,6 +55,8 @@ class ViewScene : public ComposableSceneInterface
     
     Uint16 x,y,w,h;
     
+    FloatColor background;
+    
 public:
     ViewScene(std::shared_ptr<ComposableSceneInterface> scene, Uint16 x, Uint16 y, Uint16 w, Uint16 h)
     : scene(scene),
@@ -34,7 +64,8 @@ public:
     shader(new ColorShader()),
     dummy(MakeSurface(w,h)),
     vboScene(new VboScene(shader, quad, dummy)),
-    x(x), y(y), w(w), h(h)
+    x(x), y(y), w(w), h(h),
+    background(0.0, 0.0, 0.0, 0.0)
     {
         glGenFramebuffers(1, &frameBuffer);
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
@@ -68,6 +99,16 @@ public:
         glDeleteTextures(1, &renderedTexture);
     }
     
+    virtual void SetBackgroundColor(float r, float g, float b, float a)
+    {
+        background = FloatColor(r, g, b, a);
+    }
+    
+    virtual FloatColor GetBackgroundColor() const
+    {
+        return background;
+    }
+    
     virtual void Init(SDL_Window* window)
     {
         scene->Init(window);
@@ -86,9 +127,14 @@ public:
         vboScene->_SetGLTexture(renderedTexture);
         
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+        
+        glClearColor ( background.R(), background.B(), background.G(), background.A() );
+        glClear ( GL_COLOR_BUFFER_BIT );
+
         glViewport(0, 0, w, h);
         scene->Render(renderContext);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        
         glViewport(0, 0, renderContext->GetScreenWidth(), renderContext->GetScreenHeight());
         
         //vboScene->UpdateTexture();

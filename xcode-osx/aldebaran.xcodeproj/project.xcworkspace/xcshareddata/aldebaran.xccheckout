@@ -27,7 +27,7 @@
 		<key>DA28DC9953B3CB1A2A9F111B4C2224429793C38B</key>
 		<string>https://github.com/davidsiaw/SDL2_image.git</string>
 		<key>F5CE3198ACC453BE8547998B53D3B34339277232</key>
-		<string>github.com:davidsiaw/freetype</string>
+		<string>https://github.com/davidsiaw/freetype</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>xcode-osx/aldebaran.xcodeproj</string>

@@ -163,9 +163,6 @@ public:
 };
 
 
-
-
-
 void game(std::shared_ptr<GameContext> context)
 {
     std::shared_ptr<ShaderInterface> shader(new DefaultShader());
@@ -200,6 +197,8 @@ void game(std::shared_ptr<GameContext> context)
     std::shared_ptr<FPSScene> txtscene(new FPSScene());
     
     std::shared_ptr<ViewScene> view(new ViewScene(scene, 0, 0, 256, 256));
+    
+    view->SetBackgroundColor(1.0, 0.0, 0.0, 1.0);
     
     comp->AddScene(scene, 300, 300);
     //comp->AddScene(scene, 0, 0);
