@@ -144,27 +144,70 @@ void run(std::shared_ptr<SceneInterface> scene, std::shared_ptr<GameContext> con
 	}
 }
 
-struct TextureItem
+template<typename T>
+class TwoDArray
 {
-    int x,y,w,h;
-    int animOffX, animOffY;
-    int animFrameCount;
-};
-
-class SuperTexture
-{
-    std::vector<TextureItem> items;
-    std::shared_ptr<SDL_Surface> texture;
+    std::vector<T> array;
+    unsigned w,h;
 public:
-    SuperTexture()
+    
+    TwoDArray(unsigned w, unsigned h) : array(w*h), w(w), h(h)
+    {
+    }
+    
+    ~TwoDArray()
     {
         
     }
+    
+    T Get(int x, int y) const
+    {
+        return array[x + y * w];
+    }
+    
+    void Set(int x, int y, T value)
+    {
+        array[x + y * w] = value;
+    }
+    
+    unsigned GetWidth() const
+    {
+        return w;
+    }
+    
+    unsigned GetHeight() const
+    {
+        return h;
+    }
+    
+    T& operator() (int x, int y)
+    {
+        return array[x + y * w];
+    }
 };
 
+class MapScene : public SceneInterface
+{
+public:
+    MapScene()
+    {
+        
+    }
+    
+    
+    
+    
+};
 
 void game(std::shared_ptr<GameContext> context)
 {
+    
+    TwoDArray<int> td(10,20);
+    
+    td(2,5) = 100;
+    
+    printlog("%d\n", td(2,5));
+    
     std::shared_ptr<ShaderInterface> shader(new DefaultShader());
 
     //std::shared_ptr<VboInterface> vbo(new QuadVbo(100,100,200,300));

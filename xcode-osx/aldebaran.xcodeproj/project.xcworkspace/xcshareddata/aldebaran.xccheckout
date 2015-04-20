@@ -34,23 +34,23 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>06F3BCE3CCF197D74B18860258950293556B4674</key>
-		<string>../../..jni/SDL/</string>
+		<string>../../..jni/SDL</string>
 		<key>84CEC526E07629233ED444C3D347B2FFEF7F1D99</key>
-		<string>../../..jni/SDL_mixer/</string>
+		<string>../../..jni/SDL_mixer</string>
 		<key>870CF087C293B3F61DE3A0EA06DDEAD66658DCB6</key>
-		<string>../../..jni/box2d/</string>
+		<string>../../..jni/box2d</string>
 		<key>A35AAAA0A3157CE3DA63075B9ECD7CCBB3A85A1B</key>
-		<string>../../..jni/SDL_ttf/</string>
+		<string>../../..jni/SDL_ttf</string>
 		<key>A397E4048DD78320D9175219A0EF7B720963C40E</key>
-		<string>../../..jni/luacppinterface/lua/</string>
+		<string>../../..jni/luacppinterface/lua</string>
 		<key>BCDF42A05B073334B50B98A765343B7745C6543A</key>
-		<string>../../..jni/luacppinterface/</string>
+		<string>../../..jni/luacppinterface</string>
 		<key>CF97FCAA6AD9AF92F92FEC8D338EB664E570BFDF</key>
 		<string>../../..</string>
 		<key>DA28DC9953B3CB1A2A9F111B4C2224429793C38B</key>
-		<string>../../..jni/SDL_image/</string>
+		<string>../../..jni/SDL_image</string>
 		<key>F5CE3198ACC453BE8547998B53D3B34339277232</key>
-		<string>../../..jni/SDL_ttf/external/freetype/</string>
+		<string>../../..jni/SDL_ttf/external/freetype</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>github.com:davidsiaw/aldebaran</string>
