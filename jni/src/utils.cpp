@@ -2,6 +2,8 @@
 
 #include <set>
 #include <SDL.h>
+#include <SDL_image.h>
+#include "printlog.hpp"
 #include "opengl.hpp"
 
 std::string LoadAllText(std::string file)
@@ -104,4 +106,14 @@ std::shared_ptr<SDL_Surface> MakeSurface(Uint16 width, Uint16 height)
 std::shared_ptr<TTF_Font> MakeFont(const char *file, int ptsize)
 {
     return std::shared_ptr<TTF_Font> (TTF_OpenFont(file, ptsize), TTF_CloseFont);
+}
+
+std::shared_ptr<SDL_Surface> LoadImage(std::string filename)
+{
+    std::shared_ptr<SDL_Surface> tex(IMG_Load(filename.c_str()), SDL_FreeSurface);
+    if (!tex)
+    {
+        printlog("%s failed to load: %s \n", filename.c_str(), IMG_GetError());
+    }
+    return tex;
 }

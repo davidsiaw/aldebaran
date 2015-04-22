@@ -144,69 +144,9 @@ void run(std::shared_ptr<SceneInterface> scene, std::shared_ptr<GameContext> con
 	}
 }
 
-template<typename T>
-class TwoDArray
-{
-    std::vector<T> array;
-    unsigned w,h;
-public:
-    
-    TwoDArray(unsigned w, unsigned h) : array(w*h), w(w), h(h)
-    {
-    }
-    
-    ~TwoDArray()
-    {
-        
-    }
-    
-    T Get(int x, int y) const
-    {
-        return array[x + y * w];
-    }
-    
-    void Set(int x, int y, T value)
-    {
-        array[x + y * w] = value;
-    }
-    
-    unsigned GetWidth() const
-    {
-        return w;
-    }
-    
-    unsigned GetHeight() const
-    {
-        return h;
-    }
-    
-    T& operator() (int x, int y)
-    {
-        return array[x + y * w];
-    }
-};
-
-class MapScene : public SceneInterface
-{
-public:
-    MapScene()
-    {
-        
-    }
-    
-    
-    
-    
-};
 
 void game(std::shared_ptr<GameContext> context)
 {
-    
-    TwoDArray<int> td(10,20);
-    
-    td(2,5) = 100;
-    
-    printlog("%d\n", td(2,5));
     
     std::shared_ptr<ShaderInterface> shader(new DefaultShader());
 
@@ -223,16 +163,16 @@ void game(std::shared_ptr<GameContext> context)
     vbo->Add(QuadVbo(330, 100, 128, 128, 0, 96, 32, 32, 256, 1124));
     //vbo->Add(QuadVbo(460, 100, 128, 128));
     
-    std::shared_ptr<SDL_Surface> tex(IMG_Load("tiles/pokemontiles.png"), SDL_FreeSurface);
+    std::shared_ptr<SDL_Surface> tex = LoadImage("tiles/pokemontiles.png");
 
     std::shared_ptr<VboScene> scene(new VboScene(shader, vbo, tex));
     
     //scene->SetMatrixTo2DView(960, 640);
     scene->SetMatrixTo2DRectangle(0, 0, context->GetScreenWidth(), context->GetScreenHeight());
     
-    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    //glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     
-    glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+    //glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
     
     std::shared_ptr<CompositeScene> comp = std::make_shared<CompositeScene>();
     

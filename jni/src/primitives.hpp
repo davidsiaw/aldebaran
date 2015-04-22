@@ -14,7 +14,7 @@
 #pragma pack(push,1)
 struct Vertex
 {
-    GLfloat x,y,z;
+    float x,y,z;
 };
 
 struct Color
@@ -24,7 +24,7 @@ struct Color
 
 struct TexCoord
 {
-    GLfloat x,y;
+    float x,y;
 };
 
 struct Element
