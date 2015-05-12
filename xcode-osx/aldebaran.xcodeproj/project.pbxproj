@@ -236,6 +236,7 @@
 		6322C73B1A6B8B010002F962 /* quadcollectionvbo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = quadcollectionvbo.hpp; path = ../jni/src/quadcollectionvbo.hpp; sourceTree = SOURCE_ROOT; };
 		6322C73C1A6B8C700002F962 /* primitives.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = primitives.cpp; path = ../jni/src/primitives.cpp; sourceTree = SOURCE_ROOT; };
 		632D21871ADA53D600259188 /* blurshader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = blurshader.hpp; path = ../jni/src/blurshader.hpp; sourceTree = SOURCE_ROOT; };
+		6368C97C1B025E37001B8787 /* twodarray.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = twodarray.hpp; path = ../jni/src/twodarray.hpp; sourceTree = SOURCE_ROOT; };
 		63A687271A9DC8750066A782 /* fpsscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = fpsscene.hpp; path = ../jni/src/fpsscene.hpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		63A6873A1A9EBC760066A782 /* composablescene_interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = composablescene_interface.hpp; path = ../jni/src/composablescene_interface.hpp; sourceTree = SOURCE_ROOT; };
 		63A6873B1A9F0D370066A782 /* viewscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = viewscene.hpp; path = ../jni/src/viewscene.hpp; sourceTree = SOURCE_ROOT; };
@@ -336,6 +337,7 @@
 				630F9C5819F3BB2000DBF8C1 /* opengl */,
 				6320001019EF42D000C701D4 /* scenes */,
 				6320000F19EF428B00C701D4 /* spritedesc.hpp */,
+				6368C97C1B025E37001B8787 /* twodarray.hpp */,
 				6320000E19EF425600C701D4 /* listener_interface.hpp */,
 				6320000B19EF422C00C701D4 /* notifier.cpp */,
 				6320000C19EF422C00C701D4 /* notifier.hpp */,
