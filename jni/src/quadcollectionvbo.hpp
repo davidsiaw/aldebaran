@@ -18,10 +18,11 @@ class QuadCollectionVbo : public VboInterface
 {
     std::vector<Element> elements;
     
+    int quadCount;
     bool changed;
     
 public:
-    QuadCollectionVbo() : changed(true)
+    QuadCollectionVbo() : quadCount(0), changed(true)
     {
     }
     
@@ -42,6 +43,7 @@ public:
         
         changed = true;
         
+        quadCount++;
         return quadId;
     }
     
@@ -52,9 +54,10 @@ public:
             return;
         }
         
-        int elemIdx = 1;
+        size_t elemIdx = 0;
         if (index != 0)
         {
+            elemIdx = index + 1;
             elements[elemIdx++] = quad.GetElements()[0];
         }
         
@@ -64,6 +67,11 @@ public:
         }
 
         changed = true;
+    }
+    
+    virtual int QuadCount() const
+    {
+        return quadCount;
     }
     
     virtual int Count() const

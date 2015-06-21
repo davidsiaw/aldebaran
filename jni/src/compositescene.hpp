@@ -17,26 +17,26 @@ class CompositeScene : public ComposableSceneInterface
     {
     public:
         std::shared_ptr<ComposableSceneInterface> scene;
-        Uint16 x,y;
+        Uint16 x,y,z;
         
-        SceneEntry(std::shared_ptr<ComposableSceneInterface> scene, Uint16 x, Uint16 y)
-        : scene(scene), x(x), y(y)
+        SceneEntry(std::shared_ptr<ComposableSceneInterface> scene, Uint16 x, Uint16 y, Uint16 z)
+        : scene(scene), x(x), y(y), z(z)
         {}
     };
     
-    Uint16 x,y;
+    Uint16 x,y,z;
     std::vector<SceneEntry> sceneEntries;
     
 public:
     
-    CompositeScene() : x(0), y(0)
+    CompositeScene() : x(0), y(0), z(0)
     {
         
     }
     
-    virtual void AddScene(std::shared_ptr<ComposableSceneInterface> scene, Uint16 x, Uint16 y)
+    virtual void AddScene(std::shared_ptr<ComposableSceneInterface> scene, Uint16 x, Uint16 y, Uint16 z = 0)
     {
-        sceneEntries.push_back(SceneEntry(scene, x, y));
+        sceneEntries.push_back(SceneEntry(scene, x, y, z));
     }
     
     virtual void Init(SDL_Window* window)
@@ -59,7 +59,7 @@ public:
     {
         for (auto sceneEntry : sceneEntries)
         {
-            sceneEntry.scene->SetOrigin(x + sceneEntry.x, y + sceneEntry.y);
+            sceneEntry.scene->SetOrigin(x + sceneEntry.x, y + sceneEntry.y, z + sceneEntry.z);
             sceneEntry.scene->Render(renderContext);
         }
     }
@@ -69,7 +69,7 @@ public:
         return true;
     }
     
-    virtual void SetOrigin(Uint16 x, Uint16 y)
+    virtual void SetOrigin(Uint16 x, Uint16 y, Uint16 z)
     {
         this->x = x;
         this->y = y;
@@ -84,6 +84,12 @@ public:
     {
         return y;
     }
+    
+    virtual Uint16 GetOriginZ() const
+    {
+        return z;
+    }
+
     
 };
 

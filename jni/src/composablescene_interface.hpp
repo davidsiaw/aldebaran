@@ -14,9 +14,10 @@
 class ComposableSceneInterface : public SceneInterface
 {
 public:
-    virtual void SetOrigin(Uint16 x, Uint16 y) = 0;
+    virtual void SetOrigin(Uint16 x, Uint16 y, Uint16 z) = 0;
     virtual Uint16 GetOriginX() const = 0;
     virtual Uint16 GetOriginY() const = 0;
+    virtual Uint16 GetOriginZ() const = 0;
 };
 
 

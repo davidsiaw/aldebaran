@@ -29,7 +29,7 @@ class VboScene : public ComposableSceneInterface
     glm::mat4 matrix;
     
     glm::mat4 translation;
-    Uint16 x, y;
+    Uint16 x, y, z;
     
     void EstablishElements()
     {
@@ -93,7 +93,8 @@ public:
             lastUpdate(0),
             transparency(1.0f),
             x(0),
-            y(0)
+            y(0),
+            z(0)
     {
         glGenBuffers(1, &buffer);
         Upload();
@@ -116,13 +117,12 @@ public:
 
     void SetMatrixTo2DView(int width, int height)
     {
-        matrix = glm::ortho(0.0f, (float)width, (float)height, 0.0f);
+        matrix = glm::ortho(0.0f, (float)width, (float)height, 0.0f, 1.0f, 0.0f);
     }
     
     void SetMatrixTo2DRectangle(int x, int y, int width, int height)
     {
-        matrix = glm::ortho((float)x, (float)width + (float)x, (float)height + (float)y, (float)y);
-    }
+        matrix = glm::ortho((float)x, (float)width + (float)x, (float)height + (float)y, (float)y, 1.0f, 0.0f);    }
     
     virtual void Init(SDL_Window* window)
     {
@@ -265,11 +265,12 @@ public:
         return true;
     }
     
-    virtual void SetOrigin(Uint16 x, Uint16 y)
+    virtual void SetOrigin(Uint16 x, Uint16 y, Uint16 z)
     {
-        translation = glm::translate(glm::mat4(), glm::vec3((float)x, (float)y, 0.f));
+        translation = glm::translate(glm::mat4(), glm::vec3((float)x, (float)y, (float)z));
         this->x = x;
         this->y = y;
+        this->z = z;
     }
     
     virtual Uint16 GetOriginX() const
@@ -281,6 +282,12 @@ public:
     {
         return y;
     }
+    
+    virtual Uint16 GetOriginZ() const
+    {
+        return z;
+    }
+
 };
 
 

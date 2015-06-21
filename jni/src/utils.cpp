@@ -117,3 +117,10 @@ std::shared_ptr<SDL_Surface> LoadImage(std::string filename)
     }
     return tex;
 }
+
+int RandomBetween(int min, int max)
+{
+    int range = max - min + 1;
+    
+    return (rand() % range) + min;
+}

@@ -31,7 +31,7 @@ public:
     
     virtual void Init(SDL_Window* window)
     {
-        vbo->Add(QuadVbo(  0,  0, 256, 256,  0, 0, 256, 256, 256, 256, 0, 0, 1));
+        vbo->Add(QuadVbo(0, 0, 0, 256, 256,  0, 0, 256, 256, 256, 256, 0, 0, 1));
         scene->Init(window);
     }
     
@@ -79,9 +79,9 @@ public:
         return true;
     }
     
-    virtual void SetOrigin(Uint16 x, Uint16 y)
+    virtual void SetOrigin(Uint16 x, Uint16 y, Uint16 z)
     {
-        scene->SetOrigin(x, y);
+        scene->SetOrigin(x, y, z);
     }
     
     virtual Uint16 GetOriginX() const
@@ -93,6 +93,12 @@ public:
     {
         return scene->GetOriginY();
     }
+    
+    virtual Uint16 GetOriginZ() const
+    {
+        return scene->GetOriginZ();
+    }
+
 
 };
 

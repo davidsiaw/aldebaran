@@ -53,18 +53,18 @@ class ViewScene : public ComposableSceneInterface
     
     std::shared_ptr<ComposableSceneInterface> scene;
     
-    Uint16 x,y,w,h;
+    Uint16 x,y,z,w,h;
     
     FloatColor background;
     
 public:
-    ViewScene(std::shared_ptr<ComposableSceneInterface> scene, Uint16 x, Uint16 y, Uint16 w, Uint16 h)
+    ViewScene(std::shared_ptr<ComposableSceneInterface> scene, Uint16 x, Uint16 y, Uint16 z, Uint16 w, Uint16 h)
     : scene(scene),
-    quad(new QuadVbo(x, y, w, h, 0, 0, w, -h, w, h, 0, 0, 1)),
-    shader(new ColorShader()),
+    quad(new QuadVbo(x, y, 0, w, h, 0, 0, w, -h, w, h, 0, 0, 1)),
+    shader(new DefaultShader()),
     dummy(MakeSurface(w,h)),
     vboScene(new VboScene(shader, quad, dummy)),
-    x(x), y(y), w(w), h(h),
+    x(x), y(y), z(z), w(w), h(h),
     background(0.0, 0.0, 0.0, 0.0)
     {
         glGenFramebuffers(1, &frameBuffer);
@@ -123,7 +123,7 @@ public:
     virtual void Render(std::shared_ptr<RenderContextInterface> renderContext)
     {
         vboScene->SetMatrixTo2DRectangle(-x, -y, renderContext->GetScreenWidth(), renderContext->GetScreenHeight());
-        scene->SetOrigin(0, 0);
+        scene->SetOrigin(0, 0, 0);
         vboScene->_SetGLTexture(renderedTexture);
         
         int viewport[4];
@@ -149,10 +149,11 @@ public:
         return true;
     }
     
-    virtual void SetOrigin(Uint16 x, Uint16 y)
+    virtual void SetOrigin(Uint16 x, Uint16 y, Uint16 z)
     {
         this->x = x;
         this->y = y;
+        this->z = z;
     }
     
     virtual Uint16 GetOriginX() const
@@ -165,6 +166,11 @@ public:
         return y;
     }
     
+    virtual Uint16 GetOriginZ() const
+    {
+        return z;
+    }
+
 };
 
 
