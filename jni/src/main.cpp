@@ -548,31 +548,35 @@ class RPGMapScene : public ComposableSceneInterface
     public:
         CharacterDetails(int id, int x, int y) :
         charid(id),
-        mapx(x),
-        mapy(y),
-        amountX(0),
-        amountY(0),
+        tilex(x),
+        tiley(y),
+        x(x),
+        y(y),
         speed(0),
         lastUpdate(0),
-        movedDistanceX(0),
-        movedDistanceY(0),
-        direction(0)
+        direction(0),
+        dx(0),
+        dy(0),
+        movementStep(0)
         {
             
         }
         
         int charid;
-        int mapx;
-        int mapy;
+        int tilex;
+        int tiley;
 
-        int amountX;
-        int amountY;
+        double x;
+        double y;
+        
         int speed;
         int lastUpdate;
-        int movedDistanceX;
-        int movedDistanceY;
+        
+        double dx;
+        double dy;
         
         int direction;
+        int movementStep;
     };
     
     int w,h;
@@ -584,6 +588,7 @@ class RPGMapScene : public ComposableSceneInterface
     
     TwoDArray<std::shared_ptr<CharacterDetails>> characterGrid;
     
+    bool showDebugScene;
     std::shared_ptr<QuadCollectionVbo> vbo;
     std::shared_ptr<ShaderInterface> ds;
     std::shared_ptr<VboScene> debugScene;
@@ -614,24 +619,24 @@ public:
         debugScene->Init(window);
     }
     
-    bool CanMoveTo(int mapx, int mapy)
+    bool CanMoveTo(std::shared_ptr<CharacterDetails> character, int mapx, int mapy)
     {
-        if (mapx < 0 || mapx >= w)
+        if (mapx < 0 || mapx >= w || mapy < 0 || mapy >= h)
         {
             return false;
         }
         
-        if (mapy < 0 || mapy >= h)
+        if (!characterGrid(mapx, mapy))
         {
-            return false;
+            return true;
         }
         
-        if (characterGrid(mapx, mapy))
+        if (characterGrid(mapx, mapy) == character)
         {
-            return false;
+            return true;
         }
-        
-        return true;
+
+        return false;
     }
     
     virtual void Update(const InputState& inputs, Uint32 timestamp)
@@ -643,6 +648,7 @@ public:
             layers[i]->Update(inputs, timestamp);
         }
         
+        
         for (auto kvpair : characterRegister)
         {
             
@@ -650,93 +656,76 @@ public:
             auto info = kvpair.second;
             
             bool move = false;
-            if (info->amountX > 0) { info->direction = 1; }
-            if (info->amountX < 0) { info->direction = 3; }
-            if (info->amountY > 0) { info->direction = 2; }
-            if (info->amountY < 0) { info->direction = 0; }
             
-            if (info->amountX == 0 && info->amountY == 0)
+            
+            if (info->dx > 0) { info->direction = 1; }
+            if (info->dx < 0) { info->direction = 3; }
+            if (info->dy > 0) { info->direction = 2; }
+            if (info->dy < 0) { info->direction = 0; }
+            
+            if (info->dx == 0 && info->dy == 0)
             {
                 characters->SetCharacterAnimation(id, false, info->direction);
                 continue;
             }
 
-            if (info->amountX != 0 || info->amountY != 0)
+            if (info->dx != 0 || info->dy != 0)
             {
                 move = true;
             }
             
             if (timestamp - info->lastUpdate > 1000 - info->speed)
             {
-                auto character = characterGrid(info->mapx, info->mapy);
-                characterGrid(info->mapx, info->mapy) = nullptr;
+                int framesAdvanced = 1;
                 
-                int posX = characters->GetCharacterX(id);
-                int posY = characters->GetCharacterY(id);
-                
-                if (characters->GetCharacterX(id) % tilesize == 0 && info->amountX != 0)
+                for (int i=0; i<framesAdvanced; i++)
                 {
-                    int nextMapX = posX / tilesize + sgn(info->amountX);
-                    if (CanMoveTo(nextMapX, info->mapy))
+                    double resultingx = info->x + info->dx;
+                    double resultingy = info->y + info->dy;
+                    
+                    if (resultingx == std::floor(resultingx))
                     {
-                        info->mapx = nextMapX;
-                        posX = characters->GetCharacterX(id) + info->amountX;
-                        info->movedDistanceX += info->amountX;
+                        info->x = resultingx;
+                        info->dx = 0;
                     }
                     else
                     {
-                        info->amountX = 0;
-                        info->movedDistanceX = 0;
+                        info->x = resultingx;
                     }
-                }
-                else
-                {
-                    posX = characters->GetCharacterX(id) + info->amountX;
-                    info->movedDistanceX += info->amountX;
                     
-                    if (posX % tilesize == 0)
+                    if (std::abs(info->x - info->tilex) >= 1)
                     {
-                        info->amountX = 0;
-                        info->movedDistanceX = 0;
+                        info->x = info->tilex;
+                        info->dx = 0;
                     }
+                    
+                    info->y = resultingy;
+                    if (resultingy == std::floor(resultingy))
+                    {
+                        info->y = resultingy;
+                        info->dy = 0;
+                    }
+                    else
+                    {
+                        info->y = resultingy;
+                    }
+                    
+                    if (std::abs(info->y - info->tiley) >= 1)
+                    {
+                        info->y = info->tiley;
+                        info->dy = 0;
+                    }
+                    
                 }
 
-                
-                if (characters->GetCharacterY(id) % tilesize == 0 && info->amountY != 0)
-                {
-                    int nextMapY = posY / tilesize + sgn(info->amountY);
-                    if (CanMoveTo(info->mapx, nextMapY))
-                    {
-                        info->mapy = nextMapY;
-                        posY = characters->GetCharacterY(id) + info->amountY;
-                        info->movedDistanceY += info->amountY;
-                    }
-                    else
-                    {
-                        info->amountY = 0;
-                        info->movedDistanceY = 0;
-                    }
-                }
-                else
-                {
-                    posY = characters->GetCharacterY(id) + info->amountY;
-                    info->movedDistanceY += info->amountY;
-                    
-                    if (posY % tilesize == 0)
-                    {
-                        info->amountY = 0;
-                        info->movedDistanceY = 0;
-                    }
-                }
-                
-                characterGrid(info->mapx, info->mapy) = character;
-                characters->SetCharacterPosition(id, posX, posY);
+                characters->SetCharacterPosition(id,
+                                                 info->x * (double)tilesize,
+                                                 info->y * (double)tilesize);
                 info->lastUpdate = timestamp;
                 characters->SetCharacterAnimation(id, move, info->direction);
                 
-                vbo->Modify(kvpair.first, QuadVbo(
-                                                  info->mapx * tilesize,
-                                                  info->mapy * tilesize, 0,
+                vbo->Modify(kvpair.first, QuadVbo(info->tilex * tilesize,
+                                                  info->tiley * tilesize, 0,
                                                   tilesize,
                                                   tilesize));
                 
@@ -764,7 +753,7 @@ public:
         }
         
         debugScene->SetMatrixTo2DRectangle(0, 0, renderContext->GetScreenWidth(), renderContext->GetScreenHeight());
-        debugScene->Render(renderContext);
+        //debugScene->Render(renderContext);
     }
     
     virtual bool Running() const
@@ -816,6 +805,53 @@ public:
         return id;
     }
     
+    void GetDirection(InputState::Key direction, int* dx, int* dy)
+    {
+        *dx = 0;
+        *dy = 0;
+        
+        if (direction == InputState::DOWN)
+        {
+            *dy = 1;
+        }
+        if (direction == InputState::LEFT)
+        {
+            *dx = -1;
+        }
+        if (direction == InputState::RIGHT)
+        {
+            *dx = 1;
+        }
+        if (direction == InputState::UP)
+        {
+            *dy = -1;
+        }
+    }
+    
+    void MoveTo(std::shared_ptr<CharacterDetails> character, int x, int y)
+    {
+        characterGrid(character->tilex, character->tiley) = nullptr;
+        characterGrid(character->x, character->y) = character;
+    }
+    
+    void SetCharMovement(std::shared_ptr<CharacterDetails> character, InputState::Key direction)
+    {
+        double movementStep = 1.0 / 16.0;
+
+        int dx, dy;
+        GetDirection(direction, &dx, &dy);
+        
+        if (dy)
+        {
+            character->dy = (double)dy * movementStep;
+        }
+        if (dx)
+        {
+            character->dx = (double)dx * movementStep;
+        }
+
+    }
+    
     void MoveCharacter(int id, InputState::Key direction, int amount, int speed)
     {
         if (characterRegister.find(id) == characterRegister.end())
@@ -823,40 +859,43 @@ public:
             return;
         }
 
-        auto md = characterRegister[id];
+        auto character = characterRegister[id];
         
-        if (md->amountX == 0 && md->amountY == 0)
+        character->movementStep = amount;
+        character->speed = speed;
+        
+        int dx, dy;
+        GetDirection(direction, &dx, &dy);
+        
+        if (!character->dx && dx && character->tilex == character->x)
         {
-            md->lastUpdate = 0;
-            md->movedDistanceX = 0;
-            md->movedDistanceY = 0;
-            md->amountX = 0;
-            md->amountY = 0;
+            if (CanMoveTo(character, character->tilex + dx, character->tiley))
+            {
+                MoveTo(character, character->tilex+dx, character->tiley);
+                character->tilex += dx;
+                SetCharMovement(character, direction);
+            }
+            else
+            {
+                // collide
+            }
         }
         
-        md->speed = speed;
-        
-        
-        switch (direction) {
-            case InputState::UP:
-                md->amountY = -amount;
-                break;
-            case InputState::RIGHT:
-                md->amountX = amount;
-                break;
-            case InputState::DOWN:
-                md->amountY = amount;
-                break;
-            case InputState::LEFT:
-                md->amountX = -amount;
-                break;
-            default:
-                break;
+        if (!character->dy && dy && character->tiley == character->y)
+        {
+            if (CanMoveTo(character, character->tilex, character->tiley + dy))
+            {
+                MoveTo(character, character->tilex, character->tiley+dy);
+                character->tiley += dy;
+                SetCharMovement(character, direction);
+            }
+            else
+            {
+                // collide
+            }
         }
-        
 
         
-
     }
 };
 
@@ -924,22 +963,22 @@ void game(std::shared_ptr<GameContext> context)
         {
             if (inputs.GetButtonState(InputState::DOWN))
             {
-                scene->MoveCharacter(rikka, InputState::DOWN, 4, 980);
+                scene->MoveCharacter(rikka, InputState::DOWN, 4, 990);
             }
             
             if (inputs.GetButtonState(InputState::UP))
             {
-                scene->MoveCharacter(rikka, InputState::UP, 4, 980);
+                scene->MoveCharacter(rikka, InputState::UP, 4, 990);
             }
 
             if (inputs.GetButtonState(InputState::LEFT))
             {
-                scene->MoveCharacter(rikka, InputState::LEFT, 4, 980);
+                scene->MoveCharacter(rikka, InputState::LEFT, 4, 990);
             }
 
             if (inputs.GetButtonState(InputState::RIGHT))
             {
-                scene->MoveCharacter(rikka, InputState::RIGHT, 4, 980);
+                scene->MoveCharacter(rikka, InputState::RIGHT, 4, 990);
             }
 
         },
