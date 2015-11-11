@@ -237,6 +237,12 @@
 		6322C73C1A6B8C700002F962 /* primitives.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = primitives.cpp; path = ../jni/src/primitives.cpp; sourceTree = SOURCE_ROOT; };
 		632D21871ADA53D600259188 /* blurshader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = blurshader.hpp; path = ../jni/src/blurshader.hpp; sourceTree = SOURCE_ROOT; };
 		636780991B36660700084CC1 /* wireframeshader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = wireframeshader.hpp; path = ../../jni/src/wireframeshader.hpp; sourceTree = "<group>"; };
+		636780AD1B39030B00084CC1 /* tileset.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = tileset.hpp; path = ../../jni/src/tileset.hpp; sourceTree = "<group>"; };
+		636780AE1B39037700084CC1 /* tilemapscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = tilemapscene.hpp; path = ../../jni/src/tilemapscene.hpp; sourceTree = "<group>"; };
+		636780AF1B3903D700084CC1 /* characterset.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = characterset.hpp; path = ../../jni/src/characterset.hpp; sourceTree = "<group>"; };
+		636780B01B39042900084CC1 /* charactersceneelement.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = charactersceneelement.hpp; path = ../../jni/src/charactersceneelement.hpp; sourceTree = "<group>"; };
+		636780B11B39051200084CC1 /* characterscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = characterscene.hpp; path = ../../jni/src/characterscene.hpp; sourceTree = "<group>"; };
+		636780B21B39058200084CC1 /* rpgmapscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = rpgmapscene.hpp; path = ../../jni/src/rpgmapscene.hpp; sourceTree = "<group>"; };
 		6368C97C1B025E37001B8787 /* twodarray.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = twodarray.hpp; path = ../jni/src/twodarray.hpp; sourceTree = SOURCE_ROOT; };
 		637FACB11B05762D0057B891 /* twodarray_interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = twodarray_interface.hpp; path = ../../jni/src/twodarray_interface.hpp; sourceTree = "<group>"; };
 		63A687271A9DC8750066A782 /* fpsscene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; name = fpsscene.hpp; path = ../jni/src/fpsscene.hpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -298,6 +304,7 @@
 		6320001019EF42D000C701D4 /* scenes */ = {
 			isa = PBXGroup;
 			children = (
+				636780AC1B38F9D400084CC1 /* rpg */,
 				6320001119EF42FF00C701D4 /* emptyscene.hpp */,
 				630F9C5719F11DEE00DBF8C1 /* guiscene.hpp */,
 				630F9C6119F3FBF000DBF8C1 /* vboscene.hpp */,
@@ -305,6 +312,7 @@
 				63A6873A1A9EBC760066A782 /* composablescene_interface.hpp */,
 				63A6873B1A9F0D370066A782 /* viewscene.hpp */,
 				632174E11ADCE91300EB9AD0 /* compositescene.hpp */,
+				636780B21B39058200084CC1 /* rpgmapscene.hpp */,
 			);
 			name = scenes;
 			sourceTree = "<group>";
@@ -461,6 +469,18 @@
 				6320F71C19EA6BE900C701D4 /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		636780AC1B38F9D400084CC1 /* rpg */ = {
+			isa = PBXGroup;
+			children = (
+				636780AD1B39030B00084CC1 /* tileset.hpp */,
+				636780AE1B39037700084CC1 /* tilemapscene.hpp */,
+				636780AF1B3903D700084CC1 /* characterset.hpp */,
+				636780B01B39042900084CC1 /* charactersceneelement.hpp */,
+				636780B11B39051200084CC1 /* characterscene.hpp */,
+			);
+			name = rpg;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
