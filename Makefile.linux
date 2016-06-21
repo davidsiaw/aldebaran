@@ -1,4 +1,23 @@
 CXX=gcc
 EXTRA_CFLAGS=-std=c++0x
-OPENGL_LDFLAGS=-lGL
+
+FOR = NORMAL
+
+MACHINE_NORMAL := 
+MACHINE_RASPBERRYPI := --host=arm-raspberry-linux-gnueabihf --disable-video-x11 --disable-pulseaudio --disable-esd --disable-video-opengl
+
+SYSCFLAGS_NORMAL := 
+SYSCFLAGS_RASPBERRYPI := -D__RASPBERRYPI__ 
+
+OSMOD_NORMAL := $(OS)
+OSMOD_RASPBERRYPI := $(OS) (Raspberry PI)
+
+GL_LDFLAGS_NORMAL=-lGL
+GL_LDFLAGS_RASPBERRYPI=-lGLESv2 -lm -L/opt/vc/lib/
+
+SDL2_CONFIG_FLAGS = $(MACHINE_$(FOR))
+SYSTEM_CFLAGS = $(SYSCFLAGS_$(FOR))
+OS = $(OSMOD_$(FOR))
+OPENGL_LDFLAGS= $(GL_LDFLAGS_$(FOR))
+
 -include Makefile.common

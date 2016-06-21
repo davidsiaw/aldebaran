@@ -134,6 +134,10 @@ void run(std::shared_ptr<SceneInterface> scene, std::shared_ptr<GameContext> con
                     while (exists(fname.c_str()));
                     takeScreenShot(fname, context->GetWindow());
                 }
+		if (e.key.keysym.sym == SDLK_c && (e.key.keysym.mod & KMOD_CTRL) != 0)
+		{
+			break;
+		}
             }
 			CaptureInputState(context->GetKeyMap(), &inputState, &e);
 		}
@@ -210,6 +214,7 @@ void game(std::shared_ptr<GameContext> context)
     //scene->Set(3, 0, 0, 21);
     
     auto wholeScene = std::make_shared<CompositeScene>();
+/*
     wholeScene->AddScene(scene, 50, 50);
     
     auto fpsScene = std::make_shared<FPSScene>();
@@ -245,9 +250,17 @@ void game(std::shared_ptr<GameContext> context)
         });
     
     wholeScene->AddScene(processingScene, 0, 0);
-
+*/
     run(wholeScene, context);
     
+}
+
+void set_gl_attribute(SDL_GLattr attr, int value)
+{
+	if (SDL_GL_SetAttribute(attr, value) != 0)
+	{
+		printlog("SDL_GL_SetAttribute(%d, %d) failed: %s\n", attr, value, SDL_GetError());
+	}
 }
 
 int main(int argc, char** argv)
@@ -268,7 +281,10 @@ int main(int argc, char** argv)
 	keyMap[SDLK_4] = InputState::R2;
 	keyMap[SDLK_SPACE] = InputState::START;
     
-	SDL_Init(SDL_INIT_EVERYTHING);
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+	{
+		printlog("Failed to initialize SDL: %s\n", SDL_GetError());
+	}
 	TTF_Init();
 	IMG_Init(IMG_INIT_JPG|IMG_INIT_PNG);
     
@@ -278,7 +294,7 @@ int main(int argc, char** argv)
 	Mix_Init(MIX_INIT_FLAC|MIX_INIT_MOD|MIX_INIT_OGG);
     
 
-	int WIDTH = 960, HEIGHT = 640;
+	int WIDTH = 720, HEIGHT = 576;
     
     if (argc == 2)
     {
@@ -286,13 +302,20 @@ int main(int argc, char** argv)
         LuaTable config = LoadLuaConfiguration(argv[1]);
     }
     
-	//if (SDL_GetCurrentDisplayMode(0, &mode)==0)
-	//{
-	//	/* I read that android ignores these so you can just as well set
-	//	them to 0 */
-	//	WIDTH=mode.w;
-	//	HEIGHT=mode.h;
-	//}
+	for (int i=0; i<SDL_GetNumVideoDisplays(); ++i)
+	{
+		SDL_DisplayMode current;
+		int should_be_zero = SDL_GetCurrentDisplayMode(i, &current);
+
+		if(should_be_zero != 0)
+		{
+			printlog("Could not get display mode for video display #%d: %s\n", i, SDL_GetError());
+		}
+		else
+		{
+			printlog("Display #%d: current display mode is %dx%dpx @ %dhz.\n", i, current.w, current.h, current.refresh_rate);
+		}
+	}
     
 	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024)==-1)
 	{
@@ -301,16 +324,18 @@ int main(int argc, char** argv)
     
 	printlog("Window size: %d x %d!\n", WIDTH, HEIGHT);
     
+
 	// Create an application window with the following settings:
 	SDL_Window* window = SDL_CreateWindow(
                               "Aldebaran",
-                              SDL_WINDOWPOS_UNDEFINED,
-                              SDL_WINDOWPOS_UNDEFINED,
+                              SDL_WINDOWPOS_UNDEFINED, 
+			      SDL_WINDOWPOS_UNDEFINED,
                               WIDTH,
                               HEIGHT,
-                              SDL_WINDOW_SHOWN|SDL_WINDOW_OPENGL
+                              SDL_WINDOW_OPENGL
                               );
-    
+
+
 	// Check that the window was successfully made
 	if(window == NULL)
 	{
@@ -322,23 +347,40 @@ int main(int argc, char** argv)
 	printlog("Beginning game with window=%p\n", window);
 	try
 	{
-        /* Request opengl 3.2 context.
-         * SDL doesn't have the ability to choose which profile at this time of writing,
-         * but it should default to the core profile */
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-        
-        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-        
-        
-        SDL_GLContext context = SDL_GL_CreateContext(window);
-        
-        
-        printlog("OpenGL context created\n");
-        
-        glViewport(0, 0, WIDTH, HEIGHT);
-        
-        std::shared_ptr<GameContext> gameContext = std::make_shared<GameContext>(window, keyMap, WIDTH, HEIGHT);
+
+		/* Request opengl 3.2 context.
+		 * SDL doesn't have the ability to choose which profile at this time of writing,
+		 * but it should default to the core profile */
+#ifdef __RASPBERRYPI__
+		set_gl_attribute(SDL_GL_RED_SIZE, 5);
+		set_gl_attribute(SDL_GL_GREEN_SIZE, 6);
+		set_gl_attribute(SDL_GL_BLUE_SIZE, 5);
+		//set_gl_attribute(SDL_GL_DEPTH_SIZE, 8);
+		
+		set_gl_attribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+		set_gl_attribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+		set_gl_attribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+#else // __RASPBERRYPI__
+		set_gl_attribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+		set_gl_attribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+#endif // __RASPBERRYPI__
+
+		
+		set_gl_attribute(SDL_GL_DOUBLEBUFFER, 1);
+		
+		SDL_GLContext context = SDL_GL_CreateContext(window);
+		if(context == NULL)
+		{
+			printlog("Could not create GL context: %s\n", SDL_GetError());
+			return 1;
+		}
+		
+		
+		printlog("OpenGL context created\n");
+		
+		glViewport(0, 0, WIDTH, HEIGHT);
+	
+		std::shared_ptr<GameContext> gameContext = std::make_shared<GameContext>(window, keyMap, WIDTH, HEIGHT);
         
 		game(gameContext);
         
@@ -347,12 +389,12 @@ int main(int argc, char** argv)
 	catch(std::exception e)
 	{
 		printlog("Caught a std::exception! %s\n", e.what());
-        return EXIT_FAILURE;
+        	return EXIT_FAILURE;
 	}
 	catch(...)
 	{
 		printlog("Caught an unknown exception!\n");
-        return EXIT_FAILURE;
+		return EXIT_FAILURE;
 	}
     
 	SDL_DestroyWindow(window);

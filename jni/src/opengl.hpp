@@ -1,7 +1,7 @@
 #ifndef OPENGL_HPP
 #define OPENGL_HPP
 
-#if defined(__IPHONEOS__) || defined(__ANDROID__)
+#if defined(__IPHONEOS__) || defined(__ANDROID__) || defined(__RASPBERRYPI__)
 #define HAVE_OPENGLES
 #endif
 

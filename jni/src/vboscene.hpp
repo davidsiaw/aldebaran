@@ -160,7 +160,7 @@ public:
             glBindTexture( GL_TEXTURE_2D, textureIndex );
             
             /* Generate The Texture */
-            glTexImage2D( GL_TEXTURE_2D, 0, 4, texSurface->w, texSurface->h, 0, GL_BGRA, GL_UNSIGNED_BYTE, texSurface->pixels );
+            glTexImage2D( GL_TEXTURE_2D, 0, 4, texSurface->w, texSurface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, texSurface->pixels );
             glGetError();
             
             /* Linear Filtering */
