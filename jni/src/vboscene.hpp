@@ -145,6 +145,8 @@ public:
     {
         if (texSurface)
         {
+        	int a = glGetError();
+
             GLuint textureIndex;
             if (!texture)
             {
@@ -155,13 +157,33 @@ public:
             {
                 textureIndex = *texture;
             }
+
+		a = glGetError();
+        	if (a != GL_NO_ERROR)
+        	{
+        	    printlog("Failed to create texture %x\n", a);
+        	    exit(EXIT_FAILURE);
+        	}
             
             /* Typical Texture Generation Using Data From The Bitmap */
             glBindTexture( GL_TEXTURE_2D, textureIndex );
             
+		a = glGetError();
+        	if (a != GL_NO_ERROR)
+        	{
+        	    printlog("Failed to bind texture %x\n", a);
+        	    exit(EXIT_FAILURE);
+        	}
+
             /* Generate The Texture */
-            glTexImage2D( GL_TEXTURE_2D, 0, 4, texSurface->w, texSurface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, texSurface->pixels );
-            glGetError();
+            glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, texSurface->w, texSurface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, texSurface->pixels );
+            
+        	a = glGetError();
+        	if (a != GL_NO_ERROR)
+        	{
+        	    printlog("Failed to generate texture %x\n", a);
+        	    exit(EXIT_FAILURE);
+        	}
             
             /* Linear Filtering */
             glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
@@ -255,7 +277,7 @@ public:
         int a = glGetError();
         if (a != GL_NO_ERROR)
         {
-            printlog("%x\n", a);
+            printlog("Failed to GL %x\n", a);
             exit(EXIT_FAILURE);
         }
     }

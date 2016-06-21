@@ -214,7 +214,7 @@ void game(std::shared_ptr<GameContext> context)
     //scene->Set(3, 0, 0, 21);
     
     auto wholeScene = std::make_shared<CompositeScene>();
-/*
+
     wholeScene->AddScene(scene, 50, 50);
     
     auto fpsScene = std::make_shared<FPSScene>();
@@ -250,7 +250,7 @@ void game(std::shared_ptr<GameContext> context)
         });
     
     wholeScene->AddScene(processingScene, 0, 0);
-*/
+
     run(wholeScene, context);
     
 }
@@ -262,6 +262,7 @@ void set_gl_attribute(SDL_GLattr attr, int value)
 		printlog("SDL_GL_SetAttribute(%d, %d) failed: %s\n", attr, value, SDL_GetError());
 	}
 }
+
 
 int main(int argc, char** argv)
 {
@@ -281,7 +282,7 @@ int main(int argc, char** argv)
 	keyMap[SDLK_4] = InputState::R2;
 	keyMap[SDLK_SPACE] = InputState::START;
     
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
 		printlog("Failed to initialize SDL: %s\n", SDL_GetError());
 	}
@@ -294,7 +295,7 @@ int main(int argc, char** argv)
 	Mix_Init(MIX_INIT_FLAC|MIX_INIT_MOD|MIX_INIT_OGG);
     
 
-	int WIDTH = 720, HEIGHT = 576;
+	int WIDTH = 1920, HEIGHT = 1080;
     
     if (argc == 2)
     {
