@@ -10,6 +10,6 @@ The Raspberry PI does not have all the GUI goodies, so we run on OpenGLES direct
 
 Be sure to install the appropriate libraries before running the make command
 
-`sudo apt-get install libudev-dev`
+`sudo apt-get install autoconf automake libudev-dev`
 
 `make run FOR=RASPBERRYPI`
