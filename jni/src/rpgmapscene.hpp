@@ -78,6 +78,7 @@ public:
         {
             layers.push_back(std::make_shared<TileMapScene>(tileset, w * 2, h * 2));
         }
+        
     }
     
     virtual void Init(SDL_Window* window)

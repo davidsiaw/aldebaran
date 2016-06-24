@@ -43,6 +43,8 @@
 
 #include "rpgmapscene.hpp"
 
+#include <mruby.h>
+#include <mruby/compile.h>
 
 SDL_Surface* flipVert(SDL_Surface* sfc)
 {
@@ -151,11 +153,6 @@ void run(std::shared_ptr<SceneInterface> scene, std::shared_ptr<GameContext> con
 	}
 }
 
-
-
-
-
-
 class ProcessingScene : public ComposableSceneInterface
 {
     std::function<void(const InputState&, Uint32)> update;
@@ -192,13 +189,15 @@ public:
 
 void game(std::shared_ptr<GameContext> context)
 {
+    mrb_state *mrb = mrb_open();
+
     auto tiles = std::make_shared<Tileset>("tiles/testtiles1.png", 24);
     auto charset = std::make_shared<Characterset>("sprites/output.png", 48, 64);
     
-    auto scene = std::make_shared<RPGMapScene>(10, 10, tiles, charset);
+    auto scene = std::make_shared<RPGMapScene>(15, 12, tiles, charset);
     
-    for (int x=0; x<20; x++)
-    for (int y=0; y<20; y++)
+    for (int x=0; x<30; x++)
+    for (int y=0; y<24; y++)
         scene->Set(0, x, y, 21);
     
     int rikka = scene->SetCharacter(5, 0, 0);

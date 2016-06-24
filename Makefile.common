@@ -3,8 +3,10 @@
 V = 0
 AT_0 := @
 AT_1 :=
-REDIR_0 := > /dev/null
-REDIR_1 :=
+AT_2 :=
+REDIR_0 := 2> /dev/null 1> /dev/null
+REDIR_1 := > /dev/null
+REDIR_2 :=
 AT = $(AT_$(V))
 REDIR = $(REDIR_$(V))
 
@@ -17,6 +19,7 @@ SDL2CONFIG=$(SDL2PREFIX)/bin/sdl2-config
 FREETYPE=$(SDL2PREFIX)/lib/libfreetype.la
 LUAINTERFACESRC=jni/luacppinterface/LuaCppInterface
 LUA=jni/luacppinterface/lua/src/liblua.a
+MRUBY=$(SDL2PREFIX)/lib/libmruby.a
 
 CXXFLAGS=$(EXTRA_CFLAGS) -DSMALL_SCREEN \
 	-pipe $(shell $(SDL2CONFIG) --cflags) \
@@ -24,9 +27,10 @@ CXXFLAGS=$(EXTRA_CFLAGS) -DSMALL_SCREEN \
 	-I$(PWD)/jni/luacppinterface/lua/src \
 	-I$(PWD)/jni/boost \
 	-I$(PWD)/jni/box2d \
-	-I$(PWD)/jni/glm
+	-I$(PWD)/jni/glm \
+	-I$(PWD)/jni/mruby/include
 
-LDFLAGS=$(shell $(SDL2CONFIG) --libs) -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lstdc++ $(OPENGL_LDFLAGS)
+LDFLAGS=$(shell $(SDL2CONFIG) --libs) -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lstdc++ -lmruby -lmruby_core $(OPENGL_LDFLAGS)
 
 SRCDIR=jni/src
 SRC=$(shell find $(LUAINTERFACESRC) -name "*.cpp") $(shell find $(SRCDIR) -name "*.cpp") 
@@ -44,7 +48,8 @@ all: $(TARGET)
 	$(AT)echo "Building for $(OS)"
 
 clean:
-	-rm -rf $(TARGET) $(OUT) $(SDL2PREFIX)
+	$(AT)-rm -rf $(TARGET) $(OUT) $(SDL2PREFIX) $(REDIR)
+	$(AT)cd jni/mruby && ruby minirake clean $(REDIR)
 
 ifeq (0, $(words $(findstring $(MAKECMDGOALS), $(NODEPS))))
     -include $(DEPS)
@@ -59,7 +64,7 @@ $(TARGET): $(OBJS) $(LUA)
 	$(AT)mkdir -p $(dir $@) 
 	$(AT)touch $@
 
-$(OUT)/%.d:%.cpp $$(@D)/.f $(SDL2MAIN) $(SDL2IMAGE) $(SDL2MIXER) $(SDL2TTF)
+$(OUT)/%.d:%.cpp $$(@D)/.f $(SDL2MAIN) $(SDL2IMAGE) $(SDL2MIXER) $(SDL2TTF) $(MRUBY)
 	$(AT)echo [DEP] $<
 	$(AT)$(CXX) $(CXXFLAGS) -MM -MT '$(patsubst %.d,%.o,$@)' $< -MF $@
 
@@ -102,6 +107,12 @@ $(SDL2TTF): $(SDL2MAIN)
 	$(AT)make -C jni/SDL_ttf all install $(REDIR)
 
 $(LUA):
+	$(AT)echo [BLD] $@
 	$(AT)cd jni/luacppinterface/lua && make generic $(REDIR)
+
+$(MRUBY):
+	$(AT)echo [BLD] $@
+	$(AT)cd jni/mruby && ruby minirake $(REDIR)
+	$(AT)cp jni/mruby/build/host/lib/lib*.a $(SDL2PREFIX)/lib/ $(REDIR)
 
 .PRECIOUS: %/.f
