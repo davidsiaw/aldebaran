@@ -2,7 +2,7 @@
 
 ## How to get the code
 
-`git clone --recursive https://github.com/davidsiaw/aldebaran`
+`git clone --recursive -b picompat https://github.com/davidsiaw/aldebaran`
 
 ## Raspberry PI
 
