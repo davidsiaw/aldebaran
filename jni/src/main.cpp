@@ -146,7 +146,7 @@ void run(std::shared_ptr<SceneInterface> scene, std::shared_ptr<GameContext> con
 		scene->Update(inputState, now);
 		if (now - time > 15)
         {
-            glClearColor( 1.0, 1.0, 1.0, 1.0 );
+            glClearColor( 1.0, 1.0, 0.0, 1.0 );
             glClear ( GL_COLOR_BUFFER_BIT );
             scene->Render(context);
             SDL_GL_SwapWindow(context->GetWindow());
@@ -154,11 +154,6 @@ void run(std::shared_ptr<SceneInterface> scene, std::shared_ptr<GameContext> con
 		}
 	}
 }
-
-
-
-
-
 
 class ProcessingScene : public ComposableSceneInterface
 {
@@ -191,67 +186,224 @@ public:
     virtual Uint16 GetOriginX() const { return 0; }
     virtual Uint16 GetOriginY() const { return 0; }
     virtual Uint16 GetOriginZ() const { return 0; }
+};
+
+class Bullet
+{
+public:
+    int x;
+    int y;
+    size_t id;
+    bool active;
+    int speed;
+    Uint32 lastmove;
+    int updateDelay;
+
+    Bullet(int x, int y, size_t id) : 
+        x(x), 
+        y(y), 
+        id(id), 
+        active(true),
+        lastmove(0),
+        updateDelay(1)
+    {
+
+    }
 
 };
 
+class ShooterScene : public ComposableSceneInterface
+{
+    std::shared_ptr<CompositeScene> composite;
+    bool running;
+
+    Uint32 lastUpdate;
+    double accel;
+    double speed;
+    double x;
+    double y;
+    int max;
+    double maxspeed;
+    double thrust;
+    double slow;
+
+    int lastShoot;
+    int shootCooldown;
+
+    size_t shipId;
+
+
+    std::shared_ptr<VboScene> scene;
+    std::shared_ptr<QuadCollectionVbo> vbo;
+
+    std::shared_ptr<SDL_Surface> arrow;
+    std::vector<std::shared_ptr<Bullet>> bullets;
+
+public:
+    ShooterScene() : 
+        composite(new CompositeScene()),
+        running(true),
+        lastUpdate(0),
+        accel(0),
+        speed(0),
+        x(0),
+        y(500),
+        max(700),
+        maxspeed(10),
+        thrust(1.0),
+        slow(0.5),
+        shootCooldown(100)
+    {
+        //auto shader = std::make_shared<WireframeShader>();
+        auto shader = std::make_shared<DefaultShader>();
+        vbo = std::make_shared<QuadCollectionVbo>();
+        arrow = LoadImage("images/arrow.png");
+        scene = std::make_shared<VboScene>(shader, vbo, arrow);
+        auto quad = QuadVbo(x, y, 0, 50, 50);
+        shipId = vbo->Add(quad);
+        auto arrowscene = composite->AddScene(scene, 0, 0);
+
+    }
+    
+    virtual void Init(SDL_Window* window)
+    {   
+        int w,h;
+        SDL_GetWindowSize(window, &w, &h);
+        scene->SetMatrixTo2DRectangle(0, 0, w, h);
+        composite->Init(window);
+    }
+
+    virtual void Update(const InputState& inputs, Uint32 timestamp)
+    {
+        Uint32 now = timestamp;
+
+        if (inputs.GetButtonState(InputState::DOWN))
+        {
+        }
+        
+        if (inputs.GetButtonState(InputState::UP))
+        {
+            if (now - lastShoot > shootCooldown)
+            {
+                auto quad = QuadVbo(x+15, y, 0, 20, 20);
+                auto quadId = vbo->Add(quad);
+
+                printlog("shoot bullet %d\n", bullets.size());
+                auto bullet = std::make_shared<Bullet>(x+15, y, quadId);
+
+                bool pushed = false;
+                for (int i=0;i<bullets.size();i++)
+                {
+                    if (!bullets[i]->active)
+                    {
+                        bullets[i] = bullet;
+                        pushed = true;
+                        break;
+                    }
+                }
+                if (!pushed)
+                {
+                    bullets.push_back(bullet);
+                }
+
+                lastShoot = now;
+            }
+        }
+
+        if (inputs.GetButtonState(InputState::LEFT))
+        {
+            accel = -thrust;
+        }
+        else if (inputs.GetButtonState(InputState::RIGHT))
+        {
+            accel = thrust;
+        }
+        else
+        {
+            accel = 0;
+        }
+
+        for (size_t i=0;i<bullets.size();i++)
+        {
+            auto bullet = bullets[i];
+            if (bullet->active)
+            {
+                if (now - bullet->lastmove > bullet->updateDelay)
+                {
+                    bullet->y -= 1;
+
+                    auto quad = QuadVbo(bullet->x, bullet->y, 0, 20, 20);
+                    vbo->Modify(bullet->id, quad);
+
+                    if (bullet->y < -40)
+                    {
+                        bullet->active = false;
+                        printlog("bullet %d dies\n", i);
+                    }
+                    bullet->lastmove = now;
+                }
+            }
+        }
+
+        if (now - lastUpdate > 10)
+        {
+            if (accel == 0)
+            {
+                speed -= sgn(speed) * slow;
+            }
+
+            speed += accel;
+            if (speed < -maxspeed)
+            {
+                speed = -maxspeed;
+            }
+            if (speed > maxspeed)
+            {
+                speed = maxspeed;
+            }
+
+            x += speed;
+            if (x < 0)
+            {
+                x = 0;
+                speed = 0;
+            }
+            if (x > max)
+            {
+                x = max;
+                speed = 0;
+            }
+            auto quad = QuadVbo(x, y, 0, 50, 50);
+            vbo->Modify(shipId, quad);
+            lastUpdate = timestamp;
+        }
+        composite->Update(inputs, timestamp);
+
+
+    }
+
+    virtual void Render(std::shared_ptr<RenderContextInterface> renderContext)
+    {
+        composite->Render(renderContext);
+    }
+
+    virtual bool Running() const
+    {
+        return running;
+    }
+    
+    virtual void SetOrigin(Uint16 x, Uint16 y, Uint16 z) { }
+    virtual Uint16 GetOriginX() const { return 0; }
+    virtual Uint16 GetOriginY() const { return 0; }
+    virtual Uint16 GetOriginZ() const { return 0; }
+};
+
+
 void game(std::shared_ptr<GameContext> context)
 {
-    auto tiles = std::make_shared<Tileset>("tiles/testtiles1.png", 24);
-    auto charset = std::make_shared<Characterset>("sprites/output.png", 48, 64);
-    
-    auto scene = std::make_shared<RPGMapScene>(10, 10, tiles, charset);
-    
-    for (int x=0; x<20; x++)
-    for (int y=0; y<20; y++)
-        scene->Set(0, x, y, 21);
-    
-    int rikka = scene->SetCharacter(5, 0, 0);
-    
-    int rikka2 = scene->SetCharacter(5, 6, 6);
-    
-    //scene->Set(1, 0, 0, 22);
-    //scene->Set(2, 0, 0, 21);
-    //scene->Set(3, 0, 0, 21);
-    
-    auto wholeScene = std::make_shared<CompositeScene>();
 
-    wholeScene->AddScene(scene, 50, 50);
-    
-    auto fpsScene = std::make_shared<FPSScene>();
-    wholeScene->AddScene(fpsScene, 0, 0);
-    
-    auto processingScene = std::make_shared<ProcessingScene>(
-        [&](const InputState& inputs, Uint32 timestamp)
-        {
-            if (inputs.GetButtonState(InputState::DOWN))
-            {
-                scene->MoveCharacter(rikka, InputState::DOWN, 4, 990);
-            }
-            
-            if (inputs.GetButtonState(InputState::UP))
-            {
-                scene->MoveCharacter(rikka, InputState::UP, 4, 990);
-            }
-
-            if (inputs.GetButtonState(InputState::LEFT))
-            {
-                scene->MoveCharacter(rikka, InputState::LEFT, 4, 990);
-            }
-
-            if (inputs.GetButtonState(InputState::RIGHT))
-            {
-                scene->MoveCharacter(rikka, InputState::RIGHT, 4, 990);
-            }
-
-        },
-        [&]() -> bool
-        {
-            return true;
-        });
-    
-    wholeScene->AddScene(processingScene, 0, 0);
-
-    run(wholeScene, context);
+    auto shooter = std::make_shared<ShooterScene>();
+    run(shooter, context);
     
 }
 
@@ -295,7 +447,7 @@ int main(int argc, char** argv)
 	Mix_Init(MIX_INIT_FLAC|MIX_INIT_MOD|MIX_INIT_OGG);
     
 
-	int WIDTH = 1920, HEIGHT = 1080;
+	int WIDTH = 960, HEIGHT = 540;
     
     if (argc == 2)
     {

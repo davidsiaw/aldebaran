@@ -66,6 +66,11 @@ public:
             elements[elemIdx++] = quad.GetElements()[i];
         }
 
+        if (elements.size() > elemIdx)
+        {
+            elements[elemIdx] = quad.GetElements()[3];
+        }
+
         changed = true;
     }
     

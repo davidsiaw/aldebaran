@@ -105,11 +105,11 @@ class ColorShader : public ShaderInterface
         glShaderSource(vshader, 1, &vertexshader, NULL);
         glShaderSource(fshader, 1, &fragmentshader, NULL);
         
-        printf("Compiling Vertex Shader...\n");
+        printlog("Compiling Vertex Shader...\n");
         glCompileShader(vshader);
         printShaderInfoLog(vshader);
         
-        printf("Compiling Fragment Shader...\n");
+        printlog("Compiling Fragment Shader...\n");
         glCompileShader(fshader);
         printShaderInfoLog(fshader);
         
