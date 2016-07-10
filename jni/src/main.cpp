@@ -440,6 +440,32 @@ int main(int argc, char** argv)
 	}
 	TTF_Init();
 	IMG_Init(IMG_INIT_JPG|IMG_INIT_PNG);
+
+	int num_joysticks = SDL_NumJoysticks();
+	if (num_joysticks < 1)
+	{
+		printlog("No joysticks detected.\n");
+	}
+	else
+	{
+		for (int i=0;i<num_joysticks; i++)
+		{
+			SDL_Joystick* joystick = SDL_JoystickOpen(i);
+			if (joystick == NULL)
+			{
+				printlog("Error: Unable to open Joystick: %s\n", SDL_GetError());
+			}
+			else
+			{
+				printlog("Joystick found: %p %s\n", joystick, SDL_JoystickName(joystick));
+				printlog("  Number of Axes: %d\n", SDL_JoystickNumAxes(joystick));
+				printlog("  Number of Buttons: %d\n", SDL_JoystickNumButtons(joystick));
+				printlog("  Number of Balls: %d\n", SDL_JoystickNumBalls(joystick));
+				printlog("  Number of Hats: %d\n", SDL_JoystickNumHats(joystick));
+			}
+			SDL_JoystickClose(joystick);
+		}
+	}
     
 	// Something to note here: We don't initialize mp3 because there are too many
 	// issues with it. Instead, simply make FLAC or OGG files. They are free
