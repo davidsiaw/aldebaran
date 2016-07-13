@@ -209,7 +209,30 @@ public:
     {
 
     }
+};
 
+class Enemy
+{
+public:
+    double width;
+    double height;
+    double x;
+    double y;
+    size_t id;
+    bool active;
+    Uint32 lastmove;
+
+    Enemy(double x, double id) : 
+        width(50), 
+        height(50), 
+        x(x), 
+        y(0), 
+        id(id), 
+        active(true), 
+        lastmove(0)
+    {
+
+    }
 };
 
 class ShooterScene : public ComposableSceneInterface
@@ -232,12 +255,16 @@ class ShooterScene : public ComposableSceneInterface
 
     size_t shipId;
 
+    int enemyCount;
+
 
     std::shared_ptr<VboScene> scene;
     std::shared_ptr<QuadCollectionVbo> vbo;
 
     std::shared_ptr<SDL_Surface> arrow;
     std::vector<std::shared_ptr<Bullet>> bullets;
+
+    std::vector<std::shared_ptr<Enemy>> enemies;
 
 public:
     ShooterScene() : 
@@ -252,7 +279,8 @@ public:
         maxspeed(10),
         thrust(1.0),
         slow(0.5),
-        shootCooldown(100)
+        shootCooldown(200),
+        enemyCount(0)
     {
         //auto shader = std::make_shared<WireframeShader>();
         auto shader = std::make_shared<DefaultShader>();
@@ -273,12 +301,50 @@ public:
         composite->Init(window);
     }
 
+    bool RectIntersect(double x1, double y1, double w1, double h1, 
+        double x2, double y2, double w2, double h2)
+    {
+        if (x1+w1<x2 || x2+w2<x1 || y1+h1<y2 || y2+h2<y1)
+        {
+            return false;
+        }
+        return true;
+    }
+
     virtual void Update(const InputState& inputs, Uint32 timestamp)
     {
         Uint32 now = timestamp;
 
         if (inputs.GetButtonState(InputState::DOWN))
         {
+        }
+
+        bool enemyShouldAppear = enemyCount == 0;
+
+        if (enemyShouldAppear)
+        {
+            auto quad = QuadVbo(0, 0, 0, 50, 50);
+            auto quadId = vbo->Add(quad);
+
+            printlog("add enemy %d\n", enemies.size());
+            auto enemy = std::make_shared<Enemy>(rand()%500, quadId);
+
+            bool pushed = false;
+            for (int i=0;i<enemies.size();i++)
+            {
+                if (!enemies[i]->active)
+                {
+                    enemies[i] = enemy;
+                    pushed = true;
+                    enemyCount++;
+                    break;
+                }
+            }
+            if (!pushed)
+            {
+                enemyCount++;
+                enemies.push_back(enemy);
+            }
         }
         
         if (inputs.GetButtonState(InputState::UP))
@@ -345,6 +411,29 @@ public:
             }
         }
 
+        for (size_t i=0;i<enemies.size();i++)
+        {
+            auto enemy = enemies[i];
+            if (enemy->active)
+            {
+                //if (now - enemy->lastmove > enemy->updateDelay)
+                //{
+                    //enemy->y -= 1;
+
+                    auto quad = QuadVbo(enemy->x, enemy->y, 0, 50, 50);
+                    vbo->Modify(enemy->id, quad);
+
+                    if (enemy->y > 500)
+                    {
+                        enemy->active = false;
+                        printlog("enemy %d dies\n", i);
+                        enemyCount--;
+                    }
+                    //enemy->lastmove = now;
+                //}
+            }
+        }
+
         if (now - lastUpdate > 10)
         {
             if (accel == 0)
@@ -377,6 +466,32 @@ public:
             vbo->Modify(shipId, quad);
             lastUpdate = timestamp;
         }
+
+        // collisions
+
+        for (size_t i=0;i<bullets.size();i++)
+        {
+            for (size_t j=0;j<enemies.size();j++)
+            {
+                auto bullet = bullets[i];
+                auto enemy = enemies[j];
+
+                if (enemy->active && bullet->active && RectIntersect(bullet->x, bullet->y, 20, 20, enemy->x, enemy->y, 50, 50))
+                {
+                    auto quad = QuadVbo(0,0,0,0,0);
+                    enemy->active = false;
+                    bullet->active = false;
+                    vbo->Modify(enemy->id, quad);
+                    vbo->Modify(bullet->id, quad);
+                    printlog("bullet %d and enemy %d collides\n", i, j);
+                    printf("HIT");
+                    enemyCount--;
+                    // add an explosion animation
+                }
+
+            }
+        }
+
         composite->Update(inputs, timestamp);
 
 
