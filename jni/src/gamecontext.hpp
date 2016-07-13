@@ -10,6 +10,7 @@
 #define GAMECONTEXT_HPP
 
 #include <vector>
+#include <memory>
 #include "rendercontext_interface.hpp"
 
 class GameContext : public RenderContextInterface
