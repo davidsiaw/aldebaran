@@ -69,19 +69,19 @@ void takeScreenShot(std::string filename, SDL_Window* window)
 {
     int windowWidth, windowHeight;
     SDL_GetWindowSize(window, &windowWidth, &windowHeight);
-	SDL_Surface* surf = SDL_CreateRGBSurface(
-		SDL_SWSURFACE, 
-		windowWidth,
-		windowHeight,
-		24, 
-		0x000000FF, 
-		0x0000FF00, 
-		0x00FF0000, 
-		0);
+    SDL_Surface* surf = SDL_CreateRGBSurface(
+        SDL_SWSURFACE, 
+        windowWidth,
+        windowHeight,
+        24, 
+        0x000000FF, 
+        0x0000FF00, 
+        0x00FF0000, 
+        0);
     
-	if (surf == NULL) return;
+    if (surf == NULL) return;
 
-	glReadPixels(0, 0, windowWidth, windowHeight, GL_RGB, GL_UNSIGNED_BYTE, surf->pixels);
+    glReadPixels(0, 0, windowWidth, windowHeight, GL_RGB, GL_UNSIGNED_BYTE, surf->pixels);
 
     SDL_Surface * flip = flipVert(surf);
     if (flip == NULL) return;
@@ -105,19 +105,19 @@ int exists(const char *fname)
 
 void run(std::shared_ptr<SceneInterface> scene, std::shared_ptr<GameContext> context)
 {
-	InputState inputState;
-	Uint32 time = SDL_GetTicks();
-	scene->Init(context->GetWindow());
-	
-	while (scene->Running())
-	{
-		SDL_Event e;
-		if ( SDL_PollEvent(&e) )
-		{
-			if (e.type == SDL_QUIT)
-			{
-				break;
-			}
+    InputState inputState;
+    Uint32 time = SDL_GetTicks();
+    scene->Init(context->GetWindow());
+    
+    while (scene->Running())
+    {
+        SDL_Event e;
+        if ( SDL_PollEvent(&e) )
+        {
+            if (e.type == SDL_QUIT)
+            {
+                break;
+            }
             if (e.type == SDL_KEYDOWN)
             {
                 if (e.key.keysym.sym == SDLK_1 && (e.key.keysym.mod & (KMOD_CTRL | KMOD_SHIFT)) != 0)
@@ -134,25 +134,25 @@ void run(std::shared_ptr<SceneInterface> scene, std::shared_ptr<GameContext> con
                     while (exists(fname.c_str()));
                     takeScreenShot(fname, context->GetWindow());
                 }
-		if (e.key.keysym.sym == SDLK_c && (e.key.keysym.mod & KMOD_CTRL) != 0)
-		{
-			break;
-		}
+                if (e.key.keysym.sym == SDLK_c && (e.key.keysym.mod & KMOD_CTRL) != 0)
+                {
+                    break;
+                }
             }
-			CaptureInputState(context->GetKeyMap(), &inputState, &e);
-		}
-		
-		Uint32 now = SDL_GetTicks();
-		scene->Update(inputState, now);
-		if (now - time > 15)
+            CaptureInputState(context, &inputState, &e);
+        }
+        
+        Uint32 now = SDL_GetTicks();
+        scene->Update(inputState, now);
+        if (now - time > 15)
         {
             glClearColor( 1.0, 1.0, 0.0, 1.0 );
             glClear ( GL_COLOR_BUFFER_BIT );
             scene->Render(context);
             SDL_GL_SwapWindow(context->GetWindow());
-			time = SDL_GetTicks();
-		}
-	}
+            time = SDL_GetTicks();
+        }
+    }
 }
 
 class ProcessingScene : public ComposableSceneInterface
@@ -347,7 +347,7 @@ public:
             }
         }
         
-        if (inputs.GetButtonState(InputState::UP))
+        if (inputs.GetButtonState(InputState::A))
         {
             if (now - lastShoot > shootCooldown)
             {
@@ -387,6 +387,11 @@ public:
         else
         {
             accel = 0;
+        }
+
+        if (abs(inputs.GetJoyX()) > 1000)
+        {
+            accel = inputs.GetJoyX()/32767.0/2;
         }
 
         for (size_t i=0;i<bullets.size();i++)
@@ -484,7 +489,7 @@ public:
                     vbo->Modify(enemy->id, quad);
                     vbo->Modify(bullet->id, quad);
                     printlog("bullet %d and enemy %d collides\n", i, j);
-                    printf("HIT");
+                    printf("HIT\n");
                     enemyCount--;
                     // add an explosion animation
                 }
@@ -524,10 +529,10 @@ void game(std::shared_ptr<GameContext> context)
 
 void set_gl_attribute(SDL_GLattr attr, int value)
 {
-	if (SDL_GL_SetAttribute(attr, value) != 0)
-	{
-		printlog("SDL_GL_SetAttribute(%d, %d) failed: %s\n", attr, value, SDL_GetError());
-	}
+    if (SDL_GL_SetAttribute(attr, value) != 0)
+    {
+        printlog("SDL_GL_SetAttribute(%d, %d) failed: %s\n", attr, value, SDL_GetError());
+    }
 }
 
 
@@ -535,60 +540,35 @@ int main(int argc, char** argv)
 {
     std::map<int, InputState::Key> keyMap;
 
-	keyMap[SDLK_UP] = InputState::UP;
-	keyMap[SDLK_DOWN] = InputState::DOWN;
-	keyMap[SDLK_LEFT] = InputState::LEFT;
-	keyMap[SDLK_RIGHT] = InputState::RIGHT;
-	keyMap[SDLK_a] = InputState::A;
-	keyMap[SDLK_s] = InputState::B;
-	keyMap[SDLK_z] = InputState::X;
-	keyMap[SDLK_x] = InputState::Y;
-	keyMap[SDLK_1] = InputState::L1;
-	keyMap[SDLK_3] = InputState::L2;
-	keyMap[SDLK_2] = InputState::R1;
-	keyMap[SDLK_4] = InputState::R2;
-	keyMap[SDLK_SPACE] = InputState::START;
+    keyMap[SDLK_UP] = InputState::UP;
+    keyMap[SDLK_DOWN] = InputState::DOWN;
+    keyMap[SDLK_LEFT] = InputState::LEFT;
+    keyMap[SDLK_RIGHT] = InputState::RIGHT;
+    keyMap[SDLK_a] = InputState::A;
+    keyMap[SDLK_s] = InputState::B;
+    keyMap[SDLK_z] = InputState::X;
+    keyMap[SDLK_x] = InputState::Y;
+    keyMap[SDLK_1] = InputState::L1;
+    keyMap[SDLK_3] = InputState::L2;
+    keyMap[SDLK_2] = InputState::R1;
+    keyMap[SDLK_4] = InputState::R2;
+    keyMap[SDLK_SPACE] = InputState::START;
     
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-	{
-		printlog("Failed to initialize SDL: %s\n", SDL_GetError());
-	}
-	TTF_Init();
-	IMG_Init(IMG_INIT_JPG|IMG_INIT_PNG);
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+    {
+        printlog("Failed to initialize SDL: %s\n", SDL_GetError());
+    }
+    TTF_Init();
+    IMG_Init(IMG_INIT_JPG|IMG_INIT_PNG);
 
-	int num_joysticks = SDL_NumJoysticks();
-	if (num_joysticks < 1)
-	{
-		printlog("No joysticks detected.\n");
-	}
-	else
-	{
-		for (int i=0;i<num_joysticks; i++)
-		{
-			SDL_Joystick* joystick = SDL_JoystickOpen(i);
-			if (joystick == NULL)
-			{
-				printlog("Error: Unable to open Joystick: %s\n", SDL_GetError());
-			}
-			else
-			{
-				printlog("Joystick found: %p %s\n", joystick, SDL_JoystickName(joystick));
-				printlog("  Number of Axes: %d\n", SDL_JoystickNumAxes(joystick));
-				printlog("  Number of Buttons: %d\n", SDL_JoystickNumButtons(joystick));
-				printlog("  Number of Balls: %d\n", SDL_JoystickNumBalls(joystick));
-				printlog("  Number of Hats: %d\n", SDL_JoystickNumHats(joystick));
-			}
-			SDL_JoystickClose(joystick);
-		}
-	}
     
-	// Something to note here: We don't initialize mp3 because there are too many
-	// issues with it. Instead, simply make FLAC or OGG files. They are free
-	// FLAC is better too because of its higher quality.
-	Mix_Init(MIX_INIT_FLAC|MIX_INIT_MOD|MIX_INIT_OGG);
+    // Something to note here: We don't initialize mp3 because there are too many
+    // issues with it. Instead, simply make FLAC or OGG files. They are free
+    // FLAC is better too because of its higher quality.
+    Mix_Init(MIX_INIT_FLAC|MIX_INIT_MOD|MIX_INIT_OGG);
     
 
-	int WIDTH = 960, HEIGHT = 540;
+    int WIDTH = 960, HEIGHT = 540;
     
     if (argc == 2)
     {
@@ -596,112 +576,138 @@ int main(int argc, char** argv)
         LuaTable config = LoadLuaConfiguration(argv[1]);
     }
     
-	for (int i=0; i<SDL_GetNumVideoDisplays(); ++i)
-	{
-		SDL_DisplayMode current;
-		int should_be_zero = SDL_GetCurrentDisplayMode(i, &current);
+    for (int i=0; i<SDL_GetNumVideoDisplays(); ++i)
+    {
+        SDL_DisplayMode current;
+        int should_be_zero = SDL_GetCurrentDisplayMode(i, &current);
 
-		if(should_be_zero != 0)
-		{
-			printlog("Could not get display mode for video display #%d: %s\n", i, SDL_GetError());
-		}
-		else
-		{
-			printlog("Display #%d: current display mode is %dx%dpx @ %dhz.\n", i, current.w, current.h, current.refresh_rate);
-		}
-	}
+        if(should_be_zero != 0)
+        {
+            printlog("Could not get display mode for video display #%d: %s\n", i, SDL_GetError());
+        }
+        else
+        {
+            printlog("Display #%d: current display mode is %dx%dpx @ %dhz.\n", i, current.w, current.h, current.refresh_rate);
+        }
+    }
     
-	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024)==-1)
-	{
-		printlog("Mix_OpenAudio: %s\n", Mix_GetError());
-	}
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024)==-1)
+    {
+        printlog("Mix_OpenAudio: %s\n", Mix_GetError());
+    }
     
-	printlog("Window size: %d x %d!\n", WIDTH, HEIGHT);
+    printlog("Window size: %d x %d!\n", WIDTH, HEIGHT);
     
 
-	// Create an application window with the following settings:
-	SDL_Window* window = SDL_CreateWindow(
+    // Create an application window with the following settings:
+    SDL_Window* window = SDL_CreateWindow(
                               "Aldebaran",
                               SDL_WINDOWPOS_UNDEFINED, 
-			      SDL_WINDOWPOS_UNDEFINED,
+                  SDL_WINDOWPOS_UNDEFINED,
                               WIDTH,
                               HEIGHT,
                               SDL_WINDOW_OPENGL
                               );
 
 
-	// Check that the window was successfully made
-	if(window == NULL)
-	{
-		// In the event that the window could not be made...
-		printlog("Could not create window: %s\n", SDL_GetError());
-		return 1;
-	}
-	
-	printlog("Beginning game with window=%p\n", window);
-	try
-	{
+    // Check that the window was successfully made
+    if(window == NULL)
+    {
+        // In the event that the window could not be made...
+        printlog("Could not create window: %s\n", SDL_GetError());
+        return 1;
+    }
+    
+    printlog("Beginning game with window=%p\n", window);
+    try
+    {
 
-		/* Request opengl 3.2 context.
-		 * SDL doesn't have the ability to choose which profile at this time of writing,
-		 * but it should default to the core profile */
+        /* Request opengl 3.2 context.
+         * SDL doesn't have the ability to choose which profile at this time of writing,
+         * but it should default to the core profile */
 #ifdef __RASPBERRYPI__
-		set_gl_attribute(SDL_GL_RED_SIZE, 5);
-		set_gl_attribute(SDL_GL_GREEN_SIZE, 6);
-		set_gl_attribute(SDL_GL_BLUE_SIZE, 5);
-		//set_gl_attribute(SDL_GL_DEPTH_SIZE, 8);
-		
-		set_gl_attribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-		set_gl_attribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
-		set_gl_attribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+        set_gl_attribute(SDL_GL_RED_SIZE, 5);
+        set_gl_attribute(SDL_GL_GREEN_SIZE, 6);
+        set_gl_attribute(SDL_GL_BLUE_SIZE, 5);
+        //set_gl_attribute(SDL_GL_DEPTH_SIZE, 8);
+        
+        set_gl_attribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+        set_gl_attribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+        set_gl_attribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
 #else // __RASPBERRYPI__
-		set_gl_attribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-		set_gl_attribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+        set_gl_attribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+        set_gl_attribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 #endif // __RASPBERRYPI__
 
-		
-		set_gl_attribute(SDL_GL_DOUBLEBUFFER, 1);
-		
-		SDL_GLContext context = SDL_GL_CreateContext(window);
-		if(context == NULL)
-		{
-			printlog("Could not create GL context: %s\n", SDL_GetError());
-			return 1;
-		}
-		
-		
-		printlog("OpenGL context created\n");
-		
-		glViewport(0, 0, WIDTH, HEIGHT);
-	
-		std::shared_ptr<GameContext> gameContext = std::make_shared<GameContext>(window, keyMap, WIDTH, HEIGHT);
         
-		game(gameContext);
+        set_gl_attribute(SDL_GL_DOUBLEBUFFER, 1);
         
-		SDL_GL_DeleteContext(context);
-	}
-	catch(std::exception e)
-	{
-		printlog("Caught a std::exception! %s\n", e.what());
-        	return EXIT_FAILURE;
-	}
-	catch(...)
-	{
-		printlog("Caught an unknown exception!\n");
-		return EXIT_FAILURE;
-	}
+        SDL_GLContext context = SDL_GL_CreateContext(window);
+        if(context == NULL)
+        {
+            printlog("Could not create GL context: %s\n", SDL_GetError());
+            return 1;
+        }
+        
+        
+        printlog("OpenGL context created\n");
+        
+        glViewport(0, 0, WIDTH, HEIGHT);
     
-	SDL_DestroyWindow(window);
+        std::shared_ptr<GameContext> gameContext = std::make_shared<GameContext>(window, keyMap, WIDTH, HEIGHT);
+
+        int num_joysticks = SDL_NumJoysticks();
+        if (num_joysticks < 1)
+        {
+            printlog("No joysticks detected.\n");
+        }
+        else
+        {
+            for (int i=0;i<num_joysticks; i++)
+            {
+                std::shared_ptr<SDL_Joystick> joystick = std::shared_ptr<SDL_Joystick>(SDL_JoystickOpen(i), SDL_JoystickClose);
+                if (joystick == NULL)
+                {
+                    printlog("Error: Unable to open Joystick: %s\n", SDL_GetError());
+                }
+                else
+                {
+                    printlog("Joystick found: %p %s\n", joystick.get(), SDL_JoystickName(joystick.get()));
+                    printlog("  Number of Axes: %d\n", SDL_JoystickNumAxes(joystick.get()));
+                    printlog("  Number of Buttons: %d\n", SDL_JoystickNumButtons(joystick.get()));
+                    printlog("  Number of Balls: %d\n", SDL_JoystickNumBalls(joystick.get()));
+                    printlog("  Number of Hats: %d\n", SDL_JoystickNumHats(joystick.get()));
+                }
+                gameContext->AddJoystick(joystick);
+            }
+        }
+
+        game(gameContext);
+        
+        SDL_GL_DeleteContext(context);
+    }
+    catch(std::exception e)
+    {
+        printlog("Caught a std::exception! %s\n", e.what());
+            return EXIT_FAILURE;
+    }
+    catch(...)
+    {
+        printlog("Caught an unknown exception!\n");
+        return EXIT_FAILURE;
+    }
     
-	// Clean up
-	Mix_CloseAudio();
-	Mix_Quit();
+    SDL_DestroyWindow(window);
     
-	TTF_Quit();
+    // Clean up
+    Mix_CloseAudio();
+    Mix_Quit();
     
-	SDL_Quit(); 
-	
-	printlog("Program Successfully Terminated!\n");
-	
-	return EXIT_SUCCESS;
+    TTF_Quit();
+    
+    SDL_Quit(); 
+    
+    printlog("Program Successfully Terminated!\n");
+    
+    return EXIT_SUCCESS;
 }

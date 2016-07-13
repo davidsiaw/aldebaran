@@ -1,8 +1,9 @@
 #include "inputmachine.hpp"
 #include "printlog.hpp"
 
-void CaptureInputState(std::map<int, InputState::Key> keyMap, InputState* inputState, SDL_Event* e)
+void CaptureInputState(std::shared_ptr<GameContext> context, InputState* inputState, SDL_Event* e)
 {
+	std::map<int, InputState::Key> keyMap = context->GetKeyMap();
     if (e->type == SDL_FINGERUP)
 	{	
 		inputState->SetFingered(false);
@@ -30,6 +31,36 @@ void CaptureInputState(std::map<int, InputState::Key> keyMap, InputState* inputS
 			inputState->SetButtonReleased(keyIter->second, true);
 			inputState->SetButtonState(keyIter->second, false);
 		}
+	}
+	else if (e->type == SDL_JOYBUTTONDOWN)
+	{
+		if (e->jbutton.button == 0)
+		{
+			inputState->SetButtonPressed(InputState::A, true);
+			inputState->SetButtonState(InputState::A, true);
+		}
+		//printlog("Joystick %d button %d pressed\n", e->jbutton.which, e->jbutton.button);
+	}
+	else if (e->type == SDL_JOYBUTTONUP)
+	{
+		if (e->jbutton.button == 0)
+		{
+			inputState->SetButtonReleased(InputState::A, true);
+			inputState->SetButtonState(InputState::A, false);
+		}
+		//printlog("Joystick %d button %d released\n", e->jbutton.which, e->jbutton.button);
+	}
+	else if (e->type == SDL_JOYAXISMOTION)
+	{
+		if (e->jaxis.axis == 0)
+		{
+			inputState->SetJoyX(e->jaxis.value);
+		}
+		if (e->jaxis.axis == 1)
+		{
+			inputState->SetJoyY(e->jaxis.value);
+		}
+		//printlog("Joystick %d axis %d value = %d\n", e->jaxis.which, e->jaxis.axis, e->jaxis.value);
 	}
     
 #if __APPLE__

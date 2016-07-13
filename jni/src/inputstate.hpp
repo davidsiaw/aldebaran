@@ -15,6 +15,10 @@ class InputState
     float accely;
     float accelz;
 
+    float joystickx;
+    float joysticky;
+    float joystickz;
+
 public:
 
 	enum Key
@@ -59,6 +63,13 @@ public:
     void SetAccelY(float amount);
     void SetAccelZ(float amount);
 
+    float GetJoyX() const;
+    float GetJoyY() const;
+    float GetJoyZ() const;
+    
+    void SetJoyX(float amount);
+    void SetJoyY(float amount);
+    void SetJoyZ(float amount);
 };
 
 #endif // INPUTSTATE_HPP

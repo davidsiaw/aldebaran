@@ -118,3 +118,33 @@ void InputState::SetAccelZ(float amount)
 {
     accelz = amount;
 }
+
+float InputState::GetJoyX() const
+{
+    return joystickx;
+}
+
+float InputState::GetJoyY() const
+{
+    return joysticky;
+}
+
+float InputState::GetJoyZ() const
+{
+    return joystickz;
+}
+
+void InputState::SetJoyX(float amount)
+{
+    joystickx = amount;
+}
+
+void InputState::SetJoyY(float amount)
+{
+    joysticky = amount;
+}
+
+void InputState::SetJoyZ(float amount)
+{
+    joystickz = amount;
+}

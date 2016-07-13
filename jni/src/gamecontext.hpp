@@ -9,12 +9,14 @@
 #ifndef GAMECONTEXT_HPP
 #define GAMECONTEXT_HPP
 
+#include <vector>
 #include "rendercontext_interface.hpp"
 
 class GameContext : public RenderContextInterface
 {
     SDL_Window* window;
     std::map<int, InputState::Key> keyMap;
+    std::vector< std::shared_ptr<SDL_Joystick> > joysticks;
     
     int screenWidth, screenHeight;
     
@@ -23,6 +25,11 @@ public:
     : window(window), keyMap(keyMap), screenWidth(screenWidth), screenHeight(screenHeight)
     {
         
+    }
+
+    void AddJoystick(std::shared_ptr<SDL_Joystick> joystick)
+    {
+        joysticks.push_back(joystick);
     }
     
     virtual int GetScreenWidth() const
