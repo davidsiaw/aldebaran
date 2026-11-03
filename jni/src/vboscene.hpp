@@ -160,7 +160,18 @@ public:
             glBindTexture( GL_TEXTURE_2D, textureIndex );
             
             /* Generate The Texture */
-            glTexImage2D( GL_TEXTURE_2D, 0, 4, texSurface->w, texSurface->h, 0, GL_BGRA, GL_UNSIGNED_BYTE, texSurface->pixels );
+            // GLES has no GL_BGRA, and surfaces come in mixed layouts (TTF: BGRA, MakeSurface: RGBA,
+            // IMG_Load: whatever the file is), so normalise to RGBA bytes (ABGR8888 on little-endian).
+            SDL_Surface* rgba = SDL_ConvertSurfaceFormat(texSurface.get(), SDL_PIXELFORMAT_ABGR8888, 0);
+            if (rgba)
+            {
+                glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, rgba->w, rgba->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, rgba->pixels );
+                SDL_FreeSurface(rgba);
+            }
+            else
+            {
+                printlog("texture conversion failed: %s\n", SDL_GetError());
+            }
             glGetError();
             
             /* Linear Filtering */

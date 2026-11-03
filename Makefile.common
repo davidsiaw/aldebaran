@@ -33,7 +33,7 @@ SRC=$(shell find $(LUAINTERFACESRC) -name "*.cpp") $(shell find $(SRCDIR) -name 
 OUT=obj
 OBJS=$(SRC:%.cpp=$(OUT)/%.o)
 DEPS=$(SRC:%.cpp=$(OUT)/%.d)
-NODEPS=clean
+NODEPS=clean android build-android run-android
 
 .PHONY = all clean
 
@@ -46,7 +46,7 @@ all: $(TARGET)
 clean:
 	-rm -rf $(TARGET) $(OUT) $(SDL2PREFIX)
 
-ifeq (0, $(words $(findstring $(MAKECMDGOALS), $(NODEPS))))
+ifeq (,$(filter $(NODEPS),$(MAKECMDGOALS)))
     -include $(DEPS)
 endif
 
